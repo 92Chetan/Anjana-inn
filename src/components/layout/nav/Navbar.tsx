@@ -11,7 +11,7 @@ const redressed = Redressed({ subsets: ['latin'], weight: ['400'] });
 
 const Navbar = () => {
   return (
-    <div className="w-full h-[60px] dark:bg-zinc-800 bg-zinc-100 backdrop-blur-3xl sticky top-0 left-0 right-0 shadow-md border-b">
+    <div className="z-30 w-full h-[60px] dark:bg-zinc-800 bg-zinc-100 backdrop-blur-3xl sticky top-0 left-0 right-0 shadow-md border-b">
       <Container className="flex justify-between items-center">
         <div className="flex justify-center gap-8 items-center">
           <Link href="/" className={`${redressed.className} text-2xl`}>
