@@ -19,7 +19,7 @@ const Hero = () => {
           disableOnInteraction: true
         }}
         modules={[Autoplay]}
-        className="w-full h-[60vh] transition-all ease-in-out duration-75"
+        className="w-full h-[94vh] transition-all ease-in-out duration-75"
       >
         <SwiperSlide>
           <Image
