@@ -18,7 +18,7 @@ const Navbar = () => {
             Anajana Inn
           </Link>
           <div className="md:flex justify-center items-center hidden gap-4">
-            <Link href="/" className="dark:hover:text-gray-400 hover:text-gray-600">
+            <Link href="/gallery" className="dark:hover:text-gray-400 hover:text-gray-600">
               Gallery
             </Link>
             <Link href="/" className="dark:hover:text-gray-400 hover:text-gray-600">
