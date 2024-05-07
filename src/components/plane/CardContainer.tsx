@@ -23,7 +23,7 @@ const CardContainer = () => {
           />
         ))}
       </div>
-      <div className="grid mb-20 gap-8 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 items-center justify-center">
+      <div className="grid mb-20 gap-8 md:grid-cols-2 lg:grid-cols-3 items-center justify-center">
         {Subscription.map((sub, index) => {
           if (planTimeline === sub.timeline) {
             return (

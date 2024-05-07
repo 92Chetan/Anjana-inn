@@ -27,9 +27,6 @@ const Navbar = () => {
             <Link href="/contact" className="dark:hover:text-gray-400 hover:text-gray-600">
               Contact us
             </Link>
-            <Link href="/" className="dark:hover:text-gray-400 hover:text-gray-600">
-              Testimonial
-            </Link>
           </div>
         </div>
         <div className=" flex justify-center items-center gap-2">
