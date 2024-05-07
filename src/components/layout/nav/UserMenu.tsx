@@ -25,16 +25,13 @@ const UserMenu = () => {
               <Link href="/gallery" className="md:hidden">
                 <MenuItem onClick={toggleHandler}>Gallery</MenuItem>
               </Link>
-              <Link href="/" className="md:hidden">
-                <MenuItem onClick={toggleHandler}>Testimonial</MenuItem>
-              </Link>
               <Link href="/plane" className="md:hidden">
                 <MenuItem onClick={toggleHandler}>Plane</MenuItem>
               </Link>
               <Link href="/contact" className="md:hidden">
                 <MenuItem onClick={toggleHandler}>Contact us</MenuItem>
               </Link>
-              <Link href="/">
+              <Link href="/profile">
                 <MenuItem onClick={toggleHandler}>Profile</MenuItem>
               </Link>
               <hr className="dark:bg-black" />

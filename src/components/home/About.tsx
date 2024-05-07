@@ -32,7 +32,7 @@ const About = () => {
             className="w-[200px] h-[200px] rounded-full"
             data-aos="fade-right"
           />
-          <div>
+          <div className=" flex flex-col gap-4">
             <p data-aos="fade-left" data-aos-delay="200">
               Welcome to Anjana Inn, where comfort meets affordability for students and single
               professionals. Discover safe, convenient living spaces tailored to your needs. From
@@ -40,18 +40,12 @@ const About = () => {
               monthly, and yearly stays, all with essential amenities. Get in touch today and find
               your ideal living space with us.
             </p>
-            <div className="flex gap-4 py-4" data-aos-delay="400">
-              <Link href="/plane" data-aos="fade-up">
-                <Button className="bg-blue-500 hover:bg-blue-600 transition-all duration-75 active:scale-95 active:-translate-y-1">
-                  About us
-                </Button>
-              </Link>
-              <Link href="/plane" data-aos="fade-up" data-aos-delay="600">
-                <Button className="bg-green-500 hover:bg-green-600 transition-all duration-75 active:scale-95 active:-translate-y-1">
-                  Stay with us
-                </Button>
-              </Link>
-            </div>
+
+            <Link href="/plane" data-aos="fade-up" data-aos-delay="400">
+              <Button className="bg-green-500 hover:bg-green-600 transition-all duration-75 active:scale-95 active:-translate-y-1">
+                Stay with us
+              </Button>
+            </Link>
           </div>
         </div>
       </Container>
