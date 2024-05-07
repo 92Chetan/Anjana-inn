@@ -17,7 +17,7 @@ const About = () => {
     });
   }, []);
   return (
-    <div className="w-full h-fit">
+    <div className=" h-fit overflow-hidden">
       <Container className="py-12 font-semibold relative">
         <div>
           <h1 className="text-4xl uppercase">About us</h1>
