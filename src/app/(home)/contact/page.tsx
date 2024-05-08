@@ -2,14 +2,14 @@ import ContactUs from '@/components/contact/ContactUs';
 import Container from '@/components/utils/Container';
 import React from 'react';
 
-const contact = () => {
+const Contact = () => {
   return (
-    <div className="h-full w-full">
-      <Container className="flex items-center py-8">
+    <Container>
+      <div className="flex items-center justify-center py-8">
         <ContactUs />
-      </Container>
-    </div>
+      </div>
+    </Container>
   );
 };
 
-export default contact;
+export default Contact;

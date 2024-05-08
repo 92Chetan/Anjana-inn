@@ -6,7 +6,7 @@ import { Button } from '../ui/button';
 const ContactForm = () => {
   return (
     <div className="max-w-lg max-h-[500px] dark:bg-zinc-800 bg-zinc-300 shadow-2xl rounded-lg flex justify-center transition-all duration-75 items-center">
-      <form action="" className="grid grid-cols-1 gap-4 mx-4 my-8">
+      <form action="" className="grid grid-cols-1 gap-4 mx-4 my-8 w-full">
         <div className="grid md:grid-cols-2 grid-cols-1 gap-3">
           <div>
             <Label htmlFor="firstName">
