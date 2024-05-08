@@ -1,15 +1,8 @@
 import type { Metadata } from 'next';
-import { Inter as FontSans } from 'next/font/google';
 
-import { cn } from '@/lib/utils';
 import Navbar from '@/components/layout/nav/Navbar';
 import Footer from '@/components/layout/Footer';
 import Feedbackmodal from '@/components/feedback/Feedbackmodal';
-
-const fontSans = FontSans({
-  subsets: ['latin'],
-  variable: '--font-sans'
-});
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -22,13 +15,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={cn('min-h-screen bg-background font-sans antialiased', fontSans.variable)}>
-        <Navbar />
-        {children}
-        <Feedbackmodal />
-        <Footer />
-      </body>
-    </html>
+    <div className="min-h-screen flex flex-col">
+      <Navbar />
+      <main className="flex-grow">{children}</main>
+      <Feedbackmodal />
+      <Footer />
+    </div>
   );
 }
