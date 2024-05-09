@@ -19,7 +19,7 @@ model User {
   email String @unique
   password String
   isVerified Boolean?
-  authCode String?
-  resetHash String?
+  authCode String? @unique
+  resetHash String? @unique
   createAt DateTime @default(now())
 }

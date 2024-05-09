@@ -35,11 +35,11 @@ export async function POST(req: NextRequest) {
     });
 
     if (!user) {
-      return NextResponse.json({ message: 'Wrong credential' }, { status: 500 });
+      return NextResponse.json({ message: 'Wrong credential' }, { status: 400 });
     }
 
     if (authCode === user?.authCode) {
-      await db.user.update({ where: { email }, data: { authCode: null } });
+      await db.user.update({ where: { email }, data: { authCode: null, isVerified: true } });
       return NextResponse.json({ message: 'User verified' }, { status: 200 });
     }
     return NextResponse.json({ message: 'Invalid otp' }, { status: 400 });

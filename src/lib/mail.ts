@@ -9,6 +9,7 @@ type Mail = {
   name: string;
   hashCode?: string;
   authCode?: string;
+  id?: string;
 };
 
 export const mailSender = async ({
@@ -16,9 +17,10 @@ export const mailSender = async ({
   subject,
   name,
   authCode,
-  hashCode
+  hashCode,
+  id
 }: Mail): Promise<any> => {
-  const emailContent = EmailTemplate({ firstName: name, authCode, hashCode });
+  const emailContent = EmailTemplate({ firstName: name, authCode, hashCode, id });
 
   const data = await resend.emails.send({
     from: 'Acme <onboarding@resend.dev>',

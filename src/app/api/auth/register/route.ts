@@ -30,7 +30,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ message: 'Internal server issue' }, { status: 500 });
     }
 
-    const authCode = Math.floor(10000 + Math.random() * 900000).toString();
+    const authCode = Math.floor(100000 + Math.random() * 900000).toString();
 
     if (!authCode) {
       return NextResponse.json({ message: 'Internal server issue' }, { status: 500 });
