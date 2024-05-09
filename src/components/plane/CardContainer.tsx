@@ -24,7 +24,7 @@ const CardContainer = () => {
       >
         Planes and Pricing
       </h1>
-      <div className="flex items-center flex-col gap-20">
+      <div className="flex items-center flex-col gap-y-20">
         <div className="flex md:flex-nowrap flex-wrap max-md:justify-center">
           {timelineArray.map((time, index) => (
             <RippleButton

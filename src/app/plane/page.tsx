@@ -4,7 +4,7 @@ import CardContainer from '@/components/plane/CardContainer';
 
 const page = () => {
   return (
-    <Container>
+    <Container className="md:h-screen flex justify-center items-center px-2">
       <CardContainer />
     </Container>
   );
