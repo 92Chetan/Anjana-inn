@@ -77,3 +77,12 @@ export const RegisterSchema = z
       });
     }
   });
+
+export const verifyOtp = z.object({
+  authCode: z.string({ required_error: 'Please Enter otp' }).min(6, { message: 'Otp not valid' })
+});
+export const verifyOtpParams = z.object({
+  email: z
+    .string({ required_error: 'Please Enter your email' })
+    .email('please enter your valid email')
+});
