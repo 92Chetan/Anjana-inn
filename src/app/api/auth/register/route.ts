@@ -1,5 +1,5 @@
 import { db } from '@/lib/db';
-import { RegisterSchema } from '@/validation/auth/RegisterSchema';
+import { RegisterSchema } from '@/validation/auth/authSchema';
 import { NextRequest, NextResponse } from 'next/server';
 import bcrypt from 'bcryptjs';
 import { formatZodError } from '@/lib/zodError';
@@ -8,7 +8,7 @@ import { mailSender } from '@/lib/mail';
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
-    const { data, error } = await RegisterSchema.safeParse(body);
+    const { data, error } = RegisterSchema.safeParse(body);
     if (error) {
       return NextResponse.json(
         { message: 'Invalid request', error: formatZodError(error) },
@@ -51,7 +51,7 @@ export async function POST(req: NextRequest) {
       }
     });
 
-    return NextResponse.json({ message: 'User created successfully' }, { status: 201 });
+    return NextResponse.json({ message: 'User created successfully', email }, { status: 201 });
   } catch (error) {
     console.log(error);
     return NextResponse.json({ message: 'Internal server issue' }, { status: 500 });
