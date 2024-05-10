@@ -24,6 +24,7 @@ model User {
   createAt DateTime @default(now())
   Feedback Feedback[]
   Contact ContactUs[]
+  Subscription Subscription[]
 }
 
 model Feedback{
@@ -32,6 +33,7 @@ model Feedback{
   message String
   auther_id String
   user User @relation(fields: [auther_id] ,references: [id],onDelete: Cascade)
+   createAt DateTime @default(now())
 }
 
 model ContactUs{
@@ -42,4 +44,14 @@ model ContactUs{
   message String
   auther_id String
   user User @relation(fields: [auther_id] ,references: [id],onDelete: Cascade)
+  createAt DateTime @default(now())
+}
+
+model Subscription{
+  id String @id @default(uuid())
+  sub_id String @unique
+  plane_id String
+  user_id String
+  user User @relation(fields: [user_id] ,references: [id],onDelete: Cascade)
+  createAt DateTime @default(now())
 }

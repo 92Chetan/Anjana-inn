@@ -1,5 +1,8 @@
+'use client';
+import React, { useCallback } from 'react';
 import Container from '../utils/Container';
 import { Concert_One, Open_Sans, Roboto } from 'next/font/google';
+import { makePayment } from '@/lib/razpayIntialize';
 
 type timelineEnum = 'daily' | 'monthly' | 'quarterly' | 'annual';
 
@@ -26,6 +29,11 @@ const Ro = Roboto({
 });
 
 const PlaneCard: React.FC<PlaneCardProps> = ({ price, service, title, timeline }) => {
+  const pay = useCallback((e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    e.preventDefault();
+    makePayment();
+  }, []);
+
   return (
     <div className="w-80 h-fit dark:bg-zinc-800 bg-zinc-300 shadow-md dark:shadow-black/80 shadow-gray-400 rounded-lg">
       <Container className="flex my-10 flex-col">
@@ -44,7 +52,10 @@ const PlaneCard: React.FC<PlaneCardProps> = ({ price, service, title, timeline }
             {timeline === 'annual' && '/year'}*
           </p>
         </div>
-        <button className="animate-bounce focus:animate-none hover:animate-none inline-flex text-md font-medium bg-green-900 mt-6 px-4 py-2 rounded-lg tracking-wide text-white active:scale-95 active:-translate-y-1 active:transition-all active:duration-75">
+        <button
+          className="animate-bounce focus:animate-none hover:animate-none inline-flex text-md font-medium bg-green-900 mt-6 px-4 py-2 rounded-lg tracking-wide text-white active:scale-95 active:-translate-y-1 active:transition-all active:duration-75"
+          onClick={(e) => pay(e)}
+        >
           <span className="ml-2 text-center w-full">Book Now</span>
         </button>
       </Container>
