@@ -15,5 +15,6 @@
     ],
     "prefer-const": "error",
     "react-hooks/exhaustive-deps": "error"
-  }
+  },
+  "ignorePatterns": ["index.d.ts"]
 }

@@ -18,7 +18,7 @@ const timelineArray: timeline[] = ['daily', 'monthly', 'quarterly', 'annual'];
 const CardContainer = () => {
   const [planTimeline, setPlanTimeline] = useState<timeline>('monthly');
   return (
-    <div className="xl:h-screen flex justify-center items-center flex-col">
+    <div className="">
       <h1
         className={`${BebasNeue.className} text-5xl leading-none tracking-normal py-12 text-center`}
       >
