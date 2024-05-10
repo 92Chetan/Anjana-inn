@@ -22,4 +22,24 @@ model User {
   authCode String? @unique
   resetHash String? @unique
   createAt DateTime @default(now())
+  Feedback Feedback[]
+  Contact ContactUs[]
+}
+
+model Feedback{
+  id String @id @default(uuid())
+  rating Int
+  message String
+  auther_id String
+  user User @relation(fields: [auther_id] ,references: [id],onDelete: Cascade)
+}
+
+model ContactUs{
+  id String @id @default(uuid())
+  first_name String
+  last_name String
+  email String
+  message String
+  auther_id String
+  user User @relation(fields: [auther_id] ,references: [id],onDelete: Cascade)
 }
