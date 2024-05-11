@@ -1,1 +1,1 @@
-export const disableNavWithFooter = ['/login', '/sing_up'];
+export const disableNavWithFooter = ['/login', '/sing_up', '/verify'];

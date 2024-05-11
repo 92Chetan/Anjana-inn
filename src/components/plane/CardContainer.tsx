@@ -18,13 +18,13 @@ const timelineArray: timeline[] = ['daily', 'monthly', 'quarterly', 'annual'];
 const CardContainer = () => {
   const [planTimeline, setPlanTimeline] = useState<timeline>('monthly');
   return (
-    <div className="">
+    <React.Fragment>
       <h1
         className={`${BebasNeue.className} text-5xl leading-none tracking-normal py-12 text-center`}
       >
         Planes and Pricing
       </h1>
-      <div className="flex items-center flex-col gap-y-20">
+      <div className="flex items-center flex-col gap-y-10">
         <div className="flex md:flex-nowrap flex-wrap max-md:justify-center">
           {timelineArray.map((time, index) => (
             <RippleButton
@@ -35,7 +35,7 @@ const CardContainer = () => {
             />
           ))}
         </div>
-        <div className="grid mb-20 gap-3 md:grid-cols-2 lg:grid-cols-3 items-center justify-center">
+        <div className="flex items-center justify-center flex-wrap gap-4 pb-20">
           {Subscription.map((sub, index) => {
             if (planTimeline === sub.timeline) {
               return (
@@ -53,7 +53,7 @@ const CardContainer = () => {
           })}
         </div>
       </div>
-    </div>
+    </React.Fragment>
   );
 };
 
