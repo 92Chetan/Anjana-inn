@@ -1,10 +1,12 @@
 import type { Metadata } from 'next';
 import '@/styles/globals.css';
 import 'tw-elements-react/dist/css/tw-elements-react.min.css';
-import { ThemeProvider } from '@/components/theme-provider';
+import { ThemeProvider } from '@/components/provider/theme-provider';
 import Navbar from '@/components/layout/nav/Navbar';
 import Feedbackmodal from '@/components/feedback/Feedbackmodal';
 import Footer from '@/components/layout/Footer';
+import QueryProvider from '@/components/provider/QueryProvider';
+import ToastProvider from '@/components/provider/ToastProvider';
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -25,10 +27,12 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          {' '}
-          <Navbar />
-          <main className="flex-grow">{children}</main> <Feedbackmodal />
-          <Footer />
+          <QueryProvider>
+            <ToastProvider />
+            <Navbar />
+            <main className="flex-grow">{children}</main> <Feedbackmodal />
+            <Footer />
+          </QueryProvider>
         </ThemeProvider>
       </body>
     </html>

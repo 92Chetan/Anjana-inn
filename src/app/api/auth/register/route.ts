@@ -1,21 +1,23 @@
 import { db } from '@/lib/db';
-import { RegisterSchema } from '@/validation/auth/authSchema';
 import { NextRequest, NextResponse } from 'next/server';
 import bcrypt from 'bcryptjs';
-import { formatZodError } from '@/lib/zodError';
 import { mailSender } from '@/lib/mail';
+import { UploadImage } from '@/lib/ImageUpload';
 
 export async function POST(req: NextRequest) {
   try {
-    const body = await req.json();
-    const { data, error } = RegisterSchema.safeParse(body);
-    if (error) {
+    const formData = await req.formData();
+    const name = formData.get('name') as string | null;
+    const email = formData.get('email') as string | null;
+    const password = formData.get('password') as string | null;
+    const avatar = formData.get('avatar') as File | null;
+
+    if (!name || !email || !password || !avatar) {
       return NextResponse.json(
-        { message: 'Invalid request', error: formatZodError(error) },
+        { message: 'Name, email, and password are required' },
         { status: 400 }
       );
     }
-    const { password, email, name } = data;
 
     const user = await db.user.findUnique({ where: { email } });
 
@@ -27,6 +29,12 @@ export async function POST(req: NextRequest) {
     const hashPass = bcrypt.hashSync(password, salt);
 
     if (!hashPass) {
+      return NextResponse.json({ message: 'Internal server issue' }, { status: 500 });
+    }
+
+    const image = await UploadImage(avatar);
+
+    if (!image) {
       return NextResponse.json({ message: 'Internal server issue' }, { status: 500 });
     }
 
@@ -47,7 +55,8 @@ export async function POST(req: NextRequest) {
         email,
         name,
         password: hashPass,
-        authCode
+        authCode,
+        avatar: image
       }
     });
 
