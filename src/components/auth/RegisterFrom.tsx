@@ -88,7 +88,7 @@ export function RegisterFrom() {
             control={form.control}
             name="avatar"
             render={() => (
-              <FormItem className="min-w-[80%]">
+              <FormItem className="w-[80%]">
                 <FormLabel>Avatar</FormLabel>
                 <FormControl>
                   <Input

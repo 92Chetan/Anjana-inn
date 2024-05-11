@@ -4,7 +4,7 @@ import CardContainer from '@/components/plane/CardContainer';
 
 const page = () => {
   return (
-    <Container className="">
+    <Container className="h-full">
       <CardContainer />
     </Container>
   );

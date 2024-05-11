@@ -16,11 +16,12 @@ import { Input } from '../ui/input';
 import { Button } from '../ui/button';
 import { loginSchema } from '@/validation/auth/authSchema';
 import Link from 'next/link';
-import { useState } from 'react';
-import { signIn } from 'next-auth/react';
+import { useEffect, useState } from 'react';
+import { signIn, useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 
 export function LoginFrom() {
+  const { status } = useSession();
   const [loading, setLoading] = useState<boolean>(false);
   const route = useRouter();
   const form = useForm<z.infer<typeof loginSchema>>({
@@ -47,6 +48,11 @@ export function LoginFrom() {
     });
   }
 
+  useEffect(() => {
+    if (status === 'authenticated') {
+      route.push('/');
+    }
+  }, [status, route]);
   return (
     <Form {...form}>
       <form
