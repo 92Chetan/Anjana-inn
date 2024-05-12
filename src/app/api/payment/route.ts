@@ -6,7 +6,7 @@ export async function GET() {
   try {
     //TODO
     const user_response = await db.subscription.findMany({
-      where: { user_id: 'd0188ae1-8bbd-4ee6-866f-81367c7e355f' }
+      where: { user_id: '72726fad-43b8-47a6-8113-749709e83e56' }
     });
 
     const response = await Promise.all(
@@ -21,7 +21,7 @@ export async function GET() {
               }
             }
           );
-
+          console.log(axiosResponse.data);
           if (axiosResponse.data.status === 'active' || axiosResponse.data.status === 'complete') {
             return axiosResponse.data;
           }

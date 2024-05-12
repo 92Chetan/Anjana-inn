@@ -6,8 +6,8 @@ import Navbar from '@/components/layout/nav/Navbar';
 import Feedbackmodal from '@/components/feedback/Feedbackmodal';
 import Footer from '@/components/layout/Footer';
 import QueryProvider from '@/components/provider/QueryProvider';
-import ToastProvider from '@/components/provider/ToastProvider';
 import NextSessionProvider from '@/components/provider/SessionProvider';
+import { Toaster } from 'react-hot-toast';
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -30,7 +30,7 @@ export default function RootLayout({
         >
           <NextSessionProvider>
             <QueryProvider>
-              <ToastProvider />
+              <Toaster />
               <Navbar />
               <main className="flex-grow">{children}</main> <Feedbackmodal />
               <Footer />

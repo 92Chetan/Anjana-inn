@@ -24,13 +24,12 @@ model User {
   avatar String
   createAt DateTime @default(now())
   Feedback Feedback[]
-  Contact ContactUs[]
   Subscription Subscription[]
 }
 
 model Feedback{
   id String @id @default(uuid())
-  rating Int
+  rating String
   message String
   auther_id String
   user User @relation(fields: [auther_id] ,references: [id],onDelete: Cascade)
@@ -43,8 +42,6 @@ model ContactUs{
   last_name String
   email String
   message String
-  auther_id String
-  user User @relation(fields: [auther_id] ,references: [id],onDelete: Cascade)
   createAt DateTime @default(now())
 }
 

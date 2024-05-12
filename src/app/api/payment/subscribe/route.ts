@@ -1,9 +1,11 @@
+import { getServerSession } from 'next-auth';
+import { NextRequest, NextResponse } from 'next/server';
+import Razorpay from 'razorpay';
+
 import { db } from '@/lib/db';
 import { formatZodError } from '@/lib/zodError';
 import { paymentSchema } from '@/validation/payments/paymentSchema';
-import { NextRequest, NextResponse } from 'next/server';
-
-import Razorpay from 'razorpay';
+import { authOptions, CustomSession } from '../../auth/[...nextauth]/options';
 
 const instance = new Razorpay({
   key_id: process.env.NEXT_PUBLIC_RAZORPAY_API_KEY as string,
@@ -12,6 +14,12 @@ const instance = new Razorpay({
 
 export async function POST(req: NextRequest) {
   try {
+    const session: CustomSession | null = await getServerSession(authOptions);
+
+    if (!session) {
+      return NextResponse.json({ message: 'Please login' }, { status: 401 });
+    }
+
     const body = await req.json();
     const { error, data } = paymentSchema.safeParse(body);
 
@@ -32,7 +40,7 @@ export async function POST(req: NextRequest) {
       data: {
         plane_id: data.plan_id,
         sub_id: response.id,
-        user_id: 'd0188ae1-8bbd-4ee6-866f-81367c7e355f'
+        user_id: session?.user?.id?.toString()!
       }
     });
 
