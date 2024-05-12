@@ -15,14 +15,13 @@ export async function POST(req: NextRequest) {
         { status: 400 }
       );
     }
-    // TODO: add session id
+
     await db.contactUs.create({
       data: {
         email: data.email,
         first_name: data.first_name,
         last_name: data.last_name,
-        message: data.message,
-        auther_id: '08ed99ab-a9ac-4785-bddf-03b864f8bb65'
+        message: data.message
       }
     });
     return NextResponse.json({

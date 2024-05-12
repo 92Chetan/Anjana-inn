@@ -1,11 +1,20 @@
 'use client';
+import React, { useCallback } from 'react';
+import { Rating } from '@mui/material';
+import StarIcon from '@mui/icons-material/Star';
+import { useForm, Controller } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useMutation } from '@tanstack/react-query';
+import toast from 'react-hot-toast';
+import { z } from 'zod';
+import { VscFeedback } from 'react-icons/vsc';
+import { usePathname } from 'next/navigation';
 
-import React, { ReactElement, useState } from 'react';
+import { feedbackSchema } from '@/validation/feedback/feedbackShema';
 import {
   Dialog,
   DialogContent,
   DialogDescription,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger
@@ -13,87 +22,113 @@ import {
 import { Button } from '../ui/button';
 import { Label } from '../ui/label';
 import { Input } from '../ui/input';
-import { VscFeedback } from 'react-icons/vsc';
-import { Box, Rating } from '@mui/material';
-import StarIcon from '@mui/icons-material/Star';
-import {
-  MdOutlineSentimentDissatisfied,
-  MdSentimentVerySatisfied,
-  MdOutlineSentimentNeutral
-} from 'react-icons/md';
-import { BiHappyHeartEyes } from 'react-icons/bi';
-import { IoSadOutline } from 'react-icons/io5';
-
-const labels: { [index: string]: ReactElement } = {
-  0.5: <IoSadOutline className="text-rose-900" />,
-  1: <IoSadOutline className="text-rose-600" />,
-  1.5: <MdOutlineSentimentDissatisfied className="text-red-900" />,
-  2: <MdOutlineSentimentDissatisfied className="text-red-600" />,
-  2.5: <MdOutlineSentimentNeutral className="text-yellow-900" />,
-  3: <MdOutlineSentimentNeutral className="text-yellow-600" />,
-  3.5: <BiHappyHeartEyes className="text-green-900" />,
-  4: <BiHappyHeartEyes className="text-green-600" />,
-  4.5: <MdSentimentVerySatisfied className="text-violet-900" />,
-  5: <MdSentimentVerySatisfied className="text-violet-600" />
-};
-
-function getLabelText(value: number) {
-  return `${value} Star${value !== 1 ? 's' : ''}, ${labels[value]}`;
-}
+import { feedback } from '@/lib/api/feedback';
+import { disableNavWithFooter } from '../utils/disableNavWithFooter';
 
 const Feedbackmodal = () => {
-  const [value, setValue] = useState<number | null>(2);
-  const [hover, setHover] = useState(-1);
+  const path = usePathname();
+
+  const { mutate, isSuccess, isError, isPending, error, data } = useMutation({
+    mutationFn: feedback,
+    mutationKey: ['contactRq']
+  });
+
+  const {
+    register,
+    reset,
+    handleSubmit,
+    control,
+    formState: { errors }
+  } = useForm<z.infer<typeof feedbackSchema>>({
+    resolver: zodResolver(feedbackSchema),
+    defaultValues: {
+      rating: '',
+      message: ''
+    }
+  });
+
+  const onSubmit = useCallback(
+    (values: z.infer<typeof feedbackSchema>) => {
+      mutate(values);
+      reset();
+    },
+    [reset, mutate]
+  );
+
+  if (isError) {
+    toast.error(error.message);
+  }
+
+  if (isSuccess) {
+    toast.success(data.message);
+  }
 
   return (
-    <Dialog>
-      <DialogTrigger asChild>
-        <Button
-          variant="outline"
-          className="fixed bottom-5 right-5 rounded-full w-12 h-12 shadow-md z-10"
-        >
-          <VscFeedback />
-        </Button>
-      </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px]">
-        <DialogHeader>
-          <DialogTitle>Feedback</DialogTitle>
-          <DialogDescription>Give your precises feedback for improve our service</DialogDescription>
-        </DialogHeader>
-        <div className="flex flex-col gap-4">
-          <div className="flex flex-col gap-y-1">
-            <Label htmlFor="hover-feedback">
-              Rate our service <span className="text-red-600">*</span>
-            </Label>
-            <div className="flex">
-              <Rating
-                name="hover-feedback"
-                value={value}
-                precision={0.5}
-                getLabelText={getLabelText}
-                onChange={(event, newValue) => {
-                  setValue(newValue);
-                }}
-                onChangeActive={(event, newHover) => {
-                  setHover(newHover);
-                }}
-                emptyIcon={<StarIcon style={{ opacity: 0.55, color: 'gray' }} fontSize="inherit" />}
-              />
-              {value !== null && <Box sx={{ ml: 2 }}>{labels[hover !== -1 ? hover : value]}</Box>}
-            </div>
-          </div>
-          <div className="flex flex-col gap-y-1">
-            <Label htmlFor="message">
-              Message <span className="text-red-600">*</span>
-            </Label>
-            <Input type="text" placeholder="Leave your message" className="h-20" name="message" />
-          </div>
-        </div>
-        <DialogFooter>
-          <Button type="submit">Leave feedback</Button>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
+    <React.Fragment>
+      {!disableNavWithFooter.includes(path) && (
+        <Dialog>
+          <DialogTrigger asChild>
+            <Button variant="transparent" className="fixed bottom-8 right-5 z-10 gap-1 group">
+              <p className="group-hover:bg-accent group-hover:text-accent-foreground px-2 py-2 bg-background rounded-lg">
+                Leave Feedback
+              </p>
+              <div className="flex justify-center items-center w-16 h-16 rounded-full bg-background group-hover:bg-accent group-hover:text-accent-foreground">
+                <VscFeedback />
+              </div>
+            </Button>
+          </DialogTrigger>
+          <DialogContent className="sm:max-w-[425px]">
+            <DialogHeader>
+              <DialogTitle>Feedback</DialogTitle>
+              <DialogDescription>
+                Give your precises feedback for improve our service
+              </DialogDescription>
+            </DialogHeader>
+            <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
+              <div className="flex flex-col gap-y-1">
+                <Label htmlFor="rating">
+                  Rate our service <span className="text-red-600">*</span>
+                </Label>
+                <div>
+                  <Controller
+                    name="rating"
+                    control={control}
+                    render={({ field: { onChange, value } }) => (
+                      <Rating
+                        name="rating"
+                        //@ts-ignore
+                        value={value}
+                        helperText={error ? error.message : null}
+                        precision={0.5}
+                        defaultValue={3}
+                        onChange={onChange}
+                        emptyIcon={
+                          <StarIcon style={{ opacity: 0.55, color: 'gray' }} fontSize="inherit" />
+                        }
+                      />
+                    )}
+                  />
+                  {errors && <p className="text-rose-700">{errors.rating?.message}</p>}
+                </div>
+              </div>
+              <div className="flex flex-col gap-y-1">
+                <Label htmlFor="message">
+                  Message <span className="text-red-600">*</span>
+                </Label>
+                <Input
+                  type="text"
+                  placeholder="Leave your message"
+                  className="h-20"
+                  {...register('message')}
+                />
+                {errors && <p className="text-rose-700">{errors.message?.message}</p>}
+              </div>
+              <Button type="submit">{isPending ? 'loading...' : 'Leave feedback'}</Button>
+            </form>
+          </DialogContent>
+        </Dialog>
+      )}
+    </React.Fragment>
   );
 };
 
