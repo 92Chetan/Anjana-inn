@@ -21,6 +21,7 @@ model User {
   isVerified Boolean?
   authCode String? @unique
   resetHash String? @unique
+  room String?
   avatar String
   createAt DateTime @default(now())
   Feedback Feedback[]

@@ -68,7 +68,9 @@ const Feedbackmodal = () => {
       {!disableNavWithFooter.includes(path) && (
         <Dialog>
           <DialogTrigger asChild>
-            <Button variant="transparent" className="fixed bottom-8 right-5 z-10 gap-1 group">
+            <Button
+              variant="transparent"
+              className="fixed md:bottom-8 md:right-5 right-0 z-10 gap-1 group bottom-4">
               <p className="group-hover:bg-accent group-hover:text-accent-foreground px-2 py-2 bg-background rounded-lg">
                 Leave Feedback
               </p>
