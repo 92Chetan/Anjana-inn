@@ -8,17 +8,7 @@ const QueryProvider = ({
 }: Readonly<{
   children: React.ReactNode;
 }>) => {
-  const [queryClient] = useState(
-    () =>
-      new QueryClient({
-        defaultOptions: {
-          queries: {
-            staleTime: 6 * 1000,
-            refetchInterval: 6 * 1000
-          }
-        }
-      })
-  );
+  const [queryClient] = useState(() => new QueryClient({}));
   return <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>;
 };
 

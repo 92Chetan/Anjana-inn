@@ -1,13 +1,12 @@
-export const dynamic = 'force-dynamic';
-export const revalidate = 0;
-
-import { NextResponse } from 'next/server';
 import axios from 'axios';
-import { db } from '@/lib/db';
 import { getServerSession } from 'next-auth';
-import { CustomSession, authOptions } from '../auth/[...nextauth]/options';
+import toast from 'react-hot-toast';
 
-export async function GET() {
+import { CustomSession, authOptions } from '@/app/api/auth/[...nextauth]/options';
+import { db } from '@/lib/db';
+import { SubData } from '@/types/types';
+
+export const getPaymentDetails = async (): Promise<SubData[] | undefined> => {
   try {
     const session: CustomSession | null = await getServerSession(authOptions);
 
@@ -51,11 +50,9 @@ export async function GET() {
         }
       })
     );
-
-    return NextResponse.json(response.filter(Boolean), { status: 200 });
+    return response.filter(Boolean);
   } catch (error) {
     console.log(error);
-
-    return NextResponse.json({ message: 'Internal server issue' }, { status: 500 });
+    toast.error('Internal server');
   }
-}
+};
