@@ -22,6 +22,7 @@ export async function POST(req: NextRequest) {
 
     const body = await req.json();
     const { error, data } = paymentSchema.safeParse(body);
+    // console.log(data);
 
     if (error) {
       return NextResponse.json(
@@ -29,22 +30,32 @@ export async function POST(req: NextRequest) {
         { status: 400 }
       );
     }
+    if (data.entity === 'subscription') {
+      const response = await instance.subscriptions.create({
+        plan_id: data.plan_id as string,
+        customer_notify: 1,
+        total_count: 1
+      });
+      await db.subscription.create({
+        data: {
+          sub_id: response.id,
+          user_id: session?.user?.id?.toString()!
+        }
+      });
+      return NextResponse.json({ sub_id: response.id }, { status: 200 });
+    }
 
-    const response = await instance.subscriptions.create({
-      plan_id: data.plan_id,
-      customer_notify: 1,
-      total_count: 2
+    const response = await instance.orders.create({
+      amount: data.amount as number,
+      currency: 'INR'
     });
-
     await db.subscription.create({
       data: {
-        plane_id: data.plan_id,
-        sub_id: response.id,
+        order_id: response.id,
         user_id: session?.user?.id?.toString()!
       }
     });
-
-    return NextResponse.json({ sub_id: response.id }, { status: 200 });
+    return NextResponse.json({ order_id: response.id }, { status: 200 });
   } catch (error) {
     console.log(error);
     return NextResponse.json({ message: 'Internal server issue' }, { status: 500 });

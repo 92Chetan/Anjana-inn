@@ -29,3 +29,22 @@ export type SafeUser = Omit<User, 'authCode' | 'resetHash' | 'createAt'> & {
   resetHash: string | null;
   createAt: Date;
 };
+
+export type cardType = {
+  price: number;
+  timeline: string;
+  typeofRoom: string;
+  entity: string;
+  plan_id?: string;
+  roomType?: roomType[];
+  service: serviceType[];
+};
+
+export type serviceType = {
+  title: string;
+  value: any;
+};
+
+export type timeline = 'daily' | 'monthly' | 'quarterly' | 'annual' | 'custom';
+
+export type roomType = { title: string; price: number };
