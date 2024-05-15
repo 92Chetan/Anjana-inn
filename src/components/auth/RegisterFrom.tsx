@@ -77,8 +77,7 @@ export function RegisterFrom() {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="space-y-2 border-[1px] max-w-[400px] rounded-lg w-full min-h-[400px] flex justify-center items-center flex-col py-3"
-      >
+        className="space-y-2 border-[1px] max-w-[400px] rounded-lg w-full min-h-[400px] flex justify-center items-center flex-col py-3">
         <h2 className="md:text-3xl text-md font-semibold uppercase">Create an account</h2>
         {filePreview && (
           <Image src={filePreview} alt="preview" width={50} height={50} className="rounded-full" />
@@ -158,9 +157,9 @@ export function RegisterFrom() {
           Submit
         </Button>
         <FormDescription className="text-md font-bold">
-          Create an account
-          <Link href="/sing_up" className="text-blue-500">
-            register here
+          Already have an account?
+          <Link href="/login" className="text-blue-500">
+            Login here
           </Link>
         </FormDescription>
       </form>
