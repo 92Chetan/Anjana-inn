@@ -6,13 +6,13 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
+    "postinstall": "prisma generate",
     "lint": "next lint",
     "prepare": "husky install",
     "lint:fix": "next lint --fix",
     "lint-staged": "lint-staged",
     "prettier": "prettier --write --ignore-unknown .",
-    "prettier:check": "prettier --check --ignore-unknown .",
-    "postinstall": "prisma generate"
+    "prettier:check": "prettier --check --ignore-unknown ."
   },
   "lint-staged": {
     "*.{js,ts,jsx,tsx}": [
