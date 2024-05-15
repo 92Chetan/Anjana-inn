@@ -1,5 +1,6 @@
 'use client';
-import React, { useCallback, useState } from 'react';
+import dynamic from 'next/dynamic';
+import React, { useCallback, useMemo, useState } from 'react';
 import Script from 'next/script';
 import { Concert_One, Open_Sans, Roboto } from 'next/font/google';
 import { GoDotFill } from 'react-icons/go';
@@ -8,7 +9,9 @@ import { Range } from 'react-date-range';
 import Container from '../utils/Container';
 import { makePayment } from '@/lib/razpayIntialize';
 import { roomType, serviceType, timeline } from '@/types/types';
-import Calender from './Calender';
+const Calender = dynamic(() => import('./Calender'), {
+  loading: () => <p>Loading...</p>
+});
 
 interface PlaneCardProps {
   title: string;
@@ -44,10 +47,9 @@ const PlaneCard: React.FC<PlaneCardProps> = ({
   roomType,
   entity
 }) => {
-  console.log(entity);
   const [checked, setChecked] = useState<number>(0);
-  const [total, setTotal] = useState<number>(0);
   const [room, setRoom] = useState<number>(0);
+  const [total, setTotal] = useState<number>(price);
   const [range, setRange] = useState<Range[]>([
     {
       startDate: new Date(),
@@ -56,14 +58,24 @@ const PlaneCard: React.FC<PlaneCardProps> = ({
     }
   ]);
 
+  // eslint-disable-next-line no-unused-vars
+  const totalPrice = useMemo(() => {
+    const total = price + checked + room;
+    setTotal(total);
+  }, [checked, price, room]);
+
+  const calculatedPrice = timeline === 'daily' ? price * 100 : total * 100;
+
   const pay = useCallback(
     (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
       e.preventDefault();
-      console.log(entity);
+
       if (entity === 'subscription') makePayment({ entity, plan_id: id });
-      makePayment({ entity, price });
+      else {
+        makePayment({ entity, price: calculatedPrice });
+      }
     },
-    [entity, id, price]
+    [calculatedPrice, entity, id]
   );
 
   return (
@@ -76,7 +88,11 @@ const PlaneCard: React.FC<PlaneCardProps> = ({
               className="h-10 pl-2 rounded-md"
               defaultValue="--Select room--"
               onChange={(e) => {
-                setRoom(Number(e.target.value));
+                if (room !== 0) {
+                  setRoom(0), setRoom(Number(e.target.value));
+                } else {
+                  setRoom(Number(e.target.value));
+                }
               }}>
               <option disabled>--Select room--</option>
               {roomType?.map((room, index) => (
@@ -101,6 +117,8 @@ const PlaneCard: React.FC<PlaneCardProps> = ({
                       onChange={(e) => {
                         if (e.target.checked) {
                           setChecked(ser.value);
+                        } else {
+                          setChecked(0);
                         }
                       }}
                     />
@@ -140,13 +158,14 @@ const PlaneCard: React.FC<PlaneCardProps> = ({
             Electricity bill not include. we will charge after month
           </p>
           <button
-            className="animate-bounce focus:animate-none hover:animate-none inline-flex text-md font-medium bg-green-900 mt-6 px-4 py-2 rounded-lg tracking-wide text-white active:scale-95 active:-translate-y-1 active:transition-all active:duration-75"
-            onClick={(e) => pay(e)}>
+            className="animate-bounce focus:animate-none hover:animate-none inline-flex text-md font-medium disabled:bg-green-700 bg-green-900 mt-6 px-4 py-2 rounded-lg tracking-wide text-white active:scale-95 active:-translate-y-1 active:transition-all active:duration- disabled:animate-none"
+            onClick={(e) => pay(e)}
+            disabled={timeline === 'custom' && room === 0}>
             <span className="ml-2 text-center w-full">Book Now</span>
           </button>
         </Container>
       </div>
-      <Script id="razorpay-checkout-js" src="https://checkout.razorpay.com/v1/checkout.js" />
+      <Script src="https://checkout.razorpay.com/v1/checkout.js" />
     </React.Fragment>
   );
 };

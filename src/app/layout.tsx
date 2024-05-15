@@ -3,11 +3,11 @@ import '@/styles/globals.css';
 import 'tw-elements-react/dist/css/tw-elements-react.min.css';
 import { ThemeProvider } from '@/components/provider/theme-provider';
 import Navbar from '@/components/layout/nav/Navbar';
-import Feedbackmodal from '@/components/feedback/Feedbackmodal';
 import Footer from '@/components/layout/Footer';
 import QueryProvider from '@/components/provider/QueryProvider';
 import NextSessionProvider from '@/components/provider/SessionProvider';
 import { Toaster } from 'react-hot-toast';
+import QuickContactModal from '@/components/contact/QuickContactModal';
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -26,13 +26,12 @@ export default function RootLayout({
           attribute="class"
           defaultTheme="system"
           enableSystem
-          disableTransitionOnChange
-        >
+          disableTransitionOnChange>
           <NextSessionProvider>
             <QueryProvider>
               <Toaster />
               <Navbar />
-              <main className="flex-grow">{children}</main> <Feedbackmodal />
+              <main className="flex-grow">{children}</main> <QuickContactModal />
               <Footer />
             </QueryProvider>
           </NextSessionProvider>

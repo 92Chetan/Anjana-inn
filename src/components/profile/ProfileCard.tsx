@@ -1,5 +1,6 @@
 import { User } from '@prisma/client';
 import Image from 'next/image';
+import Feedbackmodal from '../feedback/Feedbackmodal';
 
 interface ProfileCardProps {
   UserData: User | null | undefined;
@@ -27,10 +28,11 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ UserData }) => {
         <div className="bg-black/30 shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px] rounded-xl w-[80%] h-14 flex flex-col justify-center px-4">
           <p className="text-xs">Room number</p>
           <p className="text-md font-light">
-            {UserData?.room ? UserData.room : 'Not yet subscribe any room'}
+            {UserData?.room ? UserData.room : 'Not yet subscribe'}
           </p>
         </div>
       </div>
+      <Feedbackmodal />
     </div>
   );
 };

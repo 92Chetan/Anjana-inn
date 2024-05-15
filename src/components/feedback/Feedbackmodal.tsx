@@ -7,7 +7,6 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation } from '@tanstack/react-query';
 import toast from 'react-hot-toast';
 import { z } from 'zod';
-import { VscFeedback } from 'react-icons/vsc';
 import { usePathname } from 'next/navigation';
 
 import { feedbackSchema } from '@/validation/feedback/feedbackShema';
@@ -68,16 +67,7 @@ const Feedbackmodal = () => {
       {!disableNavWithFooter.includes(path) && (
         <Dialog>
           <DialogTrigger asChild>
-            <Button
-              variant="transparent"
-              className="fixed md:bottom-8 md:right-5 right-0 z-10 gap-1 group bottom-4">
-              <p className="group-hover:bg-accent group-hover:text-accent-foreground px-2 py-2 bg-background rounded-lg">
-                Leave Feedback
-              </p>
-              <div className="flex justify-center items-center w-16 h-16 rounded-full bg-background group-hover:bg-accent group-hover:text-accent-foreground">
-                <VscFeedback />
-              </div>
-            </Button>
+            <Button className="my-7">Leave Feedback</Button>
           </DialogTrigger>
           <DialogContent className="sm:max-w-[425px]">
             <DialogHeader>

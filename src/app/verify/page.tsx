@@ -1,3 +1,6 @@
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 import { VerifyFrom } from '@/components/auth/Verify';
 import Container from '@/components/utils/Container';
 import { Suspense } from 'react';

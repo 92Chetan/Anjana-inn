@@ -37,7 +37,7 @@ export function LoginFrom() {
     signIn('credentials', { ...values, redirect: false }).then((callback) => {
       setLoading(false);
       if (callback?.ok) {
-        route.push('/');
+        route.push('/profile');
         route.refresh();
         //TODO: add toast here
       }
@@ -49,16 +49,15 @@ export function LoginFrom() {
   }
 
   useEffect(() => {
-    if (status === 'authenticated') {
-      route.push('/');
+    if (status === 'unauthenticated') {
+      route.push('/login');
     }
   }, [status, route]);
   return (
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="space-y-8 border-[1px] max-w-[400px] rounded-lg w-full min-h-[400px] flex justify-center items-center flex-col"
-      >
+        className="space-y-8 border-[1px] max-w-[400px] rounded-lg w-full min-h-[400px] flex justify-center items-center flex-col">
         <h2 className="text-3xl font-semibold uppercase">Welcome back</h2>
         <FormField
           control={form.control}
