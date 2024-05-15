@@ -36,8 +36,6 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-#json
-data.json
 
 #Migrate folder
 prisma/migrations
