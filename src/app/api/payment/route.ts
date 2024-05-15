@@ -6,6 +6,7 @@ import axios from 'axios';
 import { db } from '@/lib/db';
 import { getServerSession } from 'next-auth';
 import { CustomSession, authOptions } from '../auth/[...nextauth]/options';
+import { Subscription } from '@prisma/client';
 
 export async function GET() {
   try {
@@ -16,7 +17,7 @@ export async function GET() {
     });
 
     const response = await Promise.all(
-      user_response.map(async (item) => {
+      user_response.map(async (item: Subscription) => {
         try {
           const axiosResponse = await axios.get(
             `https://api.razorpay.com/v1/subscriptions/${item.sub_id}`,
