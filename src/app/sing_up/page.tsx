@@ -1,3 +1,6 @@
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 import { RegisterFrom } from '@/components/auth/RegisterFrom';
 import Container from '@/components/utils/Container';
 import React from 'react';

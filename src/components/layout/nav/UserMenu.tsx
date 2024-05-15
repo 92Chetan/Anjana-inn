@@ -1,11 +1,20 @@
 'use client';
-import React, { useCallback, useState } from 'react';
-import Avatar from './Avatar';
+import React, { Suspense, useCallback, useState } from 'react';
+import { signOut, useSession } from 'next-auth/react';
 import Link from 'next/link';
+
+import Avatar from './Avatar';
 import MenuItem from './MenuItem';
 import Backdrop from './Backdrop';
+import { SafeUser } from '@/types/types';
 
-const UserMenu = () => {
+interface UserMenuProps {
+  UserData: SafeUser | null | undefined;
+}
+
+const UserMenu: React.FC<UserMenuProps> = ({ UserData }) => {
+  const { status } = useSession();
+
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   const toggleHandler = useCallback(() => {
@@ -16,7 +25,9 @@ const UserMenu = () => {
     <React.Fragment>
       <div className="relative z-30">
         <div onClick={toggleHandler}>
-          <Avatar />
+          <Suspense fallback={<div>load</div>}>
+            <Avatar src={UserData?.avatar} />
+          </Suspense>
         </div>
 
         {isOpen && (
@@ -35,7 +46,20 @@ const UserMenu = () => {
                 <MenuItem onClick={toggleHandler}>Profile</MenuItem>
               </Link>
               <hr className="dark:bg-black" />
-              <MenuItem onClick={() => {}}>Log out</MenuItem>
+              {status === 'authenticated' ? (
+                <div className="cursor-pointer">
+                  <MenuItem
+                    onClick={() => {
+                      signOut();
+                    }}>
+                    Log out
+                  </MenuItem>
+                </div>
+              ) : (
+                <Link href="/login">
+                  <MenuItem onClick={toggleHandler}>Log in</MenuItem>
+                </Link>
+              )}
             </div>
           </div>
         )}

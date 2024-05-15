@@ -7,32 +7,39 @@ type PaymentType = {
 };
 
 export const makePayment = async ({ entity, plan_id, price }: PaymentType) => {
-  console.log(entity);
   try {
     let response;
-    if (entity === 'subscription') {
+    if (entity === 'subscription' && plan_id !== undefined) {
+      console.log(plan_id);
       response = await fetch('/api/payment/subscribe', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ plan_id, entity })
+        body: JSON.stringify({
+          entity,
+          plan_id
+        })
+      });
+    } else {
+      response = await fetch('/api/payment/subscribe', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ entity, amount: price })
       });
     }
-
-    response = await fetch('/api/payment/subscribe', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ entity, amount: price })
-    });
 
     if (!response || !response.ok) {
       throw new Error('Failed to fetch subscription data');
     }
 
     const data = await response.json();
+
+    if (data.status === 401) {
+      return toast.error(data.message);
+    }
 
     if (data) {
       const options = {

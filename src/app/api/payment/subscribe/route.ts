@@ -22,8 +22,6 @@ export async function POST(req: NextRequest) {
 
     const body = await req.json();
     const { error, data } = paymentSchema.safeParse(body);
-    // console.log(data);
-
     if (error) {
       return NextResponse.json(
         { message: 'Invalid request', error: formatZodError(error) },

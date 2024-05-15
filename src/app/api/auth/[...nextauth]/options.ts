@@ -12,7 +12,7 @@ export interface CustomUser {
   id?: string | null;
   name?: string | null;
   email?: string | null;
-  image?: string | null;
+  avatar?: string | null;
 }
 export const authOptions: AuthOptions = {
   pages: {

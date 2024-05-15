@@ -40,7 +40,6 @@ const Calender: React.FC<CalenderProps> = ({ onChange, value, disabledDates }) =
       <Input
         value={`${format(value[0].startDate!, 'MM/dd/yyyy')} to ${format(value[0].endDate!, 'MM/dd/yyyy')}`}
         readOnly
-        defaultValue="select date"
         className="dark:border-white border-black"
         onClick={() => setOpen((open) => !open)}
       />

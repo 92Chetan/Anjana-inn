@@ -3,7 +3,7 @@ export const Subscription = [
     price: 300,
     entity: 'subscription',
     timeline: 'monthly',
-    plan_id: '',
+    plan_id: 'plan_O3fJot8nTgirt6',
     typeofRoom: 'Single Occupancy ',
     service: [
       { title: '1 room', value: true },
@@ -17,7 +17,7 @@ export const Subscription = [
   {
     price: 900,
     entity: 'subscription',
-    plan_id: '',
+    plan_id: 'plan_O3fJot8nTgirt6',
     timeline: 'quarterly',
     typeofRoom: 'Single Occupancy',
     service: [
@@ -32,7 +32,7 @@ export const Subscription = [
   {
     price: 3600,
     entity: 'subscription',
-    plan_id: '',
+    plan_id: 'plan_O3fJot8nTgirt6',
     timeline: 'annual',
     typeofRoom: 'Single Occupancy',
     service: [
@@ -49,7 +49,7 @@ export const Subscription = [
     timeline: 'annual',
     typeofRoom: 'Double Occupancy',
     entity: 'subscription',
-    plan_id: '',
+    plan_id: 'plan_O3fJot8nTgirt6',
     service: [
       { title: '1 room', value: true },
       { title: '2 bed', value: true },
@@ -64,7 +64,7 @@ export const Subscription = [
     timeline: 'quarterly',
     typeofRoom: 'Double Occupancy',
     entity: 'subscription',
-    plan_id: '',
+    plan_id: 'plan_O3fJot8nTgirt6',
     service: [
       { title: '1 room', value: true },
       { title: '2 bed', value: true },
@@ -79,7 +79,7 @@ export const Subscription = [
     timeline: 'monthly',
     typeofRoom: 'Double Occupancy',
     entity: 'subscription',
-    plan_id: '',
+    plan_id: 'plan_O3fJot8nTgirt6',
     service: [
       { title: '1 room', value: true },
       { title: '2 bed', value: true },
@@ -108,7 +108,7 @@ export const Subscription = [
     timeline: 'annual',
     typeofRoom: 'Triple Occupancy ',
     entity: 'subscription',
-    plan_id: '',
+    plan_id: 'plan_O3fJot8nTgirt6',
     service: [
       { title: '1 room', value: true },
       { title: '3 bed', value: true },
@@ -123,7 +123,7 @@ export const Subscription = [
     timeline: 'quarterly',
     typeofRoom: 'Triple Occupancy ',
     entity: 'subscription',
-    plan_id: '',
+    plan_id: 'plan_O3fJot8nTgirt6',
     service: [
       { title: '1 room', value: true },
       { title: '3 bed', value: true },
@@ -138,7 +138,7 @@ export const Subscription = [
     timeline: 'monthly',
     typeofRoom: 'Triple Occupancy ',
     entity: 'subscription',
-    plan_id: '',
+    plan_id: 'plan_O3fJot8nTgirt6',
     service: [
       { title: '1 room', value: true },
       { title: '3 bed', value: true },
