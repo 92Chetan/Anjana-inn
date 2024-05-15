@@ -1,27 +1,25 @@
 'use client';
+import React, { useState } from 'react';
+import { Bebas_Neue } from 'next/font/google';
 
 import { Subscription } from '@/lib/Pricing';
-import React, { useState } from 'react';
 import PlaneCard from './PlaneCard';
 import RippleButton from './RepleButton';
-import { Bebas_Neue } from 'next/font/google';
+import { timeline } from '@/types/types';
 
 const BebasNeue = Bebas_Neue({
   weight: '400',
   subsets: ['latin']
 });
 
-type timeline = 'daily' | 'monthly' | 'quarterly' | 'annual';
-
-const timelineArray: timeline[] = ['daily', 'monthly', 'quarterly', 'annual'];
+const timelineArray: timeline[] = ['daily', 'monthly', 'quarterly', 'annual', 'custom'];
 
 const CardContainer = () => {
   const [planTimeline, setPlanTimeline] = useState<timeline>('monthly');
   return (
     <React.Fragment>
       <h1
-        className={`${BebasNeue.className} text-5xl leading-none tracking-normal py-12 text-center`}
-      >
+        className={`${BebasNeue.className} text-5xl leading-none tracking-normal py-12 text-center`}>
         Planes and Pricing
       </h1>
       <div className="flex items-center flex-col gap-y-10">
@@ -41,12 +39,14 @@ const CardContainer = () => {
               return (
                 <PlaneCard
                   key={index}
+                  id={sub.plan_id as string}
                   title={sub.typeofRoom}
-                  price={
-                    sub.electricityBill + sub.furnishedCharge + sub.price + sub.water + sub.wifi
-                  }
+                  price={sub.price}
                   service={sub.service}
                   timeline={sub.timeline}
+                  roomType={sub.roomType}
+                  //@ts-ignore
+                  entity={sub.entity}
                 />
               );
             }

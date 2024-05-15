@@ -48,8 +48,8 @@ model ContactUs{
 
 model Subscription{
   id String @id @default(uuid())
-  sub_id String @unique
-  plane_id String
+  sub_id String? @unique
+  order_id String? @unique
   user_id String
   user User @relation(fields: [user_id] ,references: [id],onDelete: Cascade)
   createAt DateTime @default(now())

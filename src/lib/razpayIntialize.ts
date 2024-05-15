@@ -1,53 +1,49 @@
-const initializeRazorpay = () => {
-  return new Promise<boolean>((resolve) => {
-    const script = document.createElement('script');
-    script.src = 'https://checkout.razorpay.com/v1/checkout.js';
+import toast from 'react-hot-toast';
 
-    script.onload = () => {
-      resolve(true);
-    };
-    script.onerror = () => {
-      resolve(false);
-    };
-
-    document.body.appendChild(script);
-  });
+type PaymentType = {
+  plan_id?: string;
+  entity: 'order' | 'subscription';
+  price?: number;
 };
 
-export const makePayment = async () => {
+export const makePayment = async ({ entity, plan_id, price }: PaymentType) => {
+  console.log(entity);
   try {
-    const res = await initializeRazorpay();
-
-    if (!res) {
-      throw new Error('Razorpay SDK Failed to load');
+    let response;
+    if (entity === 'subscription') {
+      response = await fetch('/api/payment/subscribe', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ plan_id, entity })
+      });
     }
 
-    const response = await fetch('/api/payment/subscribe', {
+    response = await fetch('/api/payment/subscribe', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ plan_id: 'plan_O3fFsn3DItHZGB' })
+      body: JSON.stringify({ entity, amount: price })
     });
 
-    if (!response.ok) {
+    if (!response || !response.ok) {
       throw new Error('Failed to fetch subscription data');
     }
 
     const data = await response.json();
-    console.log(data.subscription_id);
 
     if (data) {
       const options = {
         key: process.env.NEXT_PUBLIC_RAZORPAY_API_KEY as string,
-        subscription_id: `${data.sub_id}`,
+        [entity === 'subscription' ? 'subscription_id' : 'order_id']:
+          `${data[entity === 'subscription' ? 'sub_id' : 'order_id']}`,
         name: 'Acme Corp.',
         description: 'Monthly Test plane',
 
-        handler: function (response: any) {
-          alert(response.razorpay_payment_id);
-          alert(response.razorpay_subscription_id);
-          alert(response.razorpay_signature);
+        handler: function () {
+          toast.success('Payment success');
         },
 
         theme: {

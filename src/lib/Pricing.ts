@@ -1,112 +1,182 @@
 export const Subscription = [
   {
     price: 300,
+    entity: 'subscription',
     timeline: 'monthly',
+    plan_id: '',
     typeofRoom: 'Single Occupancy ',
-    furnishedCharge: 60,
-    electricityBill: 20,
-    wifi: 20,
-    water: 30,
-    service: 'Water, internet, furnished room, power, private space: essentials covered'
+    service: [
+      { title: '1 room', value: true },
+      { title: '1 bed', value: true },
+      { title: 'wifi', value: true },
+      { title: 'furnished', value: true },
+      { title: 'electricity', value: true },
+      { title: 'water', value: true }
+    ]
   },
   {
     price: 900,
+    entity: 'subscription',
+    plan_id: '',
     timeline: 'quarterly',
     typeofRoom: 'Single Occupancy',
-    furnishedCharge: 180,
-    electricityBill: 60,
-    wifi: 60,
-    water: 90,
-    service: 'Water, internet, furnished room, power, private space: essentials covered'
+    service: [
+      { title: '1 room', value: true },
+      { title: '1 bed', value: true },
+      { title: 'wifi', value: true },
+      { title: 'furnished', value: true },
+      { title: 'electricity', value: true },
+      { title: 'water', value: true }
+    ]
   },
   {
     price: 3600,
+    entity: 'subscription',
+    plan_id: '',
     timeline: 'annual',
     typeofRoom: 'Single Occupancy',
-    furnishedCharge: 720,
-    electricityBill: 240,
-    wifi: 240,
-    water: 360,
-    service: 'Water, internet, furnished room, power, private space: essentials covered'
+    service: [
+      { title: '1 room', value: true },
+      { title: '1 bed', value: true },
+      { title: 'wifi', value: true },
+      { title: 'furnished', value: true },
+      { title: 'electricity', value: true },
+      { title: 'water', value: true }
+    ]
   },
   {
-    price: 3600,
+    price: 7200,
     timeline: 'annual',
     typeofRoom: 'Double Occupancy',
-    furnishedCharge: 720,
-    electricityBill: 240,
-    wifi: 240,
-    water: 360,
-    service: 'Water, internet, furnished room, power, private space: essentials covered'
+    entity: 'subscription',
+    plan_id: '',
+    service: [
+      { title: '1 room', value: true },
+      { title: '2 bed', value: true },
+      { title: 'wifi', value: true },
+      { title: 'furnished', value: true },
+      { title: 'electricity', value: true },
+      { title: 'water', value: true }
+    ]
   },
   {
-    price: 900,
+    price: 1800,
     timeline: 'quarterly',
     typeofRoom: 'Double Occupancy',
-    furnishedCharge: 180,
-    electricityBill: 60,
-    wifi: 60,
-    water: 90,
-    service: 'Water, internet, furnished room, power, private space: essentials covered'
+    entity: 'subscription',
+    plan_id: '',
+    service: [
+      { title: '1 room', value: true },
+      { title: '2 bed', value: true },
+      { title: 'wifi', value: true },
+      { title: 'furnished', value: true },
+      { title: 'electricity', value: true },
+      { title: 'water', value: true }
+    ]
   },
   {
-    price: 300,
+    price: 600,
     timeline: 'monthly',
     typeofRoom: 'Double Occupancy',
-    furnishedCharge: 60,
-    electricityBill: 20,
-    wifi: 20,
-    water: 30,
-    service: 'Water, internet, furnished room, power, private space: essentials covered'
+    entity: 'subscription',
+    plan_id: '',
+    service: [
+      { title: '1 room', value: true },
+      { title: '2 bed', value: true },
+      { title: 'wifi', value: true },
+      { title: 'furnished', value: true },
+      { title: 'electricity', value: true },
+      { title: 'water', value: true }
+    ]
   },
   {
     price: 300,
     timeline: 'daily',
     typeofRoom: 'Double Occupancy',
-    furnishedCharge: 60,
-    electricityBill: 20,
-    wifi: 20,
-    water: 30,
-    service: 'Water, internet, furnished room, power, private space: essentials covered'
+    entity: 'order',
+    service: [
+      { title: '1 room', value: true },
+      { title: '2 bed', value: true },
+      { title: 'wifi', value: true },
+      { title: 'furnished', value: true },
+      { title: 'electricity', value: true },
+      { title: 'water', value: true }
+    ]
   },
   {
-    price: 3600,
+    price: 10800,
     timeline: 'annual',
     typeofRoom: 'Triple Occupancy ',
-    furnishedCharge: 720,
-    electricityBill: 240,
-    wifi: 240,
-    water: 360,
-    service: 'Water, internet, furnished room, power, private space: essentials covered'
+    entity: 'subscription',
+    plan_id: '',
+    service: [
+      { title: '1 room', value: true },
+      { title: '3 bed', value: true },
+      { title: 'wifi', value: true },
+      { title: 'furnished', value: true },
+      { title: 'electricity', value: true },
+      { title: 'water', value: true }
+    ]
+  },
+  {
+    price: 2700,
+    timeline: 'quarterly',
+    typeofRoom: 'Triple Occupancy ',
+    entity: 'subscription',
+    plan_id: '',
+    service: [
+      { title: '1 room', value: true },
+      { title: '3 bed', value: true },
+      { title: 'wifi', value: true },
+      { title: 'furnished', value: true },
+      { title: 'electricity', value: true },
+      { title: 'water', value: true }
+    ]
   },
   {
     price: 900,
-    timeline: 'quarterly',
-    typeofRoom: 'Triple Occupancy ',
-    furnishedCharge: 180,
-    electricityBill: 60,
-    wifi: 60,
-    water: 90,
-    service: 'Water, internet, furnished room, power, private space: essentials covered'
-  },
-  {
-    price: 300,
     timeline: 'monthly',
     typeofRoom: 'Triple Occupancy ',
-    furnishedCharge: 60,
-    electricityBill: 20,
-    wifi: 20,
-    water: 30,
-    service: 'Water, internet, furnished room, power, private space: essentials covered'
+    entity: 'subscription',
+    plan_id: '',
+    service: [
+      { title: '1 room', value: true },
+      { title: '3 bed', value: true },
+      { title: 'wifi', value: true },
+      { title: 'furnished', value: true },
+      { title: 'electricity', value: true },
+      { title: 'water', value: true }
+    ]
   },
   {
-    price: 300,
+    price: 450,
     timeline: 'daily',
     typeofRoom: 'Triple Occupancy',
-    furnishedCharge: 60,
-    electricityBill: 20,
-    wifi: 20,
-    water: 30,
-    service: 'Water, internet, furnished room, power, private space: essentials covered'
+    entity: 'order',
+    service: [
+      { title: '1 room', value: true },
+      { title: '3 bed', value: true },
+      { title: 'wifi', value: true },
+      { title: 'furnished', value: true },
+      { title: 'electricity', value: true },
+      { title: 'water', value: true }
+    ]
+  },
+  {
+    price: 450,
+    timeline: 'custom',
+    typeofRoom: 'Custom plan',
+    entity: 'order',
+    roomType: [
+      { title: 'single occupancy', price: 1500 },
+      { title: 'double occupancy', price: 2500 },
+      { title: 'triple occupancy', price: 3500 }
+    ],
+    service: [
+      { title: 'wifi', value: 46 },
+      { title: 'furnished', value: true },
+      { title: 'electricity', value: true },
+      { title: 'water', value: true }
+    ]
   }
 ];
