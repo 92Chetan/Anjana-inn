@@ -1,8 +1,12 @@
 'use client';
-
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
+import Link from 'next/link';
+import { useEffect, useState } from 'react';
+import { signIn } from 'next-auth/react';
+import { useRouter, useSearchParams } from 'next/navigation';
+
 import {
   Form,
   FormControl,
@@ -15,15 +19,18 @@ import {
 import { Input } from '../ui/input';
 import { Button } from '../ui/button';
 import { loginSchema } from '@/validation/auth/authSchema';
-import Link from 'next/link';
-import { useEffect, useState } from 'react';
-import { signIn, useSession } from 'next-auth/react';
-import { useRouter } from 'next/navigation';
+import { SafeUser } from '@/types/types';
 
-export function LoginFrom() {
-  const { status } = useSession();
+interface LoginFromProps {
+  currentUser: SafeUser | null;
+}
+const LoginFrom: React.FC<LoginFromProps> = ({ currentUser }) => {
   const [loading, setLoading] = useState<boolean>(false);
   const route = useRouter();
+  const searchParams = useSearchParams();
+
+  const redirect = (searchParams.get('redirect') as string) || '/profile';
+  console.log(redirect);
   const form = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
@@ -37,22 +44,22 @@ export function LoginFrom() {
     signIn('credentials', { ...values, redirect: false }).then((callback) => {
       setLoading(false);
       if (callback?.ok) {
-        route.push('/profile');
+        route.push(redirect);
         route.refresh();
         //TODO: add toast here
       }
       if (callback?.error) {
-        //TODO:add toast
         console.log(callback.error);
       }
     });
   }
 
   useEffect(() => {
-    if (status === 'unauthenticated') {
-      route.push('/login');
+    if (currentUser) {
+      route.push('/');
     }
-  }, [status, route]);
+  }, [currentUser, route]);
+
   return (
     <Form {...form}>
       <form
@@ -97,4 +104,6 @@ export function LoginFrom() {
       </form>
     </Form>
   );
-}
+};
+
+export default LoginFrom;

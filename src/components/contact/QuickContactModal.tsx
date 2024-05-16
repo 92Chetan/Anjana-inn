@@ -31,7 +31,7 @@ const QuickContactModal = () => {
 
   const contact = useCallback((item: string) => {
     if (typeof window !== 'undefined') {
-      window.location.href = item;
+      window.open(item, '_blank');
     }
   }, []);
 
@@ -55,7 +55,13 @@ const QuickContactModal = () => {
             {open && (
               <div className="fixed md:bottom-[105px] md:right-[35px] right-[20px] z-10 gap-1 group bottom-[90px]">
                 <div className="flex flex-col justify-center items-center gap-3">
-                  <div className="cursor-pointer" onClick={() => contact('tel:9303003303')}>
+                  <div
+                    className="cursor-pointer"
+                    onClick={() =>
+                      contact(
+                        'https://web.whatsapp.com/send?phone=6260849824&text=any one there, i want help'
+                      )
+                    }>
                     <div className="w-10 h-10 overflow-hidden relative">
                       <Image
                         src="/images/call.gif"
@@ -68,7 +74,7 @@ const QuickContactModal = () => {
                   </div>
                   <div
                     className="cursor-pointer"
-                    onClick={() => contact('mailto:anjanaInn@ctr.com')}>
+                    onClick={() => contact('mailto: info.anjanainn@gmail.com')}>
                     <div className="w-10 h-10 overflow-hidden relative">
                       <Image
                         src="/images/Mail.gif"

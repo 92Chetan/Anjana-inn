@@ -17,7 +17,7 @@ const zenA = Zen_Kaku_Gothic_Antique({
 const ContactUs = () => {
   const contact = useCallback((item: string) => {
     if (typeof window !== 'undefined') {
-      window.location.href = item;
+      window.open(item, '_blank');
     }
   }, []);
   return (
@@ -27,28 +27,26 @@ const ContactUs = () => {
           <h1 className={`${zen.className} text-4xl pb-10 text-wrap`}>Get Touch With us</h1>
           <div className="space-y-5">
             <button
-              onClick={() => contact('mailto:anjanaInn@ctr.com')}
-              className="flex justify-center items-center gap-4"
-            >
+              onClick={() => contact('mailto:info.anjanainn@gmail.com')}
+              className="flex justify-center items-center gap-4">
               <MdEmail
                 size={32}
                 className="hover:scale-110 transition-all duration-75 text-blue-600"
               />
               <span className={`${zenA.className} tracking-wide hover:text-blue-500`}>
-                AnjanaInn@ctr.com
+                info.anjanainn@gmail.com
               </span>
             </button>
 
             <button
-              onClick={() => contact('tel:9303003303')}
-              className="flex justify-center items-center gap-4"
-            >
+              onClick={() => contact('tel:6260849824')}
+              className="flex justify-center items-center gap-4">
               <MdCall
                 size={32}
                 className="hover:scale-110 transition-all duration-75 text-blue-600"
               />
               <span className={`${zenA.className} tracking-wide hover:text-blue-500`}>
-                (930)-300-3303
+                6260849824
               </span>
             </button>
 
@@ -59,8 +57,7 @@ const ContactUs = () => {
                   '_blank'
                 )
               }
-              className="md:flex text-wrap transition-all duration-75 justify-center items-center gap-4"
-            >
+              className="md:flex text-wrap transition-all duration-75 justify-center items-center gap-4">
               <MdLocationPin
                 size={32}
                 className="hover:scale-110 transition-all duration-75 text-blue-600"
