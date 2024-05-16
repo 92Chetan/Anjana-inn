@@ -42,7 +42,7 @@ const NavbarHolder: React.FC<NavbarHolderProps> = ({ userData }) => {
             </div>
             <div className=" flex justify-center items-center gap-2">
               <Themeresolver />
-              <IoMdNotifications size={25} className="cursor-pointer" />
+              {/* <IoMdNotifications size={25} className="cursor-pointer" /> */}
               <UserMenu UserData={userData} />
             </div>
           </Container>

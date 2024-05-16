@@ -1,4 +1,5 @@
 import toast from 'react-hot-toast';
+import logo from '../../public/images/rent_2.jpg';
 
 type PaymentType = {
   plan_id?: string;
@@ -46,7 +47,8 @@ export const makePayment = async ({ entity, plan_id, price }: PaymentType) => {
         key: process.env.NEXT_PUBLIC_RAZORPAY_API_KEY as string,
         [entity === 'subscription' ? 'subscription_id' : 'order_id']:
           `${data[entity === 'subscription' ? 'sub_id' : 'order_id']}`,
-        name: 'Acme Corp.',
+        name: 'Anjana inn',
+        image: { logo },
         description: 'Monthly Test plane',
 
         handler: function () {

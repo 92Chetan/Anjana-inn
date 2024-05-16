@@ -7,6 +7,7 @@ import Avatar from './Avatar';
 import MenuItem from './MenuItem';
 import Backdrop from './Backdrop';
 import { SafeUser } from '@/types/types';
+import { usePathname } from 'next/navigation';
 
 interface UserMenuProps {
   UserData: SafeUser | null | undefined;
@@ -14,6 +15,7 @@ interface UserMenuProps {
 
 const UserMenu: React.FC<UserMenuProps> = ({ UserData }) => {
   const { status } = useSession();
+  const path = usePathname();
 
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
@@ -36,8 +38,8 @@ const UserMenu: React.FC<UserMenuProps> = ({ UserData }) => {
               <Link href="/gallery" className="md:hidden">
                 <MenuItem onClick={toggleHandler}>Gallery</MenuItem>
               </Link>
-              <Link href="/plane" className="md:hidden">
-                <MenuItem onClick={toggleHandler}>Plane</MenuItem>
+              <Link href="/plans" className="md:hidden">
+                <MenuItem onClick={toggleHandler}>Plans</MenuItem>
               </Link>
               <Link href="/contact" className="md:hidden">
                 <MenuItem onClick={toggleHandler}>Contact us</MenuItem>
@@ -56,7 +58,7 @@ const UserMenu: React.FC<UserMenuProps> = ({ UserData }) => {
                   </MenuItem>
                 </div>
               ) : (
-                <Link href="/login">
+                <Link href={path === '/plans' ? '/login?redirect=/plans' : '/login'}>
                   <MenuItem onClick={toggleHandler}>Log in</MenuItem>
                 </Link>
               )}

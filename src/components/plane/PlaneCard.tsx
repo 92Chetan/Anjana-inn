@@ -5,10 +5,13 @@ import Script from 'next/script';
 import { Concert_One, Open_Sans, Roboto } from 'next/font/google';
 import { GoDotFill } from 'react-icons/go';
 import { Range } from 'react-date-range';
+import { useSession } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
 
 import Container from '../utils/Container';
 import { makePayment } from '@/lib/razpayIntialize';
 import { roomType, serviceType, timeline } from '@/types/types';
+
 const Calender = dynamic(() => import('./Calender'), {
   loading: () => <p>Loading...</p>
 });
@@ -58,6 +61,9 @@ const PlaneCard: React.FC<PlaneCardProps> = ({
     }
   ]);
 
+  const { status } = useSession();
+  const route = useRouter();
+
   // eslint-disable-next-line no-unused-vars
   const totalPrice = useMemo(() => {
     const total = price + checked + room;
@@ -69,13 +75,14 @@ const PlaneCard: React.FC<PlaneCardProps> = ({
   const pay = useCallback(
     (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
       e.preventDefault();
-
-      if (entity === 'subscription') makePayment({ entity, plan_id: id });
+      if (status === 'unauthenticated') {
+        return route.push('/login?redirect=/plans');
+      } else if (entity === 'subscription') makePayment({ entity, plan_id: id });
       else {
         makePayment({ entity, price: calculatedPrice });
       }
     },
-    [calculatedPrice, entity, id]
+    [calculatedPrice, entity, id, route, status]
   );
 
   return (

@@ -19,24 +19,27 @@ const Hero = () => {
           disableOnInteraction: true
         }}
         modules={[Autoplay]}
-        className="w-full h-[94vh] transition-all ease-in-out duration-75"
-      >
+        className="w-full h-fit transition-all ease-in-out duration-75">
         <SwiperSlide>
           <Image
             src="/images/building_1.jpg"
             priority
+            layout="responsive"
             alt="building_1"
             className="object-cover"
-            fill
+            width={500}
+            height={500}
           />
         </SwiperSlide>
         <SwiperSlide>
           <Image
             src="/images/building_2.jpg"
             priority
+            layout="responsive"
             alt="building_2"
             className="object-cover"
-            fill
+            width={500}
+            height={500}
             fetchPriority="high"
           />
         </SwiperSlide>
@@ -45,8 +48,10 @@ const Hero = () => {
             src="/images/building_3.jpg"
             priority
             alt="building_3"
+            layout="responsive"
             className="object-cover"
-            fill
+            width={500}
+            height={500}
             fetchPriority="high"
           />
         </SwiperSlide>
@@ -55,8 +60,10 @@ const Hero = () => {
             src="/images/building_4.jpg"
             priority
             alt="building_4"
+            layout="responsive"
             className="object-cover"
-            fill
+            width={500}
+            height={500}
             fetchPriority="high"
           />
         </SwiperSlide>
@@ -65,8 +72,10 @@ const Hero = () => {
             src="/images/building_5.jpg"
             priority
             alt="building_5"
+            layout="responsive"
             className="object-cover"
-            fill
+            width={500}
+            height={500}
             fetchPriority="high"
           />
         </SwiperSlide>

@@ -1,6 +1,7 @@
 'use client';
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
+import { FaUserCircle } from 'react-icons/fa';
 
 interface AvatarProps {
   src?: string | null | undefined;
@@ -13,10 +14,18 @@ const Avatar: React.FC<AvatarProps> = ({ src }) => {
     setUserImage(src);
   }, [src]);
 
+  if (!userImage) {
+    return (
+      <div className="w-8 cursor-pointer h-8 rounded-full overflow-hidden flex justify-center items-center">
+        <FaUserCircle size={30} />
+      </div>
+    );
+  }
+
   return (
     <div className="w-8 cursor-pointer h-8 rounded-full overflow-hidden">
       <Image
-        src={userImage || 'http://www.gravatar.com/avatar/?d=identicon'}
+        src={userImage as string}
         alt="avater"
         priority
         width={15}
