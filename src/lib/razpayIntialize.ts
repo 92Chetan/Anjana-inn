@@ -5,13 +5,23 @@ type PaymentType = {
   plan_id?: string;
   entity: 'order' | 'subscription';
   price?: number;
+  start_at?: number;
+  end_at?: number;
+  addon?: boolean;
 };
 
-export const makePayment = async ({ entity, plan_id, price }: PaymentType) => {
+export const makePayment = async ({
+  entity,
+  plan_id,
+  price,
+  start_at,
+  end_at,
+  addon
+}: PaymentType) => {
+  console.log(end_at, start_at);
   try {
     let response;
     if (entity === 'subscription' && plan_id !== undefined) {
-      console.log(plan_id);
       response = await fetch('/api/payment/subscribe', {
         method: 'POST',
         headers: {
@@ -28,11 +38,12 @@ export const makePayment = async ({ entity, plan_id, price }: PaymentType) => {
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ entity, amount: price })
+        body: JSON.stringify({ entity, amount: price, startAt: start_at, endAt: end_at, addon })
       });
     }
 
     if (!response || !response.ok) {
+      console.log(response);
       throw new Error('Failed to fetch subscription data');
     }
 

@@ -1,11 +1,31 @@
+import { db } from '@/lib/db';
 import crypto from 'crypto';
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
+    const secret = process.env.NEXT_PUBLIC_RAZORPAY_API_SECRETE;
+    if (!secret) {
+      throw new Error('Razorpay API secret is not defined');
+    }
 
-    const crypt = crypto.createHmac('sha256', process.env.RAZORPAY_API_SECRETE as string);
+    const existOrder = await db.subscription.findUnique({
+      where: {
+        order_id: body.payload.payment.entity.order_id
+      }
+    });
+    if (existOrder) {
+      await db.subscription.update({
+        where: {
+          order_id: body.payload.payment.entity.order_id
+        },
+        data: {
+          status: 'active'
+        }
+      });
+    }
+    const crypt = crypto.createHmac('sha256', secret);
     crypt.update(JSON.stringify(body));
     //TODO
     const digest = crypt.digest('hex');

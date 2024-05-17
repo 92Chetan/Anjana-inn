@@ -72,9 +72,7 @@ const Feedbackmodal = () => {
           <DialogContent className="sm:max-w-[425px]">
             <DialogHeader>
               <DialogTitle>Feedback</DialogTitle>
-              <DialogDescription>
-                Give your precises feedback for improve our service
-              </DialogDescription>
+              <DialogDescription>Share your thoughts and help us improve!</DialogDescription>
             </DialogHeader>
             <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
               <div className="flex flex-col gap-y-1">

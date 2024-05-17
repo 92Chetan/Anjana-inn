@@ -23,6 +23,7 @@ model User {
   resetHash String? @unique
   room String?
   avatar String
+  role String @default("user")
   createAt DateTime @default(now())
   Feedback Feedback[]
   Subscription Subscription[]
@@ -50,7 +51,33 @@ model Subscription{
   id String @id @default(uuid())
   sub_id String? @unique
   order_id String? @unique
+  status String?
+  start_at Int?
+  addon Boolean
+  end_at Int?
   user_id String
+
   user User @relation(fields: [user_id] ,references: [id],onDelete: Cascade)
+
   createAt DateTime @default(now())
+}
+
+enum timeline_type {
+    daily 
+    monthly
+     quarterly 
+     annual
+     custom
+}
+
+
+
+model Bill{
+  id String @id @default(uuid())
+  price Int
+  timeline timeline_type
+  typeofRoom String?
+  entity String
+  roomType Json?
+  service Json
 }

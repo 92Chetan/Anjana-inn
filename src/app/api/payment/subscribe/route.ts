@@ -34,10 +34,12 @@ export async function POST(req: NextRequest) {
         customer_notify: 1,
         total_count: 1
       });
+
       await db.subscription.create({
         data: {
           sub_id: response.id,
-          user_id: session?.user?.id?.toString()!
+          user_id: session?.user?.id?.toString()!,
+          addon: true
         }
       });
       return NextResponse.json({ sub_id: response.id }, { status: 200 });
@@ -50,7 +52,11 @@ export async function POST(req: NextRequest) {
     await db.subscription.create({
       data: {
         order_id: response.id,
-        user_id: session?.user?.id?.toString()!
+        user_id: session?.user?.id?.toString()!,
+        status: 'created',
+        start_at: data.startAt,
+        end_at: data.endAt,
+        addon: data.addon
       }
     });
     return NextResponse.json({ order_id: response.id }, { status: 200 });
