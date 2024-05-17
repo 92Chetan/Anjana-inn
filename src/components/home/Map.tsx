@@ -7,10 +7,9 @@ const Map = () => {
         height="450"
         style={{ border: 0 }}
         allowFullScreen
-        loading="lazy"
         referrerPolicy="no-referrer-when-downgrade"
         className="absolute top-0 left-0 w-full h-full"
-      ></iframe>
+        sandbox="allow-same-origin allow-scripts"></iframe>
     </div>
   );
 };

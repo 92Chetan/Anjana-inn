@@ -21,7 +21,6 @@ const About = () => {
       <Container className="py-12 font-semibold relative">
         <div>
           <h1 className="text-4xl uppercase">About us</h1>
-          <p>Let me know something about me</p>
         </div>
         <div className="flex items-center pt-10 max-md:flex-col md:gap-24 gap-6">
           <Image

@@ -10,6 +10,7 @@ import UserMenu from './UserMenu';
 import { usePathname } from 'next/navigation';
 import { disableNavWithFooter } from '@/components/utils/disableNavWithFooter';
 import { SafeUser } from '@/types/types';
+import { MobileMenu } from './MobileMenu';
 
 const redressed = Redressed({ subsets: ['latin'], weight: ['400'] });
 
@@ -25,9 +26,15 @@ const NavbarHolder: React.FC<NavbarHolderProps> = ({ userData }) => {
         <div className="z-30 w-full h-[60px] dark:bg-zinc-800 bg-zinc-100 backdrop-blur-3xl sticky top-0 left-0 right-0 shadow-md border-b">
           <Container className="flex justify-between items-center">
             <div className="flex justify-center gap-8 items-center">
-              <Link href="/" className={`${redressed.className} text-2xl`}>
-                Anajana Inn
-              </Link>
+              <div className="flex justify-center items-center gap-1">
+                <div className="md:hidden">
+                  <MobileMenu />
+                </div>
+                <Link href="/" className={`${redressed.className} text-2xl`}>
+                  Anajana Inn
+                </Link>
+              </div>
+
               <div className="md:flex justify-center items-center hidden gap-4">
                 <Link href="/gallery" className="dark:hover:text-gray-400 hover:text-gray-600">
                   Gallery

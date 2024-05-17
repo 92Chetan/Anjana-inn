@@ -44,8 +44,7 @@ const Review = () => {
           disableOnInteraction: false
         }}
         modules={[Autoplay]}
-        className="w-full h-full transition-all ease-in-out duration-75"
-      >
+        className="w-full h-full transition-all ease-in-out duration-75">
         {data.map((item: ReviewType, index: number) => (
           <SwiperSlide key={index}>
             <Container className="w-full h-full flex justify-center items-center">

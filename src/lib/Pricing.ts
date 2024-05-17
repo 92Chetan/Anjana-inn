@@ -168,12 +168,11 @@ export const Subscription = [
     typeofRoom: 'Custom plan',
     entity: 'order',
     roomType: [
-      { title: 'single occupancy', price: 1500 },
       { title: 'double occupancy', price: 2500 },
       { title: 'triple occupancy', price: 3500 }
     ],
     service: [
-      { title: 'wifi', value: 46 },
+      { title: 'wifi', value: 5 },
       { title: 'furnished', value: true },
       { title: 'electricity', value: true },
       { title: 'water', value: true }

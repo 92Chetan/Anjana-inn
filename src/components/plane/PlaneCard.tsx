@@ -7,6 +7,7 @@ import { GoDotFill } from 'react-icons/go';
 import { Range } from 'react-date-range';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
+import moment from 'moment';
 
 import Container from '../utils/Container';
 import { makePayment } from '@/lib/razpayIntialize';
@@ -64,11 +65,14 @@ const PlaneCard: React.FC<PlaneCardProps> = ({
   const { status } = useSession();
   const route = useRouter();
 
+  const differentBetweenDays =
+    moment(range[0].endDate).diff(moment(range[0].startDate), 'days') + 1;
+
   // eslint-disable-next-line no-unused-vars
   const totalPrice = useMemo(() => {
-    const total = price + checked + room;
+    const total = price + checked * differentBetweenDays + room * differentBetweenDays;
     setTotal(total);
-  }, [checked, price, room]);
+  }, [checked, price, room, differentBetweenDays]);
 
   const calculatedPrice = timeline === 'daily' ? price * 100 : total * 100;
 
@@ -79,10 +83,26 @@ const PlaneCard: React.FC<PlaneCardProps> = ({
         return route.push('/login?redirect=/plans');
       } else if (entity === 'subscription') makePayment({ entity, plan_id: id });
       else {
-        makePayment({ entity, price: calculatedPrice });
+        if (timeline === 'daily') {
+          makePayment({
+            entity,
+            price: calculatedPrice,
+            start_at: moment().unix(),
+            end_at: moment().add(1, 'day').unix(),
+            addon: true
+          });
+        } else if (timeline === 'custom') {
+          makePayment({
+            entity,
+            price: calculatedPrice,
+            start_at: moment().unix(),
+            end_at: moment().add(1, 'day').unix(),
+            addon: checked ? true : false
+          });
+        }
       }
     },
-    [calculatedPrice, entity, id, route, status]
+    [calculatedPrice, checked, entity, id, route, status, timeline]
   );
 
   return (
@@ -103,7 +123,10 @@ const PlaneCard: React.FC<PlaneCardProps> = ({
               }}>
               <option disabled>--Select room--</option>
               {roomType?.map((room, index) => (
-                <option key={index} value={room.price} className="capitalize">
+                <option
+                  key={index}
+                  value={differentBetweenDays * room.price}
+                  className="capitalize">
                   {room.title}
                 </option>
               ))}
@@ -123,7 +146,7 @@ const PlaneCard: React.FC<PlaneCardProps> = ({
                       name="wifi"
                       onChange={(e) => {
                         if (e.target.checked) {
-                          setChecked(ser.value);
+                          setChecked(differentBetweenDays * ser.value);
                         } else {
                           setChecked(0);
                         }
@@ -161,9 +184,7 @@ const PlaneCard: React.FC<PlaneCardProps> = ({
             </div>
           )}
 
-          <p className="text-sm leading-none tracking-tighter">
-            Electricity bill not include. we will charge after month
-          </p>
+          <p className="text-sm leading-none tracking-tighter">Read the terms and conditions.</p>
           <button
             className="animate-bounce focus:animate-none hover:animate-none inline-flex text-md font-medium disabled:bg-green-700 bg-green-900 mt-6 px-4 py-2 rounded-lg tracking-wide text-white active:scale-95 active:-translate-y-1 active:transition-all active:duration- disabled:animate-none"
             onClick={(e) => pay(e)}
