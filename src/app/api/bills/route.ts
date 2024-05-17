@@ -1,8 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getServerSession } from 'next-auth';
 
 import { db } from '@/lib/db';
-import { CustomSession, authOptions } from '../auth/[...nextauth]/options';
 import { billSchema } from '@/validation/bill/BillSchema';
 import { formatZodError } from '@/lib/zodError';
 
