@@ -1,7 +1,7 @@
 'use client';
 import React from 'react';
 import Link from 'next/link';
-import { IoMdNotifications } from 'react-icons/io';
+// import { IoMdNotifications } from 'react-icons/io';
 import { Redressed } from 'next/font/google';
 
 import Container from '../../utils/Container';
