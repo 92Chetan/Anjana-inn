@@ -1,17 +1,16 @@
 'use client';
 import dynamic from 'next/dynamic';
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import Script from 'next/script';
 import { Concert_One, Open_Sans, Roboto } from 'next/font/google';
 import { GoDotFill } from 'react-icons/go';
 import { Range } from 'react-date-range';
-import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import moment from 'moment';
 
 import Container from '../utils/Container';
 import { makePayment } from '@/lib/razpayIntialize';
-import { roomType, serviceType, timeline } from '@/types/types';
+import { SafeUser, roomType, serviceType, timeline } from '@/types/types';
 
 const Calender = dynamic(() => import('./Calender'), {
   loading: () => <p>Loading...</p>
@@ -25,6 +24,8 @@ interface PlaneCardProps {
   roomType?: roomType[];
   id: string;
   entity: 'order' | 'subscription';
+
+  userData: SafeUser | null | undefined;
 }
 
 const Concert = Concert_One({
@@ -49,7 +50,8 @@ const PlaneCard: React.FC<PlaneCardProps> = ({
   timeline,
   id,
   roomType,
-  entity
+  entity,
+  userData
 }) => {
   const [checked, setChecked] = useState<number>(0);
   const [room, setRoom] = useState<number>(0);
@@ -62,24 +64,14 @@ const PlaneCard: React.FC<PlaneCardProps> = ({
     }
   ]);
 
-  const { status } = useSession();
   const route = useRouter();
-
-  const differentBetweenDays =
-    moment(range[0].endDate).diff(moment(range[0].startDate), 'days') + 1;
-
-  // eslint-disable-next-line no-unused-vars
-  const totalPrice = useMemo(() => {
-    const total = price + checked * differentBetweenDays + room * differentBetweenDays;
-    setTotal(total);
-  }, [checked, price, room, differentBetweenDays]);
 
   const calculatedPrice = timeline === 'daily' ? price * 100 : total * 100;
 
   const pay = useCallback(
     (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
       e.preventDefault();
-      if (status === 'unauthenticated') {
+      if (!userData) {
         return route.push('/login?redirect=/plans');
       } else if (entity === 'subscription') makePayment({ entity, plan_id: id });
       else {
@@ -95,14 +87,52 @@ const PlaneCard: React.FC<PlaneCardProps> = ({
           makePayment({
             entity,
             price: calculatedPrice,
-            start_at: moment().unix(),
-            end_at: moment().add(1, 'day').unix(),
+            start_at: moment(range[0].startDate).unix(),
+            end_at: moment(range[0].endDate).unix(),
             addon: checked ? true : false
           });
+          setChecked(0);
+          setRoom(0);
+          setTotal(0);
+          setRange([{ startDate: new Date(), endDate: new Date() }]);
+          const checkbox = document.getElementById('checkboxId') as HTMLInputElement;
+          if (checkbox) {
+            checkbox.checked = false;
+          }
+          const select = document.getElementById('selectId') as HTMLSelectElement;
+          if (select) {
+            select.selectedIndex = 0;
+          }
         }
       }
     },
-    [calculatedPrice, checked, entity, id, route, status, timeline]
+    [calculatedPrice, checked, entity, id, range, route, timeline, userData]
+  );
+
+  useEffect(() => {
+    const differentBetweenDays =
+      moment(range[0].endDate).diff(moment(range[0].startDate), 'days') + 1;
+
+    const total = price + checked * differentBetweenDays + room * differentBetweenDays;
+    setTotal(total);
+  }, [checked, price, room, range]);
+
+  const OnSelect = useCallback((e: React.ChangeEvent<HTMLSelectElement>) => {
+    setRoom(Number(e.target.value));
+  }, []);
+
+  const onChecked = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>, ser: any) => {
+      const differentBetweenDays =
+        moment(range[0].endDate).diff(moment(range[0].startDate), 'days') + 1;
+
+      if (e.target.checked) {
+        setChecked(differentBetweenDays * ser.value);
+      } else {
+        setChecked(0);
+      }
+    },
+    [range]
   );
 
   return (
@@ -114,19 +144,11 @@ const PlaneCard: React.FC<PlaneCardProps> = ({
             <select
               className="h-10 pl-2 rounded-md"
               defaultValue="--Select room--"
-              onChange={(e) => {
-                if (room !== 0) {
-                  setRoom(0), setRoom(Number(e.target.value));
-                } else {
-                  setRoom(Number(e.target.value));
-                }
-              }}>
+              onChange={(e) => OnSelect(e)}
+              id="selectId">
               <option disabled>--Select room--</option>
               {roomType?.map((room, index) => (
-                <option
-                  key={index}
-                  value={differentBetweenDays * room.price}
-                  className="capitalize">
+                <option key={index} value={room.price} className="capitalize">
                   {room.title}
                 </option>
               ))}
@@ -144,12 +166,9 @@ const PlaneCard: React.FC<PlaneCardProps> = ({
                     <input
                       type="checkbox"
                       name="wifi"
+                      id="checkboxId"
                       onChange={(e) => {
-                        if (e.target.checked) {
-                          setChecked(differentBetweenDays * ser.value);
-                        } else {
-                          setChecked(0);
-                        }
+                        onChecked(e, ser);
                       }}
                     />
                   ) : (

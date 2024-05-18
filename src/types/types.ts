@@ -15,6 +15,8 @@ export type SubData = {
   plan_id: PlaneData;
   end_at: number;
   start_at: number;
+  addons: boolean;
+  electricity: number | null;
 };
 
 export type PlaneData = {
