@@ -7,6 +7,7 @@ export const billSchema = z.object({
   timeline: z.enum(values, { required_error: 'Please enter your plans time line' }),
   typeofRoom: z.string({ required_error: 'Please room type' }).optional(),
   entity: z.string({ required_error: 'Please enter your type planes like subscribe or order' }),
+  plan_id: z.string({ required_error: 'Please enter plan_id' }).optional(),
   roomType: z
     .array(
       z.object({

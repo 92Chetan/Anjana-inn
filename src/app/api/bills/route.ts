@@ -3,14 +3,15 @@ import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db';
 import { billSchema } from '@/validation/bill/BillSchema';
 import { formatZodError } from '@/lib/zodError';
+import { getCurrentUser } from '@/action/getCurrentUser';
 
 export async function POST(req: NextRequest) {
   try {
-    // const session: CustomSession | null = await getServerSession(authOptions);
+    const currentUser = await getCurrentUser();
 
-    // if (!session) {
-    //   return NextResponse.json({ message: 'Please login' }, { status: 401 });
-    // }
+    if (!currentUser) {
+      return NextResponse.json({ message: 'Please login' }, { status: 401 });
+    }
 
     const body = await req.json();
     const { error, data } = billSchema.safeParse(body);
@@ -21,15 +22,15 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // const user = await db.user.findFirst({
-    //   where: {
-    //     id: session?.user?.id?.toString()!
-    //   }
-    // });
+    const user = await db.user.findFirst({
+      where: {
+        id: currentUser?.id
+      }
+    });
 
-    // if (user?.role !== 'admin') {
-    //   return NextResponse.json({ message: 'invalid credential' }, { status: 401 });
-    // }
+    if (user?.role !== 'admin') {
+      return NextResponse.json({ message: 'invalid credential' }, { status: 401 });
+    }
 
     await db.bill.create({
       data: {
@@ -38,7 +39,8 @@ export async function POST(req: NextRequest) {
         roomType: data.roomType,
         service: data.service,
         timeline: data.timeline,
-        typeofRoom: data.typeofRoom
+        typeofRoom: data.typeofRoom,
+        plan_id: data.plan_id
       }
     });
     return NextResponse.json({ message: 'bill created' }, { status: 201 });

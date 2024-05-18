@@ -1,11 +1,11 @@
 'use client';
 import React, { useState } from 'react';
 import { Bebas_Neue } from 'next/font/google';
+import { Bill } from '@prisma/client';
 
-import { Subscription } from '@/lib/Pricing';
 import PlaneCard from './PlaneCard';
 import RippleButton from './RepleButton';
-import { timeline } from '@/types/types';
+import { SafeUser, roomType, serviceType, timeline } from '@/types/types';
 
 const BebasNeue = Bebas_Neue({
   weight: '400',
@@ -14,7 +14,11 @@ const BebasNeue = Bebas_Neue({
 
 const timelineArray: timeline[] = ['daily', 'monthly', 'quarterly', 'annual', 'custom'];
 
-const CardContainer = () => {
+interface CardContainerProps {
+  userData: SafeUser | null | undefined;
+  Subscription: Bill[] | null | undefined;
+}
+const CardContainer: React.FC<CardContainerProps> = ({ userData, Subscription }) => {
   const [planTimeline, setPlanTimeline] = useState<timeline>('monthly');
   return (
     <React.Fragment>
@@ -34,19 +38,20 @@ const CardContainer = () => {
           ))}
         </div>
         <div className="flex items-center justify-center flex-wrap gap-4 pb-20">
-          {Subscription.map((sub, index) => {
+          {Subscription?.map((sub, index) => {
             if (planTimeline === sub.timeline) {
               return (
                 <PlaneCard
                   key={index}
                   id={sub.plan_id as string}
-                  title={sub.typeofRoom}
+                  title={sub.typeofRoom as string}
                   price={sub.price}
-                  service={sub.service}
+                  service={sub.service as serviceType[]}
                   timeline={sub.timeline}
-                  roomType={sub.roomType}
+                  roomType={sub.roomType as roomType[]}
                   //@ts-ignore
                   entity={sub.entity}
+                  userData={userData}
                 />
               );
             }

@@ -18,7 +18,6 @@ export const makePayment = async ({
   end_at,
   addon
 }: PaymentType) => {
-  console.log(end_at, start_at);
   try {
     let response;
     if (entity === 'subscription' && plan_id !== undefined) {

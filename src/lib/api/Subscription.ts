@@ -1,14 +1,14 @@
+import { Subscription } from '@prisma/client';
 import axios from 'axios';
 
-export const fetchSubscription = async (SubscriptionId: string) => {
+export const fetchSubscription = async (item: Subscription) => {
   const RateLimit = 3;
   let retry = 0;
 
   while (retry < RateLimit) {
     try {
-      console.log(SubscriptionId);
       const axiosResponse = await axios.get(
-        `https://api.razorpay.com/v1/subscriptions/${SubscriptionId}`,
+        `https://api.razorpay.com/v1/subscriptions/${item.sub_id}`,
         {
           auth: {
             username: process.env.NEXT_PUBLIC_RAZORPAY_API_KEY as string,
@@ -16,8 +16,7 @@ export const fetchSubscription = async (SubscriptionId: string) => {
           }
         }
       );
-
-      if (axiosResponse.data.status === 'active' || axiosResponse.data.status === 'complete') {
+      if (axiosResponse.data.status === 'active' || axiosResponse.data.status === 'completed') {
         const planResponse = await axios.get(
           `https://api.razorpay.com/v1/plans/${axiosResponse.data.plan_id}`,
           {
@@ -27,7 +26,7 @@ export const fetchSubscription = async (SubscriptionId: string) => {
             }
           }
         );
-        const Data = { ...axiosResponse.data, plan_id: planResponse.data };
+        const Data = { ...axiosResponse.data, plan_id: planResponse.data.item, addons: item.addon };
         return Data;
       }
       return null;
@@ -39,11 +38,8 @@ export const fetchSubscription = async (SubscriptionId: string) => {
       } else {
         throw error;
       }
-      console.error(
-        `Error fetching subscription data for subscription ID ${SubscriptionId}:`,
-        error
-      );
-      return null;
     }
   }
+
+  return null;
 };

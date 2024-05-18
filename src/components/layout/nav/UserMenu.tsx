@@ -1,6 +1,6 @@
 'use client';
 import React, { Suspense, useCallback, useState } from 'react';
-import { signOut, useSession } from 'next-auth/react';
+import { signOut } from 'next-auth/react';
 import Link from 'next/link';
 
 import Avatar from './Avatar';
@@ -14,7 +14,6 @@ interface UserMenuProps {
 }
 
 const UserMenu: React.FC<UserMenuProps> = ({ UserData }) => {
-  const { status } = useSession();
   const path = usePathname();
 
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -39,7 +38,7 @@ const UserMenu: React.FC<UserMenuProps> = ({ UserData }) => {
                 <MenuItem onClick={toggleHandler}>Profile</MenuItem>
               </Link>
               <hr className="dark:bg-black max-md:hidden" />
-              {status === 'authenticated' ? (
+              {UserData ? (
                 <div className="cursor-pointer max-md:hidden">
                   <MenuItem
                     onClick={() => {

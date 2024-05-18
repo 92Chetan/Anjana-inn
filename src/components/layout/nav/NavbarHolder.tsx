@@ -28,7 +28,7 @@ const NavbarHolder: React.FC<NavbarHolderProps> = ({ userData }) => {
             <div className="flex justify-center gap-8 items-center">
               <div className="flex justify-center items-center gap-1">
                 <div className="md:hidden">
-                  <MobileMenu />
+                  <MobileMenu userData={userData} />
                 </div>
                 <Link href="/" className={`${redressed.className} text-2xl`}>
                   Anajana Inn

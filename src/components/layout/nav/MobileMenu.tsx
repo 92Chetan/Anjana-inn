@@ -1,9 +1,8 @@
 'use client';
-
 import { IoMenu } from 'react-icons/io5';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { signOut, useSession } from 'next-auth/react';
+import { signOut } from 'next-auth/react';
 import { Redressed } from 'next/font/google';
 
 import { Button } from '@/components/ui/button';
@@ -15,12 +14,16 @@ import {
   SheetTitle,
   SheetTrigger
 } from '@/components/ui/sheet';
+import { SafeUser } from '@/types/types';
 
 const redressed = Redressed({ subsets: ['latin'], weight: ['400'] });
 
-export function MobileMenu() {
+interface MobileMenuProps {
+  userData: SafeUser | null | undefined;
+}
+
+export function MobileMenu({ userData }: MobileMenuProps) {
   const path = usePathname();
-  const { status } = useSession();
 
   return (
     <Sheet>
@@ -59,7 +62,7 @@ export function MobileMenu() {
             </Link>
           </SheetClose>
           <hr className="dark:bg-black" />
-          {status === 'authenticated' ? (
+          {userData ? (
             <SheetClose asChild>
               <Button
                 className="cursor-pointer"

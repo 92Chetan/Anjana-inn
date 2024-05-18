@@ -6,5 +6,5 @@ export const paymentSchema = z.object({
   amount: z.number().optional(),
   startAt: z.number().optional(),
   endAt: z.number().optional(),
-  addon: z.boolean()
+  addon: z.boolean().optional()
 });
