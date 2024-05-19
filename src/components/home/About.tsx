@@ -2,10 +2,10 @@
 import React, { useEffect } from 'react';
 import Container from '../utils/Container';
 import Image from 'next/image';
-import { Button } from '../ui/button';
-import Link from 'next/link';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
+
+import Heading from '../utils/Heading';
 
 const About = () => {
   useEffect(() => {
@@ -17,11 +17,9 @@ const About = () => {
     });
   }, []);
   return (
-    <div className=" h-fit overflow-hidden">
-      <Container className="py-12 font-semibold relative">
-        <div>
-          <h1 className="text-4xl uppercase">About us</h1>
-        </div>
+    <div className=" h-screen overflow-hidden " id="about">
+      <Container className="py-12 font-semibold relative h-full flex flex-col justify-center items-center">
+        <Heading heading="about" />
         <div className="flex items-center pt-10 max-md:flex-col md:gap-24 gap-6">
           <Image
             src="/images/rent_2.jpg"
@@ -39,12 +37,6 @@ const About = () => {
               monthly, and yearly stays, all with essential amenities. Get in touch today and find
               your ideal living space with us.
             </p>
-
-            <Link href="/plane" data-aos="fade-up" data-aos-delay="400">
-              <Button className="bg-green-500 hover:bg-green-600 transition-all duration-75 active:scale-95 active:-translate-y-1">
-                Stay with us
-              </Button>
-            </Link>
           </div>
         </div>
       </Container>

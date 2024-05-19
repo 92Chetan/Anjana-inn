@@ -12,6 +12,10 @@ export async function GET() {
   try {
     const currentUser = await getCurrentUser();
 
+    if (!currentUser) {
+      return NextResponse.json({ message: 'Please login' }, { status: 401 });
+    }
+
     const user_response = await db.subscription.findMany({
       where: { user_id: currentUser?.id }
     });

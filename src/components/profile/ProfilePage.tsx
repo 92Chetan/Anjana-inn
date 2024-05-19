@@ -21,7 +21,7 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ UserData }) => {
   });
 
   useEffect(() => {
-    if (UserData) {
+    if (!UserData) {
       route.push('/login'), route.refresh();
     }
   }, [UserData, route]);

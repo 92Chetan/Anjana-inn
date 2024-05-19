@@ -6,13 +6,21 @@ import Hero from '@/components/home/Hero';
 import Map from '@/components/home/Map';
 import Review from '@/components/home/Review';
 import About from '@/components/home/About';
+import ContactUs from '@/components/contact/ContactUs';
+import CardContainer from '@/components/plane/CardContainer';
+import { getCurrentUser } from '@/action/getCurrentUser';
+import { getPlans } from '@/action/getPlans';
 
-const Home = () => {
+const Home = async () => {
+  const currentUser = await getCurrentUser();
+  const getSubscribe = await getPlans();
   return (
     <React.Fragment>
       <Hero />
       <About />
+      <CardContainer userData={currentUser} Subscription={getSubscribe} />
       <Review />
+      <ContactUs />
       <Map />
     </React.Fragment>
   );

@@ -3,6 +3,8 @@ import React from 'react';
 import Link from 'next/link';
 import { Redressed } from 'next/font/google';
 import { usePathname } from 'next/navigation';
+import Image from 'next/image';
+
 import { disableNavWithFooter } from '../utils/disableNavWithFooter';
 
 const redressed = Redressed({ subsets: ['latin'], weight: ['400'] });
@@ -15,12 +17,20 @@ const Footer = () => {
         <footer className="bg-zinc-100 dark:bg-zinc-900">
           <div className="mx-auto w-full max-w-screen-xl p-4 py-6 lg:py-8">
             <div className="md:flex md:justify-between">
-              <div className="mb-6 md:mb-0">
+              <div className=" flex gap-4 flex-col pb-4 ">
                 <Link
                   href="/"
-                  className={`${redressed.className} self-center text-2xl font-semibold whitespace-nowrap dark:text-white text-[6vh]`}>
+                  className={`${redressed.className} text-2xl font-semibold whitespace-nowrap dark:text-white text-[6vh]`}
+                >
                   Anjana inn
                 </Link>
+                <Image
+                  src="/images/rent_2.jpg"
+                  alt="hello"
+                  width={100}
+                  height={100}
+                  className="w-[100px] h-[100px] rounded-full"
+                />
               </div>
               <div className="grid grid-cols-2 gap-8 sm:gap-6 sm:grid-cols-3">
                 <div>

@@ -9,7 +9,6 @@ type PaymentType = {
   end_at?: number;
   addon?: boolean;
 };
-
 export const makePayment = async ({
   entity,
   plan_id,
