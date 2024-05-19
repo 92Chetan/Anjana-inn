@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { signOut } from 'next-auth/react';
 import { Redressed } from 'next/font/google';
+import { Link as ReactLink } from 'react-scroll';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -31,7 +32,8 @@ export function MobileMenu({ userData }: MobileMenuProps) {
         <Button
           variant="transparent"
           type="submit"
-          className="px-0 justify-center flex items-center">
+          className="px-0 justify-center flex items-center"
+        >
           <IoMenu size={32} />
         </Button>
       </SheetTrigger>
@@ -47,18 +49,60 @@ export function MobileMenu({ userData }: MobileMenuProps) {
         </SheetHeader>
         <div className="flex flex-col justify-center gap-6 py-12">
           <SheetClose asChild>
-            <Link href="/gallery" className="md:hidden">
-              Gallery
-            </Link>
-          </SheetClose>{' '}
-          <SheetClose asChild>
-            <Link href="/plans" className="md:hidden">
-              Plans
-            </Link>
+            <ReactLink
+              activeClass="active"
+              to="about"
+              spy={true}
+              smooth={true}
+              offset={-60}
+              duration={500}
+              className="dark:hover:text-gray-400 hover:text-gray-600"
+            >
+              About
+            </ReactLink>
           </SheetClose>
           <SheetClose asChild>
-            <Link href="/contact" className="md:hidden">
+            <ReactLink
+              activeClass="active"
+              to="plans"
+              spy={true}
+              smooth={true}
+              offset={-90}
+              duration={500}
+              className="dark:hover:text-gray-400 hover:text-gray-600"
+            >
+              Plans
+            </ReactLink>
+          </SheetClose>{' '}
+          <SheetClose asChild>
+            <ReactLink
+              activeClass="active"
+              to="testimonial"
+              spy={true}
+              smooth={true}
+              offset={-60}
+              duration={500}
+              className="dark:hover:text-gray-400 hover:text-gray-600"
+            >
+              Testimonial
+            </ReactLink>
+          </SheetClose>
+          <SheetClose asChild>
+            <ReactLink
+              activeClass="active"
+              to="contact"
+              spy={true}
+              smooth={true}
+              offset={-60}
+              duration={500}
+              className="dark:hover:text-gray-400 hover:text-gray-600"
+            >
               Contact us
+            </ReactLink>
+          </SheetClose>
+          <SheetClose asChild>
+            <Link href="/gallery" className="md:hidden">
+              Gallery
             </Link>
           </SheetClose>
           <hr className="dark:bg-black" />
@@ -69,7 +113,8 @@ export function MobileMenu({ userData }: MobileMenuProps) {
                 variant="outline"
                 onClick={() => {
                   signOut();
-                }}>
+                }}
+              >
                 Log out
               </Button>
             </SheetClose>

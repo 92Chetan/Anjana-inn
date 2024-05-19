@@ -14,6 +14,7 @@ import data from '../../../data.json';
 import { ReviewType } from '@/types/types';
 import Container from '../utils/Container';
 import { truncateText } from '@/lib/truncateText';
+import Heading from '../utils/Heading';
 
 const Review = () => {
   const [screenSize, setScreenSize] = useState<number>(2);
@@ -28,14 +29,18 @@ const Review = () => {
     }
 
     window.addEventListener('resize', handleResize);
-    // Call it on initial render
+
     handleResize();
 
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
   return (
-    <div className="w-full h-[400px]">
+    <div
+      className="w-full h-screen flex flex-col justify-center items-center gap-16"
+      id="testimonial"
+    >
+      <Heading heading="testimonial" />
       <Swiper
         spaceBetween={30}
         slidesPerView={screenSize}
@@ -44,7 +49,8 @@ const Review = () => {
           disableOnInteraction: false
         }}
         modules={[Autoplay]}
-        className="w-full h-full transition-all ease-in-out duration-75">
+        className="w-full transition-all ease-in-out duration-75"
+      >
         {data.map((item: ReviewType, index: number) => (
           <SwiperSlide key={index}>
             <Container className="w-full h-full flex justify-center items-center">

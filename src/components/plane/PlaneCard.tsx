@@ -68,6 +68,7 @@ const PlaneCard: React.FC<PlaneCardProps> = ({
 
   const calculatedPrice = timeline === 'daily' ? price * 100 : total * 100;
 
+  // eslint-disable-next-line no-unused-vars
   const pay = useCallback(
     (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
       e.preventDefault();
@@ -145,7 +146,8 @@ const PlaneCard: React.FC<PlaneCardProps> = ({
               className="h-10 pl-2 rounded-md"
               defaultValue="--Select room--"
               onChange={(e) => OnSelect(e)}
-              id="selectId">
+              id="selectId"
+            >
               <option disabled>--Select room--</option>
               {roomType?.map((room, index) => (
                 <option key={index} value={room.price} className="capitalize">
@@ -175,7 +177,8 @@ const PlaneCard: React.FC<PlaneCardProps> = ({
                     <GoDotFill className=" inline-block" size={20} />
                   )}
                   <span
-                    className={`${Open.className} uppercase ${timeline === 'custom' && ser.title === 'wifi' && 'pl-[6px]'}`}>
+                    className={`${Open.className} uppercase ${timeline === 'custom' && ser.title === 'wifi' && 'pl-[6px]'}`}
+                  >
                     {ser.title}
                   </span>
                 </div>
@@ -206,9 +209,13 @@ const PlaneCard: React.FC<PlaneCardProps> = ({
           <p className="text-sm leading-none tracking-tighter">Read the terms and conditions.</p>
           <button
             className="animate-bounce focus:animate-none hover:animate-none inline-flex text-md font-medium disabled:bg-green-700 bg-green-900 mt-6 px-4 py-2 rounded-lg tracking-wide text-white active:scale-95 active:-translate-y-1 active:transition-all active:duration- disabled:animate-none"
-            onClick={(e) => pay(e)}
-            disabled={timeline === 'custom' && room === 0}>
-            <span className="ml-2 text-center w-full">Book Now</span>
+            // onClick={(e) => pay(e)}
+            // disabled={timeline === 'custom' && room === 0}>
+            onClick={() =>
+              window.open('https://wa.me/6260849824?text=Any one there i want help', '_blank')
+            }
+          >
+            <span className="ml-2 text-center w-full">Message now</span>
           </button>
         </Container>
       </div>

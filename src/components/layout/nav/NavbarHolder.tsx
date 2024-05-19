@@ -3,11 +3,12 @@ import React from 'react';
 import Link from 'next/link';
 // import { IoMdNotifications } from 'react-icons/io';
 import { Redressed } from 'next/font/google';
+import { usePathname } from 'next/navigation';
+import { Link as ReactLink } from 'react-scroll';
 
 import Container from '../../utils/Container';
 import Themeresolver from './Themeresolver';
 import UserMenu from './UserMenu';
-import { usePathname } from 'next/navigation';
 import { disableNavWithFooter } from '@/components/utils/disableNavWithFooter';
 import { SafeUser } from '@/types/types';
 import { MobileMenu } from './MobileMenu';
@@ -36,14 +37,52 @@ const NavbarHolder: React.FC<NavbarHolderProps> = ({ userData }) => {
               </div>
 
               <div className="md:flex justify-center items-center hidden gap-4">
+                <ReactLink
+                  activeClass="active"
+                  to="about"
+                  spy={true}
+                  smooth={true}
+                  offset={-60}
+                  duration={500}
+                  className="dark:hover:text-gray-400 hover:text-gray-600 cursor-pointer"
+                >
+                  About
+                </ReactLink>
+                <ReactLink
+                  activeClass="active"
+                  to="plans"
+                  spy={true}
+                  smooth={true}
+                  offset={-90}
+                  duration={500}
+                  className="dark:hover:text-gray-400 hover:text-gray-600 cursor-pointer"
+                >
+                  Plans
+                </ReactLink>
+                <ReactLink
+                  activeClass="active"
+                  to="testimonial"
+                  spy={true}
+                  smooth={true}
+                  offset={-60}
+                  duration={500}
+                  className="dark:hover:text-gray-400 hover:text-gray-600 cursor-pointer"
+                >
+                  Testimonial
+                </ReactLink>
+                <ReactLink
+                  activeClass="active"
+                  to="contact"
+                  spy={true}
+                  smooth={true}
+                  offset={-60}
+                  duration={500}
+                  className="dark:hover:text-gray-400 hover:text-gray-600 cursor-pointer"
+                >
+                  Contact us
+                </ReactLink>
                 <Link href="/gallery" className="dark:hover:text-gray-400 hover:text-gray-600">
                   Gallery
-                </Link>
-                <Link href="/plans" className="dark:hover:text-gray-400 hover:text-gray-600">
-                  Plans
-                </Link>
-                <Link href="/contact" className="dark:hover:text-gray-400 hover:text-gray-600">
-                  Contact us
                 </Link>
               </div>
             </div>
