@@ -10,6 +10,7 @@ import ContactUs from '@/components/contact/ContactUs';
 import CardContainer from '@/components/plane/CardContainer';
 import { getCurrentUser } from '@/action/getCurrentUser';
 import { getPlans } from '@/action/getPlans';
+import Log from '@/components/utils/Log';
 
 const Home = async () => {
   const currentUser = await getCurrentUser();
@@ -22,6 +23,7 @@ const Home = async () => {
       <Review />
       <ContactUs />
       <Map />
+      <Log />
     </React.Fragment>
   );
 };

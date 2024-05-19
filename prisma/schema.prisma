@@ -80,4 +80,11 @@ model Bill{
   roomType Json?
   service Json
   plan_id String?
+  createAt DateTime @default(now())
+}
+
+model Vistiors{
+ id String @id @default(uuid())
+ device String 
+ createAt DateTime @default(now())
 }
