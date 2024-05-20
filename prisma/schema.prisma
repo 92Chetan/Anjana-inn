@@ -58,6 +58,8 @@ model Subscription{
   end_at Int?
   electricity Int?
   user_id String
+  wifiPrice String?
+  electricityPrice String?
 
   user User @relation(fields: [user_id] ,references: [id],onDelete: Cascade)
 

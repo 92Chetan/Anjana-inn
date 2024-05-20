@@ -17,6 +17,8 @@ export type SubData = {
   start_at: number;
   addons: boolean;
   electricity: number | null;
+  wifiPrice?: string;
+  electricityPrice?: string;
 };
 
 export type PlaneData = {
