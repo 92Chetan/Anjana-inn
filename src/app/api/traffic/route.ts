@@ -1,4 +1,5 @@
 import { db } from '@/lib/db';
+import { currentDate } from '@/lib/utils';
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function POST(req: NextRequest) {
@@ -7,7 +8,10 @@ export async function POST(req: NextRequest) {
 
     await db.vistiors.create({
       data: {
-        device: device
+        device: device,
+        min: currentDate.format('ma z'),
+        hour: currentDate.format('ha z'),
+        createAt: currentDate.toDate()
       }
     });
 

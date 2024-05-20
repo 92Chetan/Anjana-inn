@@ -2,7 +2,7 @@
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 
-import PayHistory from './PayHistory';
+// import PayHistory from './PayHistory';
 import ProfileCard from './ProfileCard';
 import { SafeUser } from '@/types/types';
 import { useQuery } from '@tanstack/react-query';
@@ -29,7 +29,7 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ UserData }) => {
   return (
     <div className="w-full h-screen flex flex-col justify-center items-center gap-2 md:flex-row">
       <ProfileCard UserData={UserData} subStatus={subData?.[0].status} />
-      <PayHistory subData={subData} />
+      {/* <PayHistory subData={subData} /> */}
     </div>
   );
 };

@@ -3,6 +3,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { formatZodError } from '@/lib/zodError';
 import { db } from '@/lib/db';
 import { contactSchema } from '@/validation/contact/contactSchema';
+import { currentDate } from '@/lib/utils';
 
 export async function POST(req: NextRequest) {
   try {
@@ -19,9 +20,10 @@ export async function POST(req: NextRequest) {
     await db.contactUs.create({
       data: {
         email: data.email,
-        first_name: data.first_name,
-        last_name: data.last_name,
-        message: data.message
+        fullName: data.fullName,
+        phone: data.phone,
+        message: data.message,
+        createAt: currentDate.toDate()
       }
     });
     return NextResponse.json({

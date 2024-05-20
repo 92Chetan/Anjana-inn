@@ -1,16 +1,14 @@
 import { z } from 'zod';
+import validator from 'validator';
 
 export const contactSchema = z.object({
-  first_name: z
+  fullName: z
     .string({ required_error: 'Please enter your first Name' })
     .min(3, { message: 'Please Enter minimum 3 latter' })
     .max(25, { message: 'your first name is too long' }),
-
-  last_name: z
-    .string({ required_error: 'Please enter your last Name' })
-    .min(3, { message: 'Please Enter minimum 3 latter' })
-    .max(25, { message: 'your last name is too long' }),
-
+  phone: z
+    .string({ required_error: 'Please enter your phone number' })
+    .refine(validator.isMobilePhone),
   email: z
     .string({ required_error: 'Please Enter your email' })
     .email({ message: 'Please enter your valid email' }),

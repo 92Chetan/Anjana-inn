@@ -18,7 +18,7 @@ const About = () => {
   }, []);
   return (
     <div className=" h-screen overflow-hidden " id="about">
-      <Container className="py-12 font-semibold relative h-full flex flex-col justify-center items-center">
+      <Container className="py-12 relative h-full flex flex-col justify-center items-center">
         <Heading heading="about" />
         <div className="flex items-center pt-10 max-md:flex-col md:gap-24 gap-6">
           <Image
@@ -30,12 +30,13 @@ const About = () => {
             data-aos="fade-right"
           />
           <div className=" flex flex-col gap-4">
-            <p data-aos="fade-left" data-aos-delay="200">
+            <p data-aos="fade-left" data-aos-delay="200" className="text-2xl">
               Welcome to Anjana Inn, where comfort meets affordability for students and single
               professionals. Discover safe, convenient living spaces tailored to your needs. From
               single rooms to shared living arrangements, our flexible plans cater to daily,
               monthly, and yearly stays, all with essential amenities. Get in touch today and find
               your ideal living space with us.
+              <span className="underline">serving individuals since 2017</span>
             </p>
           </div>
         </div>

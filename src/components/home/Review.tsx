@@ -37,7 +37,7 @@ const Review = () => {
 
   return (
     <div
-      className="w-full h-screen flex flex-col justify-center items-center gap-16"
+      className="w-full h-[80vh] flex flex-col justify-center items-center gap-16"
       id="testimonial"
     >
       <Heading heading="testimonial" />
