@@ -25,7 +25,7 @@ const ContactUs = () => {
   return (
     <div
       className=" md:h-screen flex md:mb-0 mb-12 justify-center items-center flex-col gap-12"
-      id="contact "
+      id="contact"
     >
       <Heading heading="contact us" />
       <div className="grid md:grid-cols-2 justify-center items-center grid-cols-1 md:gap-x-20 gap-y-6">

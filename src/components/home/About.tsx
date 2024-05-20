@@ -30,7 +30,7 @@ const About = () => {
             data-aos="fade-right"
           />
           <div className=" flex flex-col gap-4">
-            <p data-aos="fade-left" data-aos-delay="200" className="text-2xl">
+            <p data-aos="fade-left" data-aos-delay="200" className="md:text-2xl">
               Welcome to Anjana Inn, where comfort meets affordability for students and single
               professionals. Discover safe, convenient living spaces tailored to your needs. From
               single rooms to shared living arrangements, our flexible plans cater to daily,
