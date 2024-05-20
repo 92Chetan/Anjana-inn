@@ -26,9 +26,9 @@ const ContactForm = () => {
   } = useForm<z.infer<typeof contactSchema>>({
     resolver: zodResolver(contactSchema),
     defaultValues: {
-      first_name: '',
+      fullName: '',
+      phone: '',
       email: '',
-      last_name: '',
       message: ''
     }
   });
@@ -50,33 +50,31 @@ const ContactForm = () => {
   }
 
   return (
-    <div className="max-w-lg max-h-[500px] dark:bg-zinc-800 bg-zinc-300 shadow-2xl rounded-lg flex justify-center transition-all duration-75 items-center">
+    <div className="max-w-lg max-h-[550px] dark:bg-zinc-800 bg-zinc-300 shadow-2xl rounded-lg flex justify-center transition-all duration-75 items-center">
       <form onSubmit={handleSubmit(onSubmit)} className="grid grid-cols-1 gap-4 mx-4 my-8 w-full">
-        <div className="grid md:grid-cols-2 grid-cols-1 gap-3">
-          <div>
-            <Label htmlFor="firstName">
-              FirsName<span className="text-red-700">*</span>
-            </Label>
-            <Input
-              className="dark:border-white border-black"
-              type="text"
-              placeholder="Enter your first name"
-              {...register('first_name')}
-            />
-            {errors && <p className="text-rose-700">{errors.first_name?.message}</p>}
-          </div>
-          <div>
-            <Label htmlFor="lastName">
-              LastName<span className="text-red-700">*</span>
-            </Label>
-            <Input
-              className="dark:border-white border-black"
-              type="text"
-              placeholder="Enter your last name"
-              {...register('last_name')}
-            />
-            {errors && <p className="text-rose-700">{errors.last_name?.message}</p>}
-          </div>
+        <div>
+          <Label htmlFor="firstName">
+            Full Name<span className="text-red-700">*</span>
+          </Label>
+          <Input
+            className="dark:border-white border-black"
+            type="text"
+            placeholder="Enter your full name"
+            {...register('fullName')}
+          />
+          {errors && <p className="text-rose-700">{errors.fullName?.message}</p>}
+        </div>
+        <div>
+          <Label htmlFor="firstName">
+            Phone<span className="text-red-700">*</span>
+          </Label>
+          <Input
+            className="dark:border-white border-black"
+            type="text"
+            placeholder="Enter your mobile number"
+            {...register('phone')}
+          />
+          {errors && <p className="text-rose-700">{errors.phone?.message}</p>}
         </div>
         <div>
           <Label htmlFor="email">

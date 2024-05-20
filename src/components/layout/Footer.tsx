@@ -16,7 +16,7 @@ const Footer = () => {
       {!disableNavWithFooter.includes(path) && (
         <footer className="bg-zinc-100 dark:bg-zinc-900">
           <div className="mx-auto w-full max-w-screen-xl p-4 py-6 lg:py-8">
-            <div className="md:flex md:justify-between">
+            <div className="md:flex md:justify-between ">
               <div className=" flex gap-4 flex-col pb-4 ">
                 <Link
                   href="/"
@@ -55,6 +55,23 @@ const Footer = () => {
                     </li>
                   </ul>
                 </div>
+              </div>
+              <div className="max-md:pt-3">
+                <h2 className="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">
+                  Legal
+                </h2>
+                <ul className="text-gray-500 dark:text-gray-400 font-medium">
+                  <li className="mb-4">
+                    <Link href="/policy" className="hover:underline">
+                      Privacy Policy
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/terms" className="hover:underline">
+                      Terms &amp; Conditions
+                    </Link>
+                  </li>
+                </ul>
               </div>
             </div>
             <hr className="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8" />

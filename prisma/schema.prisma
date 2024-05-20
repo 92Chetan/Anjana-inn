@@ -22,6 +22,7 @@ model User {
   authCode String? @unique
   resetHash String? @unique
   room String?
+  status String?
   avatar String
   role String @default("user")
   createAt DateTime @default(now())
@@ -40,8 +41,8 @@ model Feedback{
 
 model ContactUs{
   id String @id @default(uuid())
-  first_name String
-  last_name String
+ fullName String
+ phone String
   email String
   message String
   createAt DateTime @default(now())
@@ -86,5 +87,7 @@ model Bill{
 model Vistiors{
  id String @id @default(uuid())
  device String 
- createAt DateTime @default(now())
+ min String
+ hour String
+ createAt DateTime
 }

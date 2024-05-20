@@ -4,6 +4,7 @@ import { formatZodError } from '@/lib/zodError';
 import { feedbackSchema } from '@/validation/feedback/feedbackShema';
 import { db } from '@/lib/db';
 import { getCurrentUser } from '@/action/getCurrentUser';
+import { currentDate } from '@/lib/utils';
 
 export async function POST(req: NextRequest) {
   try {
@@ -26,7 +27,8 @@ export async function POST(req: NextRequest) {
       data: {
         message: data.message,
         rating: data.rating,
-        auther_id: currentUser?.id
+        auther_id: currentUser?.id,
+        createAt: currentDate.toDate()
       }
     });
     return NextResponse.json({ message: 'you feedback successfully submit thank you 😊' });

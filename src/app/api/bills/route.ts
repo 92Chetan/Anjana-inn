@@ -4,6 +4,7 @@ import { db } from '@/lib/db';
 import { billSchema } from '@/validation/bill/BillSchema';
 import { formatZodError } from '@/lib/zodError';
 import { getCurrentUser } from '@/action/getCurrentUser';
+import { currentDate } from '@/lib/utils';
 
 export async function POST(req: NextRequest) {
   try {
@@ -40,7 +41,8 @@ export async function POST(req: NextRequest) {
         service: data.service,
         timeline: data.timeline,
         typeofRoom: data.typeofRoom,
-        plan_id: data.plan_id
+        plan_id: data.plan_id,
+        createAt: currentDate.toDate()
       }
     });
     return NextResponse.json({ message: 'bill created' }, { status: 201 });

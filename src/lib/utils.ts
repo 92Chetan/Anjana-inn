@@ -1,4 +1,5 @@
 import { type ClassValue, clsx } from 'clsx';
+import moment from 'moment-timezone';
 import { twMerge } from 'tailwind-merge';
 
 export function cn(...inputs: ClassValue[]) {
@@ -24,3 +25,5 @@ export const responsive = {
     items: 1
   }
 };
+
+export const currentDate = moment().clone().tz('Asia/Kolkata');

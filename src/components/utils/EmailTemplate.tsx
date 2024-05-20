@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { Html, Head, Text } from '@react-email/components';
 
 interface EmailTemplateProps {
   firstName: string;
@@ -13,13 +13,13 @@ export const EmailTemplate: React.FC<Readonly<EmailTemplateProps>> = ({
   hashCode,
   id
 }) => (
-  <div>
-    <h1>Welcome, {firstName}!</h1>
-    {authCode && <h1>Your otp is {authCode}</h1>}
+  <Html lang="en" dir="ltr">
+    <Head>Welcome, {firstName}!</Head>
+    {authCode && <Text>Your otp is {authCode}</Text>}
     {hashCode && (
-      <h1>
+      <Text>
         Your reset link is http://localhost:3000/api/reset/{id}?hashCode={hashCode}
-      </h1>
+      </Text>
     )}
-  </div>
+  </Html>
 );

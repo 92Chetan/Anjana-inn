@@ -3,6 +3,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import bcrypt from 'bcryptjs';
 import { mailSender } from '@/lib/mail';
 import { UploadImage } from '@/lib/ImageUpload';
+import { currentDate } from '@/lib/utils';
 
 export async function POST(req: NextRequest) {
   try {
@@ -47,6 +48,7 @@ export async function POST(req: NextRequest) {
     const mail = await mailSender({ email, subject: 'verify email', name, authCode });
 
     if (mail.error) {
+      console.log(mail.error);
       return NextResponse.json({ message: mail.error.message }, { status: 403 });
     }
 
@@ -56,7 +58,8 @@ export async function POST(req: NextRequest) {
         name,
         password: hashPass,
         authCode,
-        avatar: image
+        avatar: image,
+        createAt: currentDate.toDate()
       }
     });
 

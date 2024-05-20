@@ -1,15 +1,15 @@
 'use client';
 import dynamic from 'next/dynamic';
 import React, { useCallback, useEffect, useState } from 'react';
-import Script from 'next/script';
+// import Script from 'next/script';
 import { Concert_One, Open_Sans, Roboto } from 'next/font/google';
 import { GoDotFill } from 'react-icons/go';
 import { Range } from 'react-date-range';
-import { useRouter } from 'next/navigation';
+// import { useRouter } from 'next/navigation';
 import moment from 'moment';
 
 import Container from '../utils/Container';
-import { makePayment } from '@/lib/razpayIntialize';
+// import { makePayment } from '@/lib/razpayIntialize';
 import { SafeUser, roomType, serviceType, timeline } from '@/types/types';
 
 const Calender = dynamic(() => import('./Calender'), {
@@ -48,10 +48,10 @@ const PlaneCard: React.FC<PlaneCardProps> = ({
   service,
   title,
   timeline,
-  id,
-  roomType,
-  entity,
-  userData
+  // id,
+  roomType
+  // entity,
+  // userData
 }) => {
   const [checked, setChecked] = useState<number>(0);
   const [room, setRoom] = useState<number>(0);
@@ -64,57 +64,61 @@ const PlaneCard: React.FC<PlaneCardProps> = ({
     }
   ]);
 
-  const route = useRouter();
+  // const route = useRouter();
 
-  const calculatedPrice = timeline === 'daily' ? price * 100 : total * 100;
+  // const calculatedPrice = timeline === 'daily' ? price * 100 : total * 100;
 
   // eslint-disable-next-line no-unused-vars
-  const pay = useCallback(
-    (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-      e.preventDefault();
-      if (!userData) {
-        return route.push('/login?redirect=/plans');
-      } else if (entity === 'subscription') makePayment({ entity, plan_id: id });
-      else {
-        if (timeline === 'daily') {
-          makePayment({
-            entity,
-            price: calculatedPrice,
-            start_at: moment().unix(),
-            end_at: moment().add(1, 'day').unix(),
-            addon: true
-          });
-        } else if (timeline === 'custom') {
-          makePayment({
-            entity,
-            price: calculatedPrice,
-            start_at: moment(range[0].startDate).unix(),
-            end_at: moment(range[0].endDate).unix(),
-            addon: checked ? true : false
-          });
-          setChecked(0);
-          setRoom(0);
-          setTotal(0);
-          setRange([{ startDate: new Date(), endDate: new Date() }]);
-          const checkbox = document.getElementById('checkboxId') as HTMLInputElement;
-          if (checkbox) {
-            checkbox.checked = false;
-          }
-          const select = document.getElementById('selectId') as HTMLSelectElement;
-          if (select) {
-            select.selectedIndex = 0;
-          }
-        }
-      }
-    },
-    [calculatedPrice, checked, entity, id, range, route, timeline, userData]
-  );
+  // const pay = useCallback(
+  //   (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+  //     e.preventDefault();
+  //     if (!userData) {
+  //       return route.push('/login?redirect=/plans');
+  //     } else if (entity === 'subscription') makePayment({ entity, plan_id: id });
+  //     else {
+  //       if (timeline === 'daily') {
+  //         makePayment({
+  //           entity,
+  //           price: calculatedPrice,
+  //           start_at: moment().unix(),
+  //           end_at: moment().add(1, 'day').unix(),
+  //           addon: true
+  //         });
+  //       } else if (timeline === 'custom') {
+  //         makePayment({
+  //           entity,
+  //           price: calculatedPrice,
+  //           start_at: moment(range[0].startDate).unix(),
+  //           end_at: moment(range[0].endDate).unix(),
+  //           addon: checked ? true : false
+  //         });
+  //         setChecked(0);
+  //         setRoom(0);
+  //         setTotal(0);
+  //         setRange([{ startDate: new Date(), endDate: new Date() }]);
+  //         const checkbox = document.getElementById('checkboxId') as HTMLInputElement;
+  //         if (checkbox) {
+  //           checkbox.checked = false;
+  //         }
+  //         const select = document.getElementById('selectId') as HTMLSelectElement;
+  //         if (select) {
+  //           select.selectedIndex = 0;
+  //         }
+  //       }
+  //     }
+  //   },
+  //   [calculatedPrice, checked, entity, id, range, route, timeline, userData]
+  // );
 
   useEffect(() => {
     const differentBetweenDays =
       moment(range[0].endDate).diff(moment(range[0].startDate), 'days') + 1;
 
-    const total = price + checked * differentBetweenDays + room * differentBetweenDays;
+    const totalWifiPrice = checked * differentBetweenDays;
+    const totalRoomPrice = room * differentBetweenDays;
+
+    const total = price + totalWifiPrice + totalRoomPrice;
+
     setTotal(total);
   }, [checked, price, room, range]);
 
@@ -122,19 +126,14 @@ const PlaneCard: React.FC<PlaneCardProps> = ({
     setRoom(Number(e.target.value));
   }, []);
 
-  const onChecked = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>, ser: any) => {
-      const differentBetweenDays =
-        moment(range[0].endDate).diff(moment(range[0].startDate), 'days') + 1;
-
-      if (e.target.checked) {
-        setChecked(differentBetweenDays * ser.value);
-      } else {
-        setChecked(0);
-      }
-    },
-    [range]
-  );
+  const onChecked = useCallback((e: React.ChangeEvent<HTMLInputElement>, ser: any) => {
+    const isChecked = e.target.checked;
+    if (isChecked) {
+      setChecked(ser.value);
+    } else {
+      setChecked(0);
+    }
+  }, []);
 
   return (
     <React.Fragment>
@@ -219,7 +218,7 @@ const PlaneCard: React.FC<PlaneCardProps> = ({
           </button>
         </Container>
       </div>
-      <Script src="https://checkout.razorpay.com/v1/checkout.js" />
+      {/* <Script src="https://checkout.razorpay.com/v1/checkout.js" /> */}
     </React.Fragment>
   );
 };
