@@ -28,6 +28,7 @@ model User {
   createAt DateTime @default(now())
   Feedback Feedback[]
   Subscription Subscription[]
+  TempSubscription TempSubscription[]
 }
 
 model Feedback{
@@ -92,4 +93,29 @@ model Vistiors{
  min String
  hour String
  createAt DateTime
+}
+
+model TempSubscription {
+  id            String      @id @default(uuid())
+  amount        Int
+  terms         Boolean
+  wifi          Boolean
+  startDate     Int
+  status String @default("created")
+  endDate       Int
+  duration      String
+  room          String
+  Addon         Addon[]
+  user_id       String
+  user          User        @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  createAt      DateTime    @default(now())
+}
+
+model Addon {
+  id              String          @id @default(uuid())
+  wifiPrice       Int
+  electricPrice   Int
+  tempSubBill_id  String?
+  tempSubscription TempSubscription? @relation(fields: [tempSubBill_id], references: [id], onDelete: Cascade)
+  createAt        DateTime        @default(now())
 }

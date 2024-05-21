@@ -43,3 +43,9 @@ export const fetchSubscription = async (item: Subscription) => {
 
   return null;
 };
+
+export const fetchQr = async (formData: object) => {
+  const response = await axios.post('/api/qrcode', formData);
+  const data = response.data;
+  return data;
+};

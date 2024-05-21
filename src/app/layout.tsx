@@ -6,8 +6,10 @@ import Navbar from '@/components/layout/nav/Navbar';
 import Footer from '@/components/layout/Footer';
 import QueryProvider from '@/components/provider/QueryProvider';
 import NextSessionProvider from '@/components/provider/SessionProvider';
-import { Toaster } from 'react-hot-toast';
 import QuickContactModal from '@/components/contact/QuickContactModal';
+import ToasterProvider from '@/components/provider/ToasterProvider';
+import TermsModal from '@/components/utils/TermsModal';
+import QrModal from '@/components/utils/QrModal';
 
 export const metadata: Metadata = {
   title: 'Anjana inn',
@@ -26,13 +28,16 @@ export default function RootLayout({
           attribute="class"
           defaultTheme="system"
           enableSystem
-          disableTransitionOnChange>
+          disableTransitionOnChange
+        >
           <NextSessionProvider>
+            <ToasterProvider />
             <QueryProvider>
-              <Toaster />
               <Navbar />
               <main className="flex-grow">{children}</main> <QuickContactModal />
               <Footer />
+              <TermsModal />
+              <QrModal />
             </QueryProvider>
           </NextSessionProvider>
         </ThemeProvider>

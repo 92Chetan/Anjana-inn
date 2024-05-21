@@ -6,9 +6,8 @@ import { useRouter } from 'next/navigation';
 import ProfileCard from './ProfileCard';
 import { SafeUser } from '@/types/types';
 import { useQuery } from '@tanstack/react-query';
-import { paymentHistoryDetails } from '@/lib/api/payment';
-import ProfileAddons from './ProfileAddons';
-
+import { tempHistoryDetails } from '@/lib/api/temp';
+import PayHistory from './PayHistory';
 interface ProfilePageProps {
   UserData: SafeUser | null | undefined;
 }
@@ -16,8 +15,8 @@ interface ProfilePageProps {
 const ProfilePage: React.FC<ProfilePageProps> = ({ UserData }) => {
   const route = useRouter();
   const { data: subData } = useQuery({
-    queryKey: ['payment'],
-    queryFn: paymentHistoryDetails,
+    queryKey: ['tmppayment'],
+    queryFn: tempHistoryDetails,
     refetchInterval: 30 * 1000
   });
 
@@ -29,14 +28,9 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ UserData }) => {
 
   return (
     <div className="w-full h-screen flex flex-col justify-center items-center gap-2 md:flex-row">
-      <div>
-        <ProfileAddons
-          electricityPrice={Number(subData?.[0].electricityPrice)}
-          wifiPrice={Number(subData?.[0].wifiPrice)}
-        />
-        <ProfileCard UserData={UserData} subStatus={subData?.[0].status} />
-      </div>
-      {/* <PayHistory subData={subData} /> */}
+      <ProfileCard UserData={UserData} subStatus={subData && subData?.[0]?.status} />
+
+      <PayHistory subData={subData} />
     </div>
   );
 };
