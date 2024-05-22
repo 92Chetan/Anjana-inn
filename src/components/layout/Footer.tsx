@@ -83,6 +83,10 @@ const Footer = () => {
                 </Link>
                 . All Rights Reserved.
               </span>
+              <div className="flex justify-center items-center gap-4">
+                <Image src="/images/make_in.png" width={50} height={50} alt="png" />{' '}
+                <Image src="/images/make_in1.png" width={50} height={50} alt="png" />
+              </div>
             </div>
           </div>
         </footer>

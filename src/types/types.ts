@@ -52,3 +52,27 @@ export type serviceType = {
 export type timeline = 'daily' | 'monthly' | 'quarterly' | 'annual' | 'custom';
 
 export type roomType = { title: string; price: number };
+
+export type SubscriptionBill = {
+  id: string;
+  amount: number;
+  terms: boolean;
+  wifi: boolean;
+  startDate: number;
+  status: string;
+  endDate: number;
+  duration: string;
+  room: string;
+  wifiBillTaken: boolean;
+  Addon: Addon[];
+  user_id: string;
+};
+
+export type Addon = {
+  id: string;
+  wifiPrice: number;
+  electricPrice: number;
+  tempSubBill_id?: string;
+  billTaken: boolean;
+  active: boolean;
+};

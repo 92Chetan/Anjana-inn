@@ -10,14 +10,17 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 
-import data from '../../../data.json';
-import { ReviewType } from '@/types/types';
 import Container from '../utils/Container';
 import { truncateText } from '@/lib/truncateText';
 import Heading from '../utils/Heading';
+import { useQuery } from '@tanstack/react-query';
+import { getFeed } from '@/lib/api/fetchFeedback';
+import toast from 'react-hot-toast';
+import { Feedback } from '@prisma/client';
 
 const Review = () => {
   const [screenSize, setScreenSize] = useState<number>(2);
+  const { data, error, isError } = useQuery({ queryKey: ['feedback'], queryFn: getFeed });
 
   useEffect(() => {
     function handleResize() {
@@ -35,6 +38,12 @@ const Review = () => {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
+  useEffect(() => {
+    if (isError) {
+      toast.error(error?.message);
+    }
+  }, [error?.message, isError]);
+
   return (
     <div
       className="w-full h-[80vh] flex flex-col justify-center items-center gap-16"
@@ -51,36 +60,37 @@ const Review = () => {
         modules={[Autoplay]}
         className="w-full transition-all ease-in-out duration-75"
       >
-        {data.map((item: ReviewType, index: number) => (
-          <SwiperSlide key={index}>
-            <Container className="w-full h-full flex justify-center items-center">
-              <div className="dark:bg-zinc-900 bg-zinc-200 w-full md:h-[200px] h-[250px] rounded-xl">
-                <Container className="py-4">
-                  <div className="flex gap-3 items-center">
-                    <Image
-                      src={item.author_image}
-                      alt={item.author_title}
-                      priority
-                      fetchPriority="high"
-                      quality={100}
-                      unoptimized
-                      width={10}
-                      height={10}
-                      className="w-10 h-10 rounded-full"
-                    />
-                    <div>
-                      <h4>{item.author_title}</h4>
-                      <Rating readOnly value={item.review_rating} />
+        {data &&
+          data.map((item: Feedback, index: number) => (
+            <SwiperSlide key={index}>
+              <Container className="w-full h-full flex justify-center items-center">
+                <div className="dark:bg-zinc-900 bg-zinc-200 w-full md:h-[200px] h-[250px] rounded-xl">
+                  <Container className="py-4">
+                    <div className="flex gap-3 items-center">
+                      <Image
+                        src={item.author_image}
+                        alt={item.author_title}
+                        priority
+                        fetchPriority="high"
+                        quality={100}
+                        unoptimized
+                        width={10}
+                        height={10}
+                        className="w-10 h-10 rounded-full"
+                      />
+                      <div>
+                        <h4>{item.author_title}</h4>
+                        <Rating readOnly value={Number(item.rating)} />
+                      </div>
                     </div>
-                  </div>
-                  <div>
-                    <p className=" pt-4">{truncateText(item.review_text as string)}</p>
-                  </div>
-                </Container>
-              </div>
-            </Container>
-          </SwiperSlide>
-        ))}
+                    <div>
+                      <p className=" pt-4">{truncateText(item.message as string)}</p>
+                    </div>
+                  </Container>
+                </div>
+              </Container>
+            </SwiperSlide>
+          ))}
       </Swiper>
     </div>
   );

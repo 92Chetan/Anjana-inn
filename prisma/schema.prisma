@@ -26,7 +26,7 @@ model User {
   avatar String
   role String @default("user")
   createAt DateTime @default(now())
-  Feedback Feedback[]
+
   Subscription Subscription[]
   TempSubscription TempSubscription[]
 }
@@ -35,9 +35,9 @@ model Feedback{
   id String @id @default(uuid())
   rating String
   message String
-  auther_id String
-  user User @relation(fields: [auther_id] ,references: [id],onDelete: Cascade)
-   createAt DateTime @default(now())
+  author_image String
+ author_title String
+ createAt DateTime @default(now())
 }
 
 model ContactUs{
@@ -105,6 +105,7 @@ model TempSubscription {
   endDate       Int
   duration      String
   room          String
+  wifiBillTaken Boolean @default(false)
   Addon         Addon[]
   user_id       String
   user          User        @relation(fields: [user_id], references: [id], onDelete: Cascade)
@@ -116,6 +117,14 @@ model Addon {
   wifiPrice       Int
   electricPrice   Int
   tempSubBill_id  String?
+  billTaken Boolean @default(false)
   tempSubscription TempSubscription? @relation(fields: [tempSubBill_id], references: [id], onDelete: Cascade)
   createAt        DateTime        @default(now())
+}
+
+model CheckRoomAvbalive{
+  id   String          @id @default(uuid())
+  roomType String
+  onstock String
+roomLable String
 }

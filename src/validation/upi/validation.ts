@@ -8,5 +8,6 @@ export const upiSchema = z.object({
   endDate: z.number(),
   duration: z.string(),
   room: z.string(),
-  user_id: z.string()
+  user_id: z.string(),
+  wifiBillTaken: z.boolean().optional()
 });

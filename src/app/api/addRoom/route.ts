@@ -1,10 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-import { formatZodError } from '@/lib/zodError';
-import { feedbackSchema } from '@/validation/feedback/feedbackShema';
 import { db } from '@/lib/db';
+import { formatZodError } from '@/lib/zodError';
 import { getCurrentUser } from '@/action/getCurrentUser';
-import { currentDate } from '@/lib/utils';
+import { RoomSchema } from '@/validation/room/validation';
 
 export async function POST(req: NextRequest) {
   try {
@@ -13,26 +12,34 @@ export async function POST(req: NextRequest) {
     if (!currentUser) {
       return NextResponse.json({ message: 'Please login' }, { status: 401 });
     }
-    const body = await req.json();
-    const { error, data } = feedbackSchema.safeParse(body);
 
+    const body = await req.json();
+    const { error, data } = RoomSchema.safeParse(body);
     if (error) {
       return NextResponse.json(
         { message: 'Invalid request', error: formatZodError(error) },
         { status: 400 }
       );
     }
-    // TODO: add session id
-    await db.feedback.create({
-      data: {
-        message: data.message,
-        rating: data.rating,
-        author_image: currentUser?.avatar,
-        author_title: currentUser?.name,
-        createAt: currentDate.toDate()
+
+    const user = await db.user.findFirst({
+      where: {
+        id: currentUser?.id
       }
     });
-    return NextResponse.json({ message: 'you feedback successfully submit thank you 😊' });
+
+    if (user?.role !== 'admin') {
+      return NextResponse.json({ message: 'invalid credential' }, { status: 401 });
+    }
+
+    await db.checkRoomAvbalive.create({
+      data: {
+        onstock: data.onstock,
+        roomType: data.roomType,
+        roomLable: data.roomLable
+      }
+    });
+    return NextResponse.json({ message: 'room created' }, { status: 201 });
   } catch (error) {
     console.log(error);
     return NextResponse.json({ message: 'Internal server issue' }, { status: 500 });

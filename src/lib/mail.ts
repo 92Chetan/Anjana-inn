@@ -6,10 +6,14 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 type Mail = {
   email: string;
   subject: string;
-  name: string;
+  name?: string;
   hashCode?: string;
   authCode?: string;
   id?: string;
+  amount?: number;
+  sub_id?: string;
+  user_id?: string;
+  addon_id?: string;
 };
 
 export const mailSender = async ({
@@ -18,9 +22,22 @@ export const mailSender = async ({
   name,
   authCode,
   hashCode,
-  id
+  id,
+  amount,
+  sub_id,
+  user_id,
+  addon_id
 }: Mail): Promise<any> => {
-  const emailContent = EmailTemplate({ firstName: name, authCode, hashCode, id });
+  const emailContent = EmailTemplate({
+    firstName: name,
+    authCode,
+    hashCode,
+    id,
+    amount,
+    sub_id,
+    user_id,
+    addon_id
+  });
 
   const data = await resend.emails.send({
     from: 'anjanainn@info.anjanainn.com',
