@@ -9,7 +9,6 @@ import { getCurrentUser } from '@/action/getCurrentUser';
 
 const Profile = async () => {
   const user = await getCurrentUser();
-
   return (
     <Container className="px-3 md:px-8 flex justify-center items-center my-10 h-full w-full">
       <Suspense fallback={<div>Loading..</div>}>

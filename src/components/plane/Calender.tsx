@@ -36,7 +36,7 @@ const Calender: React.FC<CalenderProps> = ({ onChange, value, disabledDates }) =
     }
   };
   return (
-    <div className="inline-block relative">
+    <div className="inline-block">
       <Input
         value={`${format(value[0].startDate!, 'MM/dd/yyyy')} to ${format(value[0].endDate!, 'MM/dd/yyyy')}`}
         readOnly

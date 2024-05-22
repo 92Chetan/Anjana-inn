@@ -4,7 +4,7 @@ import mime from 'mime';
 
 export const UploadImage = async (image: File) => {
   const buffer = Buffer.from(await image.arrayBuffer());
-  const relativeUploadDir = `/uploads/avatar/${new Date(Date.now()).toLocaleDateString('id-ID', { day: '2-digit', month: '2-digit', year: 'numeric' }).replace(/\//g, '-')}`;
+  const relativeUploadDir = '/uploads';
   const uploadDir = join(process.cwd(), 'public', relativeUploadDir);
 
   try {

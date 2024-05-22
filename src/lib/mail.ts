@@ -23,7 +23,7 @@ export const mailSender = async ({
   const emailContent = EmailTemplate({ firstName: name, authCode, hashCode, id });
 
   const data = await resend.emails.send({
-    from: 'anjanainn@anjanainn.com',
+    from: 'anjanainn@info.anjanainn.com',
     to: [email],
     subject,
     react: emailContent,
