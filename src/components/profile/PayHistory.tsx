@@ -1,8 +1,8 @@
-import { TempSubscription } from '@prisma/client';
+import { SubscriptionBill } from '@/types/types';
 import moment from 'moment';
 
 interface PayHistoryProps {
-  subData: TempSubscription[] | null | undefined;
+  subData: SubscriptionBill[] | null | undefined;
 }
 
 const PayHistory: React.FC<PayHistoryProps> = ({ subData }) => {
@@ -57,7 +57,7 @@ const PayHistory: React.FC<PayHistoryProps> = ({ subData }) => {
                             </h1>
                             <div className="flex justify-center items-center leading-none gap-1">
                               <p className="leading-none">
-                                {moment.unix(sub.endDate).format('MMM')}
+                                {moment.unix(sub.startDate).format('MMM')}
                               </p>
                               <p className="leading-none">
                                 {moment.unix(sub.startDate).format('YYYY')}

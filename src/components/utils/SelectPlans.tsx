@@ -26,6 +26,8 @@ import { Range } from 'react-date-range';
 import moment from 'moment';
 import toast from 'react-hot-toast';
 import { useTermsModal } from '@/hooks/useTerms';
+import { useQuery } from '@tanstack/react-query';
+import { fetchRoom } from '@/lib/api/room';
 
 export type qrData = {
   duration: string;
@@ -35,6 +37,7 @@ export type qrData = {
   price: number;
   wifi: boolean;
   user_id: string | undefined;
+  wifiBillTaken: boolean;
 };
 
 interface selectFormProps {
@@ -62,10 +65,17 @@ export function SelectForm({ user_id }: selectFormProps) {
   const [startDate, setStartDate] = useState<number>();
   const [endDate, setEndDate] = useState<number>();
   const [wifi, setWifi] = useState<boolean>(false);
+  const [wifiBillTaken, setWifiBillTaken] = useState<boolean>(false);
   const { onOpen, setData } = useTermsModal();
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema)
+  });
+
+  const { data, error, isError } = useQuery({
+    queryKey: ['rooms'],
+    queryFn: fetchRoom,
+    refetchInterval: 60 * 1000
   });
 
   const durationRef = form.register('duration');
@@ -73,15 +83,16 @@ export function SelectForm({ user_id }: selectFormProps) {
   const roomRef = form.register('room');
   const RoomWatch = form.watch('room');
 
-  const currentDate = moment().unix();
-  const oneDayLater = moment().add(1, 'day').unix();
-  const oneYearLater = moment().add(1, 'year').unix();
+  const currentDate = moment().startOf('day').unix();
+  const oneDayLater = moment().add(1, 'day').startOf('day').unix();
+  const oneYearLater = moment().add(1, 'year').startOf('day').unix();
   const oneMonthLater = moment().add(1, 'month').startOf('day').unix();
-  const ThreeMonthLater = moment().add(3, 'months').unix();
+  const threeMonthsLater = moment().add(3, 'months').startOf('day').unix();
 
   useEffect(() => {
     if (DurationWatch === 'custom') {
       setWifi(false);
+      setWifiBillTaken(false);
     }
   }, [DurationWatch]);
 
@@ -89,13 +100,14 @@ export function SelectForm({ user_id }: selectFormProps) {
     switch (true) {
       case DurationWatch === 'daily' && RoomWatch === 'double':
         setPrice(200);
-        console.log(currentDate);
+        setWifiBillTaken(false);
         setStartDate(currentDate);
         setEndDate(oneDayLater);
         setWifi(true);
         break;
       case DurationWatch === 'daily' && RoomWatch === 'triple':
         setPrice(200);
+        setWifiBillTaken(false);
         setStartDate(currentDate);
         setEndDate(oneDayLater);
         setWifi(true);
@@ -103,59 +115,69 @@ export function SelectForm({ user_id }: selectFormProps) {
       case DurationWatch === 'monthly' && RoomWatch === 'single':
         setPrice(1500);
         setStartDate(currentDate);
-        console.log(oneMonthLater);
         setEndDate(oneMonthLater);
         setWifi(true);
+
+        setWifiBillTaken(false);
         break;
       case DurationWatch === 'monthly' && RoomWatch === 'double':
         setPrice(2000);
+        setWifiBillTaken(false);
         setStartDate(currentDate);
         setEndDate(oneMonthLater);
         setWifi(true);
         break;
       case DurationWatch === 'monthly' && RoomWatch === 'triple':
         setPrice(2000);
+        setWifiBillTaken(false);
         setStartDate(currentDate);
         setEndDate(oneMonthLater);
         setWifi(true);
         break;
       case DurationWatch === 'quarterly' && RoomWatch === 'single':
         setPrice(3750);
+        setWifiBillTaken(false);
         setStartDate(currentDate);
-        setEndDate(ThreeMonthLater);
+        setEndDate(threeMonthsLater);
         setWifi(true);
         break;
       case DurationWatch === 'quarterly' && RoomWatch === 'double':
         setPrice(5000);
+        setWifiBillTaken(false);
         setStartDate(currentDate);
-        setEndDate(ThreeMonthLater);
+        setEndDate(threeMonthsLater);
         setWifi(true);
         break;
       case DurationWatch === 'quarterly' && RoomWatch === 'triple':
         setPrice(5000);
+        setWifiBillTaken(false);
         setStartDate(currentDate);
-        setEndDate(ThreeMonthLater);
+        setEndDate(threeMonthsLater);
         setWifi(true);
         break;
       case DurationWatch === 'yearly' && RoomWatch === 'single':
         setPrice(16500);
+        setWifiBillTaken(false);
         setStartDate(currentDate);
         setEndDate(oneYearLater);
         setWifi(true);
         break;
       case DurationWatch === 'yearly' && RoomWatch === 'double':
         setPrice(22000);
+        setWifiBillTaken(false);
         setStartDate(currentDate);
         setEndDate(oneYearLater);
         setWifi(true);
         break;
       case DurationWatch === 'yearly' && RoomWatch === 'double':
+        setWifiBillTaken(false);
         setPrice(22000);
         setStartDate(currentDate);
         setEndDate(oneYearLater);
         setWifi(true);
         break;
       case DurationWatch === 'custom' && RoomWatch === 'double':
+        setWifiBillTaken(true);
         setStartDate(moment(range[0].startDate).unix());
         setEndDate(moment(range[0].endDate).unix());
         const differentBetweenDays =
@@ -170,6 +192,7 @@ export function SelectForm({ user_id }: selectFormProps) {
         }
         break;
       case DurationWatch === 'custom' && RoomWatch === 'triple':
+        setWifiBillTaken(true);
         setStartDate(moment(range[0].startDate).unix());
         setEndDate(moment(range[0].endDate).unix());
         const differentTBetweenDays =
@@ -190,7 +213,7 @@ export function SelectForm({ user_id }: selectFormProps) {
   }, [
     DurationWatch,
     RoomWatch,
-    ThreeMonthLater,
+    threeMonthsLater,
     currentDate,
     oneDayLater,
     oneMonthLater,
@@ -213,13 +236,19 @@ export function SelectForm({ user_id }: selectFormProps) {
         startDate: startDate,
         price: price,
         wifi: wifi,
-        user_id
+        user_id,
+        wifiBillTaken
       };
       setData(formData);
       onOpen();
     }
   }
 
+  useEffect(() => {
+    if (isError) {
+      toast.error(error.message);
+    }
+  });
   return (
     <React.Fragment>
       <Form {...form}>
@@ -264,11 +293,33 @@ export function SelectForm({ user_id }: selectFormProps) {
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent {...roomRef}>
-                    {DurationWatch !== 'daily' && DurationWatch !== 'custom' && (
-                      <SelectItem value="single">Single occupancy</SelectItem>
+                    {data &&
+                      data.map((rm) =>
+                        rm.roomType === 'single'
+                          ? rm.onstock === 'stock' &&
+                            DurationWatch !== 'daily' &&
+                            DurationWatch !== 'custom' && (
+                              <SelectItem value={rm.roomType} key={rm.id}>
+                                {rm.roomLable}
+                              </SelectItem>
+                            )
+                          : rm.onstock === 'stock' && (
+                              <SelectItem value={rm.roomType}>{rm.roomLable}</SelectItem>
+                            )
+                      )}
+                    {/* {data &&
+                      DurationWatch !== 'daily' &&
+                      DurationWatch !== 'custom' &&
+                      data[0].roomType === 'single' &&
+                      data[0].onstock === 'stock' && (
+                        <SelectItem value="single">Single occupancy</SelectItem>
+                      )}
+                    {data && data[1].roomType === 'double' && data[0].onstock === 'stock' && (
+                      <SelectItem value="double">Double occupancy</SelectItem>
                     )}
-                    <SelectItem value="double">Double occupancy</SelectItem>
-                    <SelectItem value="triple">Triple occupancy</SelectItem>
+                    {data && data[2].roomType === 'triple' && data[0].onstock === 'stock' && (
+                      <SelectItem value="triple">Triple occupancy</SelectItem>
+                    )} */}
                   </SelectContent>
                 </Select>
                 <FormMessage />

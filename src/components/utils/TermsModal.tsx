@@ -1,5 +1,4 @@
 'use client';
-
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Dialog, DialogContent, DialogHeader } from '../ui/dialog';
 import { DialogDescription, DialogTitle } from '@radix-ui/react-dialog';
@@ -11,13 +10,15 @@ import { useTermsModal } from '@/hooks/useTerms';
 import { useSelectModal } from '@/hooks/useSelectModal';
 import { useQrModal } from '@/hooks/useQrModal';
 
+type QRCodeType = any;
 const TermsModal = () => {
   const [accept, setAccept] = useState<boolean>(false);
-  const canvasEl = useRef<HTMLCanvasElement>(null);
+  const canvasRef = useRef<HTMLCanvasElement>(null); // Changed qrCode to canvasRef
 
   const { isOpen, onClose, data: termsdata } = useTermsModal();
   const { onClose: CloseSelect } = useSelectModal();
   const { onOpen, setData } = useQrModal();
+  const [qrCode, setQrCode] = useState<QRCodeType | undefined>(undefined);
 
   const { isSuccess, mutate, data } = useMutation({
     mutationFn: fetchQr,
@@ -34,13 +35,14 @@ const TermsModal = () => {
   };
 
   const paintQR = useCallback(async () => {
-    if (canvasEl.current && isSuccess) {
-      const canvasContext = canvasEl.current.getContext('2d');
+    if (canvasRef.current && isSuccess) {
+      // Changed qrCode to canvasRef
+      const canvasContext = canvasRef.current.getContext('2d'); // Changed qrCode to canvasRef
       if (canvasContext) {
-        await loadCanvas(data as string, canvasContext);
+        await loadCanvas(qrCode as string, canvasContext);
       }
     }
-  }, [isSuccess, data]);
+  }, [isSuccess, qrCode]);
 
   useEffect(() => {
     paintQR();
@@ -49,41 +51,56 @@ const TermsModal = () => {
   const handlePay = useCallback(() => {
     if (accept && termsdata) {
       mutate({ ...termsdata, terms: accept });
+      setAccept(false);
     } else {
       toast.error('Please accept terms and condition');
     }
   }, [accept, mutate, termsdata]);
 
   useEffect(() => {
-    if (isSuccess && canvasEl) {
+    if (isSuccess) {
       CloseSelect();
-      setData(canvasEl);
-      onOpen();
-      onClose();
+      setQrCode(data);
     }
-  }, [CloseSelect, isSuccess, onClose, onOpen, setData]);
+  }, [CloseSelect, isSuccess, onClose, onOpen, setData, data]);
+
+  const hadleClose = () => {
+    setQrCode(undefined);
+    onClose();
+  };
 
   return (
-    <Dialog onOpenChange={onClose} modal open={isOpen}>
+    <Dialog onOpenChange={hadleClose} modal open={isOpen}>
       <DialogContent className="sm:max-w-[425px] w-full flex justify-center items-center flex-col overflow-scroll">
         <DialogHeader>
-          <DialogTitle>Qr code</DialogTitle> : <DialogTitle>Terms & Condition</DialogTitle>
-          <DialogDescription>
-            Only wifi bill is included in the custom plan. We charge wifi and electric bills at the
-            end of the month. After payment, we will provide a payment receipt, which will be
-            verified by the admin upon receiving the payment amount.
-          </DialogDescription>
+          {qrCode ? (
+            <DialogTitle>Qr code</DialogTitle>
+          ) : (
+            <DialogTitle>Terms & Condition</DialogTitle>
+          )}
+          {!qrCode ? (
+            <DialogDescription>
+              Only wifi bill is included in the custom plan. We charge wifi and electric bills at
+              the end of the month. After payment, we will provide a payment receipt, which will be
+              verified by the admin upon receiving the payment amount.
+            </DialogDescription>
+          ) : (
+            <canvas ref={canvasRef} id="qrCanvas" width="300" height="300" /> // Changed qrCode to canvasRef
+          )}
         </DialogHeader>
+        {!qrCode && (
+          <>
+            <input
+              type="checkbox"
+              checked={accept}
+              onChange={(e) => setAccept(e.target.checked)}
+              className="inline-block"
+            />
+            <span>Accept terms & conditions</span>
+          </>
+        )}
 
-        <input
-          type="checkbox"
-          checked={accept}
-          onChange={(e) => setAccept(e.target.checked)}
-          className="inline-block"
-        />
-        <span>Accept terms & conditions</span>
-
-        <Button onClick={handlePay}>Scan QR code</Button>
+        {!qrCode && <Button onClick={handlePay}>Scan QR code</Button>}
       </DialogContent>
     </Dialog>
   );

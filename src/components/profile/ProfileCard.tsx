@@ -1,18 +1,21 @@
 import { User } from '@prisma/client';
 import Image from 'next/image';
 import Feedbackmodal from '../feedback/Feedbackmodal';
-import ProfileAddons from './ProfileAddons';
 import { Button } from '../ui/button';
 import { useSelectModal } from '@/hooks/useSelectModal';
 import React from 'react';
 import QrCode from './QrCode';
+import { Addon } from '@/types/types';
+import ProfileAddons from './ProfileAddons';
 
 interface ProfileCardProps {
   UserData: User | null | undefined;
   subStatus: string | undefined | null;
+  addons: Addon | undefined | null;
+  wifiTaken: Boolean | undefined | null;
 }
 
-const ProfileCard: React.FC<ProfileCardProps> = ({ UserData, subStatus }) => {
+const ProfileCard: React.FC<ProfileCardProps> = ({ UserData, subStatus, addons, wifiTaken }) => {
   const { onOpen } = useSelectModal();
   return (
     <React.Fragment>
@@ -47,12 +50,19 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ UserData, subStatus }) => {
               </p>
             </div>
           </div>
-          <div className=" w-full flex justify-between items-center px-4">
+          <div className=" w-full flex justify-center gap-[2px] items-center px-4 flex-wrap">
             <Feedbackmodal />
-            <Button onClick={onOpen}>Book now</Button>
+            {subStatus !== 'active' && <Button onClick={onOpen}>Book now</Button>}
           </div>
         </div>
-        <ProfileAddons electricityPrice={3} wifiPrice={4} />
+        {addons && !addons.active && (
+          <ProfileAddons
+            electricityPrice={addons.electricPrice}
+            wifiPrice={addons.wifiPrice}
+            id={addons.id}
+            wifiTaken={wifiTaken}
+          />
+        )}
       </div>
       <QrCode user_id={UserData?.id} />
     </React.Fragment>

@@ -1,16 +1,21 @@
 import { db } from '@/lib/db';
 import { formatZodError } from '@/lib/zodError';
-import { upiSchema } from '@/validation/upi/validation';
 import { NextRequest, NextResponse } from 'next/server';
 import { mailSender } from '@/lib/mail';
 import { genQr } from '@/lib/utils';
+import { Addon } from '@/validation/Addon';
+import { getCurrentUser } from '@/action/getCurrentUser';
 
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
     const reqHeader = req.headers;
 
-    const { data, error } = upiSchema.safeParse(body);
+    const user = await getCurrentUser();
+    if (!user) {
+      return NextResponse.json({ message: 'Please login' }, { status: 401 });
+    }
+    const { data, error } = Addon.safeParse(body);
     if (error) {
       console.log(error);
       return NextResponse.json(
@@ -21,37 +26,25 @@ export async function POST(req: NextRequest) {
 
     const qrCode = await genQr(data.price);
 
-    const response = await db.tempSubscription.create({
-      data: {
-        amount: data.price,
-        duration: data.duration,
-        endDate: data.endDate,
-        room: data.room,
-        startDate: data.startDate,
-        terms: data.terms,
-        wifi: data.wifi,
-        wifiBillTaken: data.wifiBillTaken,
-        user_id: data.user_id
-      }
+    const response = await db.addon.update({
+      where: { id: data.id },
+      data: { billTaken: true }
     });
 
-    const user = await db.user.findUnique({
-      where: { id: data.user_id }
-    });
     if (user && response) {
       await mailSender({
         email: user?.email,
-        subject: 'subscription recept',
+        subject: 'bill recept',
         name: user?.name,
-        amount: response.amount,
-        sub_id: response.id
+        amount: data.price,
+        addon_id: data.id
       });
       await mailSender({
         email: 'kingsuk055@gmail.com',
-        subject: 'subscription recept - some one subscribe your service',
+        subject: 'bill recept - some one pah her bill',
 
-        amount: response.amount,
-        sub_id: response.id,
+        amount: data.price,
+        addon_id: data.id,
         user_id: user.id
       });
     }

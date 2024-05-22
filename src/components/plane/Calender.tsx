@@ -51,6 +51,7 @@ const Calender: React.FC<CalenderProps> = ({ onChange, value, disabledDates }) =
             moveRangeOnFirstSelection={false}
             ranges={value}
             months={1}
+            minDate={new Date()}
             direction="horizontal"
             className="absolute left-[50%] translate-x-[-50%] top-[40px] border-1 z-[999] "
             disabledDates={disabledDates}

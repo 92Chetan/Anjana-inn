@@ -13,21 +13,7 @@ export async function GET() {
       return NextResponse.json({ message: 'Please login' }, { status: 401 });
     }
 
-    const response = await db.tempSubscription.findMany({
-      where: {
-        user_id: currentUser?.id
-      },
-      include: {
-        Addon: {
-          orderBy: {
-            createAt: 'desc'
-          }
-        }
-      },
-      orderBy: {
-        createAt: 'desc'
-      }
-    });
+    const response = await db.checkRoomAvbalive.findMany();
 
     return NextResponse.json(response, { status: 200 });
   } catch (error) {

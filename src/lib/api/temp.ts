@@ -1,7 +1,7 @@
-import { TempSubscription } from '@prisma/client';
+import { SubscriptionBill } from '@/types/types';
 import axios from 'axios';
 
-export const tempHistoryDetails = async (): Promise<TempSubscription[] | null> => {
+export const tempHistoryDetails = async (): Promise<SubscriptionBill[] | null> => {
   try {
     const response = await axios.get('/api/temp');
     return response.data;
