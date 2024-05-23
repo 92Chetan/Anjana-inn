@@ -5,7 +5,7 @@ import mime from 'mime';
 export const UploadImage = async (image: File) => {
   const buffer = Buffer.from(await image.arrayBuffer());
   const relativeUploadDir = '/uploads';
-  const uploadDir = join(process.cwd(), 'public', relativeUploadDir);
+  const uploadDir = join(process.cwd(), '/', relativeUploadDir);
 
   try {
     await stat(uploadDir);
