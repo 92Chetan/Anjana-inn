@@ -4,6 +4,7 @@ import bcrypt from 'bcryptjs';
 import { mailSender } from '@/lib/mail';
 import { UploadImage } from '@/lib/ImageUpload';
 import { currentDate } from '@/lib/utils';
+import { randomInt } from 'crypto';
 
 export async function POST(req: NextRequest) {
   try {
@@ -35,12 +36,12 @@ export async function POST(req: NextRequest) {
 
     const image = await UploadImage(avatar);
 
+    console.log(image);
     if (!image) {
       return NextResponse.json({ message: 'Internal server issue' }, { status: 500 });
     }
-
-    const authCode = Math.floor(100000 + Math.random() * 900000).toString();
-
+    const authCode = randomInt(100000, 1000000).toString();
+    console.log(authCode);
     if (!authCode) {
       return NextResponse.json({ message: 'Internal server issue' }, { status: 500 });
     }
