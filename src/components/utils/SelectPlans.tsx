@@ -28,6 +28,7 @@ import toast from 'react-hot-toast';
 import { useTermsModal } from '@/hooks/useTerms';
 import { useQuery } from '@tanstack/react-query';
 import { fetchRoom } from '@/lib/api/room';
+import Loader from './Loader';
 
 export type qrData = {
   duration: string;
@@ -72,7 +73,7 @@ export function SelectForm({ user_id }: selectFormProps) {
     resolver: zodResolver(FormSchema)
   });
 
-  const { data, error, isError } = useQuery({
+  const { data, error, isError, isPending } = useQuery({
     queryKey: ['rooms'],
     queryFn: fetchRoom,
     refetchInterval: 60 * 1000
@@ -293,7 +294,10 @@ export function SelectForm({ user_id }: selectFormProps) {
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent {...roomRef}>
-                    {data &&
+                    {isPending ? (
+                      <Loader />
+                    ) : (
+                      data &&
                       data.map((rm) =>
                         rm.roomType === 'single'
                           ? rm.onstock === 'stock' &&
@@ -306,20 +310,8 @@ export function SelectForm({ user_id }: selectFormProps) {
                           : rm.onstock === 'stock' && (
                               <SelectItem value={rm.roomType}>{rm.roomLable}</SelectItem>
                             )
-                      )}
-                    {/* {data &&
-                      DurationWatch !== 'daily' &&
-                      DurationWatch !== 'custom' &&
-                      data[0].roomType === 'single' &&
-                      data[0].onstock === 'stock' && (
-                        <SelectItem value="single">Single occupancy</SelectItem>
-                      )}
-                    {data && data[1].roomType === 'double' && data[0].onstock === 'stock' && (
-                      <SelectItem value="double">Double occupancy</SelectItem>
+                      )
                     )}
-                    {data && data[2].roomType === 'triple' && data[0].onstock === 'stock' && (
-                      <SelectItem value="triple">Triple occupancy</SelectItem>
-                    )} */}
                   </SelectContent>
                 </Select>
                 <FormMessage />

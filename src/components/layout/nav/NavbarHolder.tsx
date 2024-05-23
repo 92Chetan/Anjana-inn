@@ -81,9 +81,9 @@ const NavbarHolder: React.FC<NavbarHolderProps> = ({ userData }) => {
                 >
                   Contact us
                 </ReactLink>
-                <Link href="/gallery" className="dark:hover:text-gray-400 hover:text-gray-600">
+                {/* <Link href="/gallery" className="dark:hover:text-gray-400 hover:text-gray-600">
                   Gallery
-                </Link>
+                </Link> */}
               </div>
             </div>
             <div className=" flex justify-center items-center gap-2">

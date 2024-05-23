@@ -20,6 +20,8 @@ import { Input } from '../ui/input';
 import { Button } from '../ui/button';
 import { loginSchema } from '@/validation/auth/authSchema';
 import { SafeUser } from '@/types/types';
+import toast from 'react-hot-toast';
+import Loader from '../utils/Loader';
 
 interface LoginFromProps {
   currentUser: SafeUser | null;
@@ -46,7 +48,7 @@ const LoginFrom: React.FC<LoginFromProps> = ({ currentUser }) => {
       if (callback?.ok) {
         route.push(redirect);
         route.refresh();
-        //TODO: add toast here
+        toast.success('Login successfully');
       }
       if (callback?.error) {
         console.log(callback.error);
@@ -64,7 +66,8 @@ const LoginFrom: React.FC<LoginFromProps> = ({ currentUser }) => {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="space-y-8 border-[1px] max-w-[400px] rounded-lg w-full min-h-[400px] flex justify-center items-center flex-col">
+        className="space-y-8 border-[1px] max-w-[400px] rounded-lg w-full min-h-[400px] flex justify-center items-center flex-col"
+      >
         <h2 className="text-3xl font-semibold uppercase">Welcome back</h2>
         <FormField
           control={form.control}
@@ -93,7 +96,7 @@ const LoginFrom: React.FC<LoginFromProps> = ({ currentUser }) => {
           )}
         />
         <Button type="submit" className="min-w-[80%] font-bold text-md">
-          {loading ? 'loading...' : 'Submit'}
+          {loading ? <Loader /> : 'Submit'}
         </Button>
         <FormDescription className="text-md font-bold">
           Create an account

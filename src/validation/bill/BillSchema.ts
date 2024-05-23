@@ -17,6 +17,7 @@ export const billSchema = z.object({
       { required_error: 'Please provide roomType' }
     )
     .optional(),
+  originalPrice: z.number().optional(),
   service: z.array(
     z.object({
       title: z.string({

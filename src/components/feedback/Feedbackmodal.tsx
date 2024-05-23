@@ -23,6 +23,7 @@ import { Label } from '../ui/label';
 import { Input } from '../ui/input';
 import { feedback } from '@/lib/api/feedback';
 import { disableNavWithFooter } from '../utils/disableNavWithFooter';
+import Loader from '../utils/Loader';
 
 const Feedbackmodal = () => {
   const path = usePathname();
@@ -113,7 +114,7 @@ const Feedbackmodal = () => {
                 />
                 {errors && <p className="text-rose-700">{errors.message?.message}</p>}
               </div>
-              <Button type="submit">{isPending ? 'loading...' : 'Leave feedback'}</Button>
+              <Button type="submit">{isPending ? <Loader /> : 'Leave feedback'}</Button>
             </form>
           </DialogContent>
         </Dialog>

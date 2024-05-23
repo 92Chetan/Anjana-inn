@@ -67,18 +67,12 @@ model Subscription{
   createAt DateTime @default(now())
 }
 
-enum timeline_type {
-    daily 
-    monthly
-     quarterly 
-     annual
-     custom
-}
 
 model Bill{
   id String @id @default(uuid())
   price Int
-  timeline timeline_type
+  timeline String
+  originalPrice Int?
   typeofRoom String?
   entity String
   roomType Json?

@@ -11,9 +11,10 @@ import moment from 'moment';
 import Container from '../utils/Container';
 // import { makePayment } from '@/lib/razpayIntialize';
 import { SafeUser, roomType, serviceType, timeline } from '@/types/types';
+import Loading from '@/app/loading';
 
 const Calender = dynamic(() => import('./Calender'), {
-  loading: () => <p>Loading...</p>
+  loading: () => <Loading />
 });
 
 interface PlaneCardProps {
@@ -21,6 +22,7 @@ interface PlaneCardProps {
   service: serviceType[];
   price: number;
   timeline: timeline;
+  originalPrice?: number | null;
   roomType?: roomType[];
   id: string;
   entity: 'order' | 'subscription';
@@ -49,9 +51,10 @@ const PlaneCard: React.FC<PlaneCardProps> = ({
   title,
   timeline,
   // id,
-  roomType
+  roomType,
   // entity,
-  // userData
+  // userData,
+  originalPrice
 }) => {
   const [checked, setChecked] = useState<number>(0);
   const [room, setRoom] = useState<number>(0);
@@ -192,6 +195,12 @@ const PlaneCard: React.FC<PlaneCardProps> = ({
           ) : (
             <div className={`${Ro.className} flex justify-center my-4 flex-col`}>
               <p>Start at</p>
+              {originalPrice && (
+                <div className="flex line-through text-gray-600">
+                  <span className="text-[10px]">&#8377;</span>
+                  <h1 className="text-xl">{originalPrice}</h1>
+                </div>
+              )}
               <div className="flex">
                 <span className="text-[12px]">&#8377;</span>
                 <h1 className="text-2xl">{price}</h1>
