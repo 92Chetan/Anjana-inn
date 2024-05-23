@@ -9,6 +9,7 @@ import { useMutation } from '@tanstack/react-query';
 import { CreateUser } from '@/lib/api/auth';
 import toast from 'react-hot-toast';
 import Image from 'next/image';
+import { MutationCache } from '@tanstack/react-query';
 
 import useFilePreview from '@/hooks/usePreviewImage';
 import {
@@ -60,24 +61,34 @@ export function RegisterFrom() {
     (values: z.infer<typeof RegisterSchema>) => {
       const newData = { ...values, avatar: values.avatar[0] };
       mutate(newData);
-      form.reset();
     },
-    [form, mutate]
+    [mutate]
   );
   useEffect(() => {
+    const mutationCache = new MutationCache({
+      onError: (error) => {
+        console.log(error);
+      },
+      onSuccess: (data) => {
+        console.log(data);
+      }
+    });
     if (isError) {
       toast.error(RegisterError?.message);
+      // Handle error state
     }
-  }, [RegisterError?.message, isError]);
-
-  useEffect(() => {
-    if (isSuccess) {
+    if (isSuccess && data) {
       route.push(`/verify?email=${data?.email}`);
-      route.refresh;
+      route.refresh(); // Corrected function call
       toast.success(data?.message);
+      // Handle success state
     }
-  }, [data?.email, data?.message, isSuccess, route]);
-
+    if (isSuccess || isError) {
+      // Reset form after success or error
+      form.reset();
+      mutationCache.clear();
+    }
+  }, [RegisterError?.message, isError, isSuccess, data, route, form]);
   return (
     <Form {...form}>
       <form

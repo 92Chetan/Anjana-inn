@@ -10,16 +10,18 @@ export async function POST(req: NextRequest) {
   try {
     const formData = await req.formData();
     const name = formData.get('name') as string | null;
-    const email = formData.get('email') as string | null;
+    const useEmail = formData.get('email') as string | null;
     const password = formData.get('password') as string | null;
     const avatar = formData.get('avatar') as File | null;
 
-    if (!name || !email || !password || !avatar) {
+    if (!name || !useEmail || !password || !avatar) {
       return NextResponse.json(
         { message: 'Name, email, and password are required' },
         { status: 400 }
       );
     }
+
+    const email = useEmail.toLowerCase();
 
     const user = await db.user.findUnique({ where: { email } });
 
