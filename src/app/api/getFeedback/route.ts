@@ -6,7 +6,7 @@ import { db } from '@/lib/db';
 
 export async function GET() {
   try {
-    const response = await db.feedback.findMany();
+    const response = await db.feedback.findMany({ orderBy: { createAt: 'desc' } });
 
     return NextResponse.json(response, { status: 200 });
   } catch (error) {

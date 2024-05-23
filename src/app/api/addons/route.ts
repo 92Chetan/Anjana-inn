@@ -40,7 +40,7 @@ export async function POST(req: NextRequest) {
         addon_id: data.id
       });
       await mailSender({
-        email: 'kingsuk055@gmail.com',
+        email: process.env.OWNER_EMAIL as string,
         subject: 'bill recept - some one pah her bill',
 
         amount: data.price,

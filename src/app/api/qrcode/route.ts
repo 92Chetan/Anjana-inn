@@ -47,7 +47,7 @@ export async function POST(req: NextRequest) {
         sub_id: response.id
       });
       await mailSender({
-        email: 'kingsuk055@gmail.com',
+        email: process.env.OWNER_EMAIL as string,
         subject: 'subscription recept - some one subscribe your service',
 
         amount: response.amount,
