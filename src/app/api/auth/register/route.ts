@@ -2,7 +2,7 @@ import { db } from '@/lib/db';
 import { NextRequest, NextResponse } from 'next/server';
 import bcrypt from 'bcryptjs';
 import { mailSender } from '@/lib/mail';
-// import { UploadImage } from '@/lib/ImageUpload';
+import { UploadImage } from '@/lib/ImageUpload';
 import { currentDate } from '@/lib/utils';
 import { randomInt } from 'crypto';
 
@@ -28,7 +28,12 @@ export async function POST(req: NextRequest) {
     if (user) {
       return NextResponse.json({ message: 'user already register' }, { status: 400 });
     }
+    const image = await UploadImage(avatar);
 
+    console.log(image);
+    if (!image) {
+      return NextResponse.json({ message: 'Internal server issue' }, { status: 500 });
+    }
     const salt = bcrypt.genSaltSync(10);
     const hashPass = bcrypt.hashSync(password, salt);
 
@@ -36,12 +41,6 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ message: 'Internal server issue' }, { status: 500 });
     }
 
-    // const image = await UploadImage(avatar);
-
-    // console.log(image);
-    // if (!image) {
-    //   return NextResponse.json({ message: 'Internal server issue' }, { status: 500 });
-    // }
     const authCode = randomInt(100000, 1000000).toString();
     console.log(authCode);
     if (!authCode) {
