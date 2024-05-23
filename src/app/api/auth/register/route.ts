@@ -35,7 +35,7 @@ export async function POST(req: NextRequest) {
     }
 
     const authCode = randomInt(100000, 1000000).toString();
-    console.log(authCode);
+
     if (!authCode) {
       return NextResponse.json({ message: 'Internal server issue' }, { status: 500 });
     }

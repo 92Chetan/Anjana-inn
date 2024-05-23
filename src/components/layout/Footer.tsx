@@ -73,6 +73,10 @@ const Footer = () => {
                   </li>
                 </ul>
               </div>
+              <div className="flex justify-center items-center gap-4 max-md:pt-3">
+                <Image src="/images/make_in.png" width={100} height={100} alt="png" />{' '}
+                <Image src="/images/make_in1.png" width={100} height={100} alt="png" />
+              </div>
             </div>
             <hr className="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8" />
             <div className="flex items-center justify-between">
@@ -83,10 +87,6 @@ const Footer = () => {
                 </Link>
                 . All Rights Reserved.
               </span>
-              <div className="flex justify-center items-center gap-4">
-                <Image src="/images/make_in.png" width={50} height={50} alt="png" />{' '}
-                <Image src="/images/make_in1.png" width={50} height={50} alt="png" />
-              </div>
             </div>
           </div>
         </footer>

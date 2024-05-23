@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useMutation } from '@tanstack/react-query';
-import { useCallback } from 'react';
+import { useCallback, useState } from 'react';
 import toast from 'react-hot-toast';
 
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '../ui/form';
@@ -13,11 +13,27 @@ import { Button } from '../ui/button';
 import { VerifyOtp } from '@/lib/api/auth';
 import { verifyOtp } from '@/validation/auth/authSchema';
 import Loader from '../utils/Loader';
+import axios from 'axios';
 
 export const VerifyFrom = () => {
   const route = useRouter();
   const searchParams = useSearchParams();
   const email = searchParams.get('email') as string;
+  const [isSending, setIsSending] = useState(false);
+  const [countdown, setCountdown] = useState(0);
+
+  const disableSendButton = () => {
+    axios.put(`/api/auth/verify?email=${email}`);
+    setIsSending(true);
+    setCountdown(60);
+    const countdownInterval = setInterval(() => {
+      setCountdown((prevCountdown) => prevCountdown - 1);
+    }, 1000);
+    setTimeout(() => {
+      clearInterval(countdownInterval);
+      setIsSending(false);
+    }, 60000);
+  };
 
   const {
     data,
@@ -80,7 +96,16 @@ export const VerifyFrom = () => {
         <Button type="submit" className="min-w-[80%] font-bold text-md">
           {isPending ? <Loader /> : 'Submit'}
         </Button>
+        <Button
+          variant="transparent"
+          className="disabled:text-gray-600 text-blue-600 cursor-pointer"
+          onClick={disableSendButton}
+          disabled={isSending}
+        >
+          <p>{isSending ? `Resend in ${countdown} seconds` : 'Resend otp'}</p>
+        </Button>
       </form>
     </Form>
   );
 };
+multiplier: 2;
