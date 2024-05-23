@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useCallback } from 'react';
+import { useCallback, useEffect } from 'react';
 import { useMutation } from '@tanstack/react-query';
 import { CreateUser } from '@/lib/api/auth';
 import toast from 'react-hot-toast';
@@ -64,16 +64,19 @@ export function RegisterFrom() {
     },
     [form, mutate]
   );
+  useEffect(() => {
+    if (isError) {
+      toast.error(RegisterError?.message);
+    }
+  }, [RegisterError?.message, isError]);
 
-  if (isError) {
-    toast.error(RegisterError.message);
-  }
-
-  if (isSuccess) {
-    route.push(`/verify?email=${data.email}`);
-    route.refresh;
-    toast.success(data.message);
-  }
+  useEffect(() => {
+    if (isSuccess) {
+      route.push(`/verify?email=${data.email}`);
+      route.refresh;
+      toast.success(data.message);
+    }
+  }, [data.email, data?.message, isSuccess, route]);
 
   return (
     <Form {...form}>

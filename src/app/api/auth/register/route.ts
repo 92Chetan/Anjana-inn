@@ -2,7 +2,7 @@ import { db } from '@/lib/db';
 import { NextRequest, NextResponse } from 'next/server';
 import bcrypt from 'bcryptjs';
 import { mailSender } from '@/lib/mail';
-import { UploadImage } from '@/lib/ImageUpload';
+// import { UploadImage } from '@/lib/ImageUpload';
 import { currentDate } from '@/lib/utils';
 import { randomInt } from 'crypto';
 
@@ -34,12 +34,12 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ message: 'Internal server issue' }, { status: 500 });
     }
 
-    const image = await UploadImage(avatar);
+    // const image = await UploadImage(avatar);
 
-    console.log(image);
-    if (!image) {
-      return NextResponse.json({ message: 'Internal server issue' }, { status: 500 });
-    }
+    // console.log(image);
+    // if (!image) {
+    //   return NextResponse.json({ message: 'Internal server issue' }, { status: 500 });
+    // }
     const authCode = randomInt(100000, 1000000).toString();
     console.log(authCode);
     if (!authCode) {
@@ -59,7 +59,7 @@ export async function POST(req: NextRequest) {
         name,
         password: hashPass,
         authCode,
-        avatar: image,
+        avatar: 'image',
         createAt: currentDate.toDate()
       }
     });
