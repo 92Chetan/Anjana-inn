@@ -72,11 +72,11 @@ export function RegisterFrom() {
 
   useEffect(() => {
     if (isSuccess) {
-      route.push(`/verify?email=${data.email}`);
+      route.push(`/verify?email=${data?.email}`);
       route.refresh;
-      toast.success(data.message);
+      toast.success(data?.message);
     }
-  }, [data.email, data?.message, isSuccess, route]);
+  }, [data?.email, data?.message, isSuccess, route]);
 
   return (
     <Form {...form}>
