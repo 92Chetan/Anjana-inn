@@ -11,6 +11,7 @@ import { Input } from '../ui/input';
 import { Button } from '../ui/button';
 import { contactSchema } from '@/validation/contact/contactSchema';
 import { contactRequest } from '@/lib/api/contactUs';
+import Loader from '../utils/Loader';
 
 const ContactForm = () => {
   const { mutate, isSuccess, isError, isPending, error, data } = useMutation({
@@ -100,7 +101,7 @@ const ContactForm = () => {
           />
           {errors && <p className="text-rose-700">{errors.message?.message}</p>}
         </div>
-        <Button type="submit">{isPending ? 'loading...' : 'Send Message'}</Button>
+        <Button type="submit">{isPending ? <Loader /> : 'Send Message'}</Button>
       </form>
     </div>
   );

@@ -100,11 +100,11 @@ export function MobileMenu({ userData }: MobileMenuProps) {
               Contact us
             </ReactLink>
           </SheetClose>
-          <SheetClose asChild>
+          {/* <SheetClose asChild>
             <Link href="/gallery" className="md:hidden">
               Gallery
             </Link>
-          </SheetClose>
+          </SheetClose> */}
           <hr className="dark:bg-black" />
           {userData ? (
             <SheetClose asChild>

@@ -13,6 +13,10 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ message: 'Please login' }, { status: 401 });
     }
 
+    if (currentUser?.role !== 'admin') {
+      return NextResponse.json({ message: 'invalid credential' }, { status: 401 });
+    }
+
     const body = await req.json();
     const { error, data } = RoomSchema.safeParse(body);
     if (error) {
@@ -20,16 +24,6 @@ export async function POST(req: NextRequest) {
         { message: 'Invalid request', error: formatZodError(error) },
         { status: 400 }
       );
-    }
-
-    const user = await db.user.findFirst({
-      where: {
-        id: currentUser?.id
-      }
-    });
-
-    if (user?.role !== 'admin') {
-      return NextResponse.json({ message: 'invalid credential' }, { status: 401 });
     }
 
     await db.checkRoomAvbalive.create({

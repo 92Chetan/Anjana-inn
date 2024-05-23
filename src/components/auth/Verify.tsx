@@ -12,6 +12,7 @@ import { Input } from '../ui/input';
 import { Button } from '../ui/button';
 import { VerifyOtp } from '@/lib/api/auth';
 import { verifyOtp } from '@/validation/auth/authSchema';
+import Loader from '../utils/Loader';
 
 export const VerifyFrom = () => {
   const route = useRouter();
@@ -23,6 +24,7 @@ export const VerifyFrom = () => {
     error: vError,
     isError,
     isSuccess,
+    isPending,
     mutate
   } = useMutation({
     mutationFn: VerifyOtp,
@@ -76,7 +78,7 @@ export const VerifyFrom = () => {
           )}
         />
         <Button type="submit" className="min-w-[80%] font-bold text-md">
-          Submit
+          {isPending ? <Loader /> : 'Submit'}
         </Button>
       </form>
     </Form>

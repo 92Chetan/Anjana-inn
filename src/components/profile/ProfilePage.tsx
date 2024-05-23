@@ -27,7 +27,7 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ UserData }) => {
   }, [UserData, route]);
 
   return (
-    <div className="w-full h-screen flex flex-col justify-center items-center gap-2 md:flex-row">
+    <div className="w-full h-screen flex flex-col justify-center items-center gap-6 md:flex-row">
       <ProfileCard
         UserData={UserData}
         subStatus={subData && subData[0]?.status}

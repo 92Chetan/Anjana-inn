@@ -9,6 +9,7 @@ import { fetchQr } from '@/lib/api/Subscription';
 import { useTermsModal } from '@/hooks/useTerms';
 import { useSelectModal } from '@/hooks/useSelectModal';
 import { useQrModal } from '@/hooks/useQrModal';
+import Loader from './Loader';
 
 type QRCodeType = any;
 const TermsModal = () => {
@@ -20,7 +21,7 @@ const TermsModal = () => {
   const { onOpen, setData } = useQrModal();
   const [qrCode, setQrCode] = useState<QRCodeType | undefined>(undefined);
 
-  const { isSuccess, mutate, data } = useMutation({
+  const { isSuccess, mutate, data, isPending } = useMutation({
     mutationFn: fetchQr,
     mutationKey: ['getQr']
   });
@@ -72,35 +73,40 @@ const TermsModal = () => {
   return (
     <Dialog onOpenChange={hadleClose} modal open={isOpen}>
       <DialogContent className="sm:max-w-[425px] w-full flex justify-center items-center flex-col overflow-scroll">
-        <DialogHeader>
-          {qrCode ? (
-            <DialogTitle>Qr code</DialogTitle>
-          ) : (
-            <DialogTitle>Terms & Condition</DialogTitle>
-          )}
-          {!qrCode ? (
-            <DialogDescription>
-              Only wifi bill is included in the custom plan. We charge wifi and electric bills at
-              the end of the month. After payment, we will provide a payment receipt, which will be
-              verified by the admin upon receiving the payment amount.
-            </DialogDescription>
-          ) : (
-            <canvas ref={canvasRef} id="qrCanvas" width="300" height="300" /> // Changed qrCode to canvasRef
-          )}
-        </DialogHeader>
-        {!qrCode && (
+        {isPending ? (
+          <Loader />
+        ) : (
           <>
-            <input
-              type="checkbox"
-              checked={accept}
-              onChange={(e) => setAccept(e.target.checked)}
-              className="inline-block"
-            />
-            <span>Accept terms & conditions</span>
+            <DialogHeader>
+              {qrCode ? (
+                <DialogTitle>Qr code</DialogTitle>
+              ) : (
+                <DialogTitle>Terms & Condition</DialogTitle>
+              )}
+              {!qrCode ? (
+                <DialogDescription>
+                  Only wifi bill is included in the custom plan. We charge wifi and electric bills
+                  at the end of the month. After payment, we will provide a payment receipt, which
+                  will be verified by the admin upon receiving the payment amount.
+                </DialogDescription>
+              ) : (
+                <canvas ref={canvasRef} id="qrCanvas" width="300" height="300" /> // Changed qrCode to canvasRef
+              )}
+            </DialogHeader>
+            {!qrCode && (
+              <>
+                <input
+                  type="checkbox"
+                  checked={accept}
+                  onChange={(e) => setAccept(e.target.checked)}
+                  className="inline-block"
+                />
+                <span>Accept terms & conditions</span>
+              </>
+            )}
+            {!qrCode && <Button onClick={handlePay}>Scan QR code</Button>}
           </>
         )}
-
-        {!qrCode && <Button onClick={handlePay}>Scan QR code</Button>}
       </DialogContent>
     </Dialog>
   );

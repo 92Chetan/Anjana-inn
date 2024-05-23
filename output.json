@@ -1,0 +1,407 @@
+[
+  {
+    "originalPrice": 1800,
+    "price": 1500,
+    "entity": "subscription",
+    "timeline": "monthly",
+    "plan_id": "plan_O09VqINkfwmNJE",
+    "typeofRoom": "single ",
+    "service": [
+      {
+        "title": "1 room",
+        "value": true
+      },
+      {
+        "title": "1 bed",
+        "value": true
+      },
+      {
+        "title": "wifi",
+        "value": true
+      },
+      {
+        "title": "furnished",
+        "value": true
+      },
+      {
+        "title": "electricity",
+        "value": true
+      },
+      {
+        "title": "water",
+        "value": true
+      }
+    ]
+  },
+  {
+    "originalPrice": 1800,
+    "price": 900,
+    "entity": "subscription",
+    "plan_id": "plan_O09VqINkfwmNJE",
+    "timeline": "quarterly",
+    "typeofRoom": "single",
+    "service": [
+      {
+        "title": "1 room",
+        "value": true
+      },
+      {
+        "title": "1 bed",
+        "value": true
+      },
+      {
+        "title": "wifi",
+        "value": true
+      },
+      {
+        "title": "furnished",
+        "value": true
+      },
+      {
+        "title": "electricity",
+        "value": true
+      },
+      {
+        "title": "water",
+        "value": true
+      }
+    ]
+  },
+  {
+    "originalPrice": 18000,
+    "price": 16500,
+    "entity": "subscription",
+    "plan_id": "plan_O09VqINkfwmNJE",
+    "timeline": "annual",
+    "typeofRoom": "single",
+    "service": [
+      {
+        "title": "1 room",
+        "value": true
+      },
+      {
+        "title": "1 bed",
+        "value": true
+      },
+      {
+        "title": "wifi",
+        "value": true
+      },
+      {
+        "title": "furnished",
+        "value": true
+      },
+      {
+        "title": "electricity",
+        "value": true
+      },
+      {
+        "title": "water",
+        "value": true
+      }
+    ]
+  },
+  {
+    "originalPrice": 24000,
+    "price": 22000,
+    "timeline": "annual",
+    "typeofRoom": "double",
+    "entity": "subscription",
+    "plan_id": "plan_O09VqINkfwmNJE",
+    "service": [
+      {
+        "title": "1 room",
+        "value": true
+      },
+      {
+        "title": "2 bed",
+        "value": true
+      },
+      {
+        "title": "wifi",
+        "value": true
+      },
+      {
+        "title": "furnished",
+        "value": true
+      },
+      {
+        "title": "electricity",
+        "value": true
+      },
+      {
+        "title": "water",
+        "value": true
+      }
+    ]
+  },
+  {
+    "originalPrice": 2000,
+    "price": 1800,
+    "timeline": "quarterly",
+    "typeofRoom": "double",
+    "entity": "subscription",
+    "plan_id": "plan_O09VqINkfwmNJE",
+    "service": [
+      {
+        "title": "1 room",
+        "value": true
+      },
+      {
+        "title": "2 bed",
+        "value": true
+      },
+      {
+        "title": "wifi",
+        "value": true
+      },
+      {
+        "title": "furnished",
+        "value": true
+      },
+      {
+        "title": "electricity",
+        "value": true
+      },
+      {
+        "title": "water",
+        "value": true
+      }
+    ]
+  },
+  {
+    "price": 600,
+    "timeline": "monthly",
+    "typeofRoom": "double",
+    "entity": "subscription",
+    "plan_id": "plan_O09VqINkfwmNJE",
+    "service": [
+      {
+        "title": "1 room",
+        "value": true
+      },
+      {
+        "title": "2 bed",
+        "value": true
+      },
+      {
+        "title": "wifi",
+        "value": true
+      },
+      {
+        "title": "furnished",
+        "value": true
+      },
+      {
+        "title": "electricity",
+        "value": true
+      },
+      {
+        "title": "water",
+        "value": true
+      }
+    ]
+  },
+  {
+    "originalPrice": 300,
+    "price": 200,
+    "timeline": "daily",
+    "typeofRoom": "double",
+    "entity": "order",
+    "service": [
+      {
+        "title": "1 room",
+        "value": true
+      },
+      {
+        "title": "2 bed",
+        "value": true
+      },
+      {
+        "title": "wifi",
+        "value": true
+      },
+      {
+        "title": "furnished",
+        "value": true
+      },
+      {
+        "title": "electricity",
+        "value": true
+      },
+      {
+        "title": "water",
+        "value": true
+      }
+    ]
+  },
+  {
+    "originalPrice": 24000,
+    "price": 22000,
+    "timeline": "annual",
+    "typeofRoom": "triple ",
+    "entity": "subscription",
+    "plan_id": "plan_O09VqINkfwmNJE",
+    "service": [
+      {
+        "title": "1 room",
+        "value": true
+      },
+      {
+        "title": "3 bed",
+        "value": true
+      },
+      {
+        "title": "wifi",
+        "value": true
+      },
+      {
+        "title": "furnished",
+        "value": true
+      },
+      {
+        "title": "electricity",
+        "value": true
+      },
+      {
+        "title": "water",
+        "value": true
+      }
+    ]
+  },
+  {
+    "originalPrice": 3000,
+    "price": 2700,
+    "timeline": "quarterly",
+    "typeofRoom": "triple ",
+    "entity": "subscription",
+    "plan_id": "plan_O09VqINkfwmNJE",
+    "service": [
+      {
+        "title": "1 room",
+        "value": true
+      },
+      {
+        "title": "3 bed",
+        "value": true
+      },
+      {
+        "title": "wifi",
+        "value": true
+      },
+      {
+        "title": "furnished",
+        "value": true
+      },
+      {
+        "title": "electricity",
+        "value": true
+      },
+      {
+        "title": "water",
+        "value": true
+      }
+    ]
+  },
+  {
+    "originalPrice": 2200,
+    "price": 2000,
+    "timeline": "monthly",
+    "typeofRoom": "triple ",
+    "entity": "subscription",
+    "plan_id": "plan_O09VqINkfwmNJE",
+    "service": [
+      {
+        "title": "1 room",
+        "value": true
+      },
+      {
+        "title": "3 bed",
+        "value": true
+      },
+      {
+        "title": "wifi",
+        "value": true
+      },
+      {
+        "title": "furnished",
+        "value": true
+      },
+      {
+        "title": "electricity",
+        "value": true
+      },
+      {
+        "title": "water",
+        "value": true
+      }
+    ]
+  },
+  {
+    "originalPrice": 300,
+    "price": 200,
+    "timeline": "daily",
+    "typeofRoom": "triple",
+    "entity": "order",
+    "service": [
+      {
+        "title": "1 room",
+        "value": true
+      },
+      {
+        "title": "3 bed",
+        "value": true
+      },
+      {
+        "title": "wifi",
+        "value": true
+      },
+      {
+        "title": "furnished",
+        "value": true
+      },
+      {
+        "title": "electricity",
+        "value": true
+      },
+      {
+        "title": "water",
+        "value": true
+      }
+    ]
+  },
+  {
+    "price": 0,
+    "timeline": "custom",
+    "typeofRoom": "Custom plan",
+    "entity": "order",
+    "roomType": [
+      {
+        "title": "double",
+        "price": 61
+      },
+      {
+        "title": "triple",
+        "price": 61
+      }
+    ],
+    "service": [
+      {
+        "title": "wifi",
+        "value": 5
+      },
+      {
+        "title": "furnished",
+        "value": true
+      },
+      {
+        "title": "electricity",
+        "value": true
+      },
+      {
+        "title": "water",
+        "value": true
+      }
+    ]
+  }
+]

@@ -23,6 +23,7 @@ import {
 import { Input } from '../ui/input';
 import { Button } from '../ui/button';
 import { RegisterSchema } from '@/validation/auth/authSchema';
+import Loader from '../utils/Loader';
 
 export function RegisterFrom() {
   const route = useRouter();
@@ -32,6 +33,7 @@ export function RegisterFrom() {
     isError,
     isSuccess,
     error: RegisterError,
+    isPending,
     mutate
   } = useMutation({
     mutationFn: CreateUser,
@@ -77,7 +79,8 @@ export function RegisterFrom() {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="space-y-2 border-[1px] max-w-[400px] rounded-lg w-full min-h-[400px] flex justify-center items-center flex-col py-3">
+        className="space-y-2 border-[1px] max-w-[400px] rounded-lg w-full min-h-[400px] flex justify-center items-center flex-col py-3"
+      >
         <h2 className="md:text-3xl text-md font-semibold uppercase">Create an account</h2>
         {filePreview && (
           <Image src={filePreview} alt="preview" width={50} height={50} className="rounded-full" />
@@ -154,7 +157,7 @@ export function RegisterFrom() {
           )}
         />
         <Button type="submit" className="min-w-[80%] font-bold text-md">
-          Submit
+          {isPending ? <Loader /> : 'Submit'}
         </Button>
         <FormDescription className="text-md font-bold">
           Already have an account?

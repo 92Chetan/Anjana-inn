@@ -6,6 +6,7 @@ import { addOnsBill } from '@/lib/api/addOnsBill';
 import { useBillQr } from '@/hooks/useBillQr';
 import toast from 'react-hot-toast';
 import BillQrModal from '../utils/BillQrModal';
+import Loader from '../utils/Loader';
 
 interface ProfileAddonsProps {
   wifiPrice: number;
@@ -32,7 +33,7 @@ const ProfileAddons: React.FC<ProfileAddonsProps> = ({
   }, [wifiPrice, electricityPrice, wifiTaken]);
 
   const { onOpen } = useBillQr();
-  const { data, mutate, isError, error, isSuccess } = useMutation({
+  const { data, mutate, isError, error, isSuccess, isPending } = useMutation({
     mutationKey: ['bilqr'],
     mutationFn: addOnsBill
   });
@@ -73,7 +74,7 @@ const ProfileAddons: React.FC<ProfileAddonsProps> = ({
           <h3>Total Price</h3>
           <p>&#8377;{price}</p>
         </div>
-        <Button onClick={handlePayment}>Pay now</Button>
+        <Button onClick={handlePayment}>{isPending ? <Loader /> : 'Pay now'}</Button>
       </div>
 
       {data && <BillQrModal data={data} />}

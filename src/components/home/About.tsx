@@ -36,7 +36,7 @@ const About = () => {
               single rooms to shared living arrangements, our flexible plans cater to daily,
               monthly, and yearly stays, all with essential amenities. Get in touch today and find
               your ideal living space with us.
-              <span className="underline">serving individuals since 2017</span>
+              <span className="underline pl-1">Serving individuals since 2017</span>
             </p>
           </div>
         </div>

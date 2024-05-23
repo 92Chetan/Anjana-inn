@@ -1,11 +1,12 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Bill } from '@prisma/client';
 
 import PlaneCard from './PlaneCard';
 import RippleButton from './RepleButton';
 import { SafeUser, roomType, serviceType, timeline } from '@/types/types';
 import Heading from '../utils/Heading';
+import { useBill } from '@/hooks/useBill';
 
 const timelineArray: timeline[] = ['daily', 'monthly', 'quarterly', 'annual', 'custom'];
 
@@ -14,7 +15,11 @@ interface CardContainerProps {
   Subscription: Bill[] | null | undefined;
 }
 const CardContainer: React.FC<CardContainerProps> = ({ userData, Subscription }) => {
+  const { setData } = useBill();
   const [planTimeline, setPlanTimeline] = useState<timeline>('monthly');
+  useEffect(() => {
+    setData(Subscription);
+  }, [Subscription, setData]);
   return (
     <React.Fragment>
       <div className="lg:h-screen h-fit flex justify-center items-center flex-col" id="plans">
@@ -44,6 +49,7 @@ const CardContainer: React.FC<CardContainerProps> = ({ userData, Subscription })
                     roomType={sub.roomType as roomType[]}
                     //@ts-ignore
                     entity={sub.entity}
+                    originalPrice={sub.originalPrice}
                     userData={userData}
                   />
                 );

@@ -1,5 +1,6 @@
 import { SubscriptionBill } from '@/types/types';
 import moment from 'moment';
+import Loader from '../utils/Loader';
 
 interface PayHistoryProps {
   subData: SubscriptionBill[] | null | undefined;
@@ -8,12 +9,11 @@ interface PayHistoryProps {
 const PayHistory: React.FC<PayHistoryProps> = ({ subData }) => {
   return (
     <div className="shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px] bg-secondary w-full overflow-y-scroll rounded-xl h-[470px] px-2">
-      {subData?.length === 0 && (
+      {subData?.length === 0 ? (
         <div className="flex justify-center items-center h-full w-full overflow-hidden">
           <h1>No Data available</h1>
         </div>
-      )}
-      {subData && (
+      ) : subData ? (
         <div className="flex flex-col">
           <div className="-m-1.5 overflow-x-auto">
             <div className="p-1.5 min-w-full inline-block align-middle">
@@ -97,6 +97,8 @@ const PayHistory: React.FC<PayHistoryProps> = ({ subData }) => {
             </div>
           </div>
         </div>
+      ) : (
+        <Loader />
       )}
     </div>
   );
