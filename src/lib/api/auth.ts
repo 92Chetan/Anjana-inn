@@ -2,11 +2,7 @@ import axios from 'axios';
 
 export const CreateUser = async (payload: any) => {
   try {
-    const response = await axios.post('/api/auth/register', payload, {
-      headers: {
-        'Content-Type': 'multipart/form-data'
-      }
-    });
+    const response = await axios.post('/api/auth/register', payload);
 
     return response.data;
   } catch (error: any) {

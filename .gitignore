@@ -39,4 +39,3 @@ next-env.d.ts
 
 #Migrate folder
 prisma/migrations
-public/uploads

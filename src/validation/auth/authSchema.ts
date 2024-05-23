@@ -1,24 +1,12 @@
 import { z } from 'zod';
 
-const MAX_FILE_SIZE = 1024 * 1024 * 5;
-const ACCEPTED_IMAGE_MIME_TYPES = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
-
 export const RegisterSchema = z
   .object({
     name: z
       .string({ required_error: 'Please Enter your name' })
       .min(3, 'Please Enter minimum 3 character')
       .max(25, 'Your name is to long'),
-    avatar: z
-      .any()
-      .refine((files) => {
-        const fileSize = files && files[0] && files[0].size;
-        return fileSize && fileSize <= MAX_FILE_SIZE;
-      }, 'Max image size is 5MB.')
-      .refine(
-        (files) => files && files[0] && ACCEPTED_IMAGE_MIME_TYPES.includes(files[0].type),
-        'Only .jpg, .jpeg, .png, and .webp formats are supported.'
-      ),
+    avatar: z.string().optional(),
     email: z
       .string({ required_error: 'Please Enter your email' })
       .email('please enter your valid email'),

@@ -4,13 +4,14 @@ import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useCallback } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
 import { CreateUser } from '@/lib/api/auth';
 import toast from 'react-hot-toast';
 import Image from 'next/image';
+import { MutationCache } from '@tanstack/react-query';
 
-import useFilePreview from '@/hooks/usePreviewImage';
+import '@uploadthing/react/styles.css';
 import {
   Form,
   FormControl,
@@ -24,9 +25,13 @@ import { Input } from '../ui/input';
 import { Button } from '../ui/button';
 import { RegisterSchema } from '@/validation/auth/authSchema';
 import Loader from '../utils/Loader';
+import { uploadFiles } from '@/lib/ImageUpload';
 
 export function RegisterFrom() {
   const route = useRouter();
+  const [avatarUrl, setAvatarUrl] = useState<string>();
+  const [imageUpload, setImageUpload] = useState<boolean>();
+  const imageRef = useRef<HTMLInputElement | null>(null);
 
   const {
     data,
@@ -51,30 +56,48 @@ export function RegisterFrom() {
     }
   });
 
-  const fileRef = form.register('avatar');
-  const image = form.watch('avatar');
-
-  const filePreview = useFilePreview(image);
-
   const onSubmit = useCallback(
     (values: z.infer<typeof RegisterSchema>) => {
-      const newData = { ...values, avatar: values.avatar[0] };
-      mutate(newData);
-      form.reset();
+      if (avatarUrl) {
+        const newData = { ...values, avatar: avatarUrl };
+        mutate(newData);
+      } else {
+        toast.error('select image');
+      }
     },
-    [form, mutate]
+    [avatarUrl, mutate]
   );
 
-  if (isError) {
-    toast.error(RegisterError.message);
-  }
+  const handleIconClick = () => {
+    imageRef.current?.click();
+  };
 
-  if (isSuccess) {
-    route.push(`/verify?email=${data.email}`);
-    route.refresh;
-    toast.success(data.message);
-  }
-
+  useEffect(() => {
+    const mutationCache = new MutationCache({
+      onError: (error) => {
+        console.log(error);
+      },
+      onSuccess: (data) => {
+        console.log(data);
+      }
+    });
+    if (isError) {
+      toast.error(RegisterError?.message);
+      // Handle error state
+    }
+    if (isSuccess && data) {
+      route.push(`/verify?email=${data?.email}`);
+      route.refresh(); // Corrected function call
+      toast.success(data?.message);
+      // Handle success state
+    }
+    if (isSuccess || isError) {
+      // Reset form after success or error
+      form.reset();
+      mutationCache.clear();
+    }
+  }, [RegisterError?.message, isError, isSuccess, data, route, form]);
+  console.log('Avatar URL:', avatarUrl);
   return (
     <Form {...form}>
       <form
@@ -82,28 +105,45 @@ export function RegisterFrom() {
         className="space-y-2 border-[1px] max-w-[400px] rounded-lg w-full min-h-[400px] flex justify-center items-center flex-col py-3"
       >
         <h2 className="md:text-3xl text-md font-semibold uppercase">Create an account</h2>
-        {filePreview && (
-          <Image src={filePreview} alt="preview" width={50} height={50} className="rounded-full" />
-        )}
-        {filePreview ? null : (
-          <FormField
-            control={form.control}
-            name="avatar"
-            render={() => (
-              <FormItem className="w-[80%]">
-                <FormLabel>Avatar</FormLabel>
-                <FormControl>
-                  <Input
-                    {...fileRef}
-                    type="file"
-                    accept="image/jpeg, image/jpg, image/png, image/webp"
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
+
+        <label htmlFor="avata">Avatar</label>
+        {imageUpload ? (
+          <Loader />
+        ) : (
+          <Image
+            src={avatarUrl ? avatarUrl : '/images/avatar.jpeg'}
+            alt="preview"
+            width={50}
+            height={50}
+            className="rounded-full"
+            onClick={handleIconClick}
           />
         )}
+
+        <input
+          ref={imageRef}
+          className="hidden"
+          type="file"
+          accept="image/*"
+          onChange={async (event) => {
+            if (event.target.files && event.target.files.length > 0) {
+              const files = Array.from(event.target.files);
+              setImageUpload(true); // Set imageUpload to true before starting upload
+              try {
+                const res = await uploadFiles('imageUploader', { files: files });
+                if (res) {
+                  setAvatarUrl(res[0].url);
+                }
+              } catch (error) {
+                console.error('Error uploading files:', error);
+              } finally {
+                setImageUpload(false);
+              }
+            }
+          }}
+          name="avatar"
+        />
+
         <FormField
           control={form.control}
           name="name"

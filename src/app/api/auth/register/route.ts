@@ -2,24 +2,24 @@ import { db } from '@/lib/db';
 import { NextRequest, NextResponse } from 'next/server';
 import bcrypt from 'bcryptjs';
 import { mailSender } from '@/lib/mail';
-import { UploadImage } from '@/lib/ImageUpload';
 import { currentDate } from '@/lib/utils';
 import { randomInt } from 'crypto';
+import { RegisterSchema } from '@/validation/auth/authSchema';
+import { formatZodError } from '@/lib/zodError';
 
 export async function POST(req: NextRequest) {
   try {
-    const formData = await req.formData();
-    const name = formData.get('name') as string | null;
-    const email = formData.get('email') as string | null;
-    const password = formData.get('password') as string | null;
-    const avatar = formData.get('avatar') as File | null;
+    const body = await req.json();
 
-    if (!name || !email || !password || !avatar) {
+    const { data, error } = RegisterSchema.safeParse(body);
+    if (error) {
       return NextResponse.json(
-        { message: 'Name, email, and password are required' },
+        { message: 'Invalid request', error: formatZodError(error) },
         { status: 400 }
       );
     }
+    const { avatar, email: useEmail, name, password } = data;
+    const email = useEmail.toLowerCase();
 
     const user = await db.user.findUnique({ where: { email } });
 
@@ -34,12 +34,6 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ message: 'Internal server issue' }, { status: 500 });
     }
 
-    const image = await UploadImage(avatar);
-
-    console.log(image);
-    if (!image) {
-      return NextResponse.json({ message: 'Internal server issue' }, { status: 500 });
-    }
     const authCode = randomInt(100000, 1000000).toString();
     console.log(authCode);
     if (!authCode) {
@@ -52,14 +46,16 @@ export async function POST(req: NextRequest) {
       console.log(mail.error);
       return NextResponse.json({ message: mail.error.message }, { status: 403 });
     }
-
+    if (!avatar) {
+      return NextResponse.json({ message: 'select image' }, { status: 400 });
+    }
     await db.user.create({
       data: {
         email,
         name,
         password: hashPass,
         authCode,
-        avatar: image,
+        avatar,
         createAt: currentDate.toDate()
       }
     });
