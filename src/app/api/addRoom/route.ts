@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db';
 import { formatZodError } from '@/lib/zodError';
 import { getCurrentUser } from '@/action/getCurrentUser';
-import { RoomSchema } from '@/validation/room/validation';
+import { RoomSchema } from '@/validation/roomValidation';
 
 export async function POST(req: NextRequest) {
   try {

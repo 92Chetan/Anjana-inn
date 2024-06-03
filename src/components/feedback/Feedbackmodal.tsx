@@ -1,5 +1,5 @@
 'use client';
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { Rating } from '@mui/material';
 import StarIcon from '@mui/icons-material/Star';
 import { useForm, Controller } from 'react-hook-form';
@@ -9,7 +9,7 @@ import toast from 'react-hot-toast';
 import { z } from 'zod';
 import { usePathname } from 'next/navigation';
 
-import { feedbackSchema } from '@/validation/feedback/feedbackShema';
+import { feedbackSchema } from '@/validation/feedbackShema';
 import {
   Dialog,
   DialogContent,
@@ -55,13 +55,15 @@ const Feedbackmodal = () => {
     [reset, mutate]
   );
 
-  if (isError) {
-    toast.error(error.message);
-  }
+  useEffect(() => {
+    if (isError) {
+      toast.error(error?.message);
+    }
 
-  if (isSuccess) {
-    toast.success(data.message);
-  }
+    if (isSuccess) {
+      toast.success(data.message);
+    }
+  }, [data.message, error?.message, isError, isSuccess]);
 
   return (
     <React.Fragment>

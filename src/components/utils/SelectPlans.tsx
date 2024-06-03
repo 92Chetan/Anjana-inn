@@ -29,6 +29,14 @@ import { useTermsModal } from '@/hooks/useTerms';
 import { useQuery } from '@tanstack/react-query';
 import { fetchRoom } from '@/lib/api/room';
 import Loader from './Loader';
+import {
+  currentDateFromNow,
+  oneDayLater,
+  oneMonthLater,
+  oneYearLater,
+  threeMonthsLater
+} from '@/lib/utils';
+import { FormSchema } from '@/validation/roomValidation';
 
 export type qrData = {
   duration: string;
@@ -44,15 +52,6 @@ export type qrData = {
 interface selectFormProps {
   user_id: string | undefined;
 }
-
-const FormSchema = z.object({
-  duration: z.string({
-    required_error: 'Please select an email to display.'
-  }),
-  room: z.string({
-    required_error: 'Please select an email to display.'
-  })
-});
 
 export function SelectForm({ user_id }: selectFormProps) {
   const [range, setRange] = useState<Range[]>([
@@ -78,17 +77,10 @@ export function SelectForm({ user_id }: selectFormProps) {
     queryFn: fetchRoom,
     refetchInterval: 60 * 1000
   });
-
   const durationRef = form.register('duration');
   const DurationWatch = form.watch('duration');
   const roomRef = form.register('room');
   const RoomWatch = form.watch('room');
-
-  const currentDate = moment().startOf('day').unix();
-  const oneDayLater = moment().add(1, 'day').startOf('day').unix();
-  const oneYearLater = moment().add(1, 'year').startOf('day').unix();
-  const oneMonthLater = moment().add(1, 'month').startOf('day').unix();
-  const threeMonthsLater = moment().add(3, 'months').startOf('day').unix();
 
   useEffect(() => {
     if (DurationWatch === 'custom') {
@@ -102,20 +94,20 @@ export function SelectForm({ user_id }: selectFormProps) {
       case DurationWatch === 'daily' && RoomWatch === 'double':
         setPrice(200);
         setWifiBillTaken(false);
-        setStartDate(currentDate);
+        setStartDate(currentDateFromNow);
         setEndDate(oneDayLater);
         setWifi(true);
         break;
       case DurationWatch === 'daily' && RoomWatch === 'triple':
         setPrice(200);
         setWifiBillTaken(false);
-        setStartDate(currentDate);
+        setStartDate(currentDateFromNow);
         setEndDate(oneDayLater);
         setWifi(true);
         break;
       case DurationWatch === 'monthly' && RoomWatch === 'single':
         setPrice(1500);
-        setStartDate(currentDate);
+        setStartDate(currentDateFromNow);
         setEndDate(oneMonthLater);
         setWifi(true);
 
@@ -124,56 +116,56 @@ export function SelectForm({ user_id }: selectFormProps) {
       case DurationWatch === 'monthly' && RoomWatch === 'double':
         setPrice(2000);
         setWifiBillTaken(false);
-        setStartDate(currentDate);
+        setStartDate(currentDateFromNow);
         setEndDate(oneMonthLater);
         setWifi(true);
         break;
       case DurationWatch === 'monthly' && RoomWatch === 'triple':
         setPrice(2000);
         setWifiBillTaken(false);
-        setStartDate(currentDate);
+        setStartDate(currentDateFromNow);
         setEndDate(oneMonthLater);
         setWifi(true);
         break;
       case DurationWatch === 'quarterly' && RoomWatch === 'single':
         setPrice(3750);
         setWifiBillTaken(false);
-        setStartDate(currentDate);
+        setStartDate(currentDateFromNow);
         setEndDate(threeMonthsLater);
         setWifi(true);
         break;
       case DurationWatch === 'quarterly' && RoomWatch === 'double':
         setPrice(5000);
         setWifiBillTaken(false);
-        setStartDate(currentDate);
+        setStartDate(currentDateFromNow);
         setEndDate(threeMonthsLater);
         setWifi(true);
         break;
       case DurationWatch === 'quarterly' && RoomWatch === 'triple':
         setPrice(5000);
         setWifiBillTaken(false);
-        setStartDate(currentDate);
+        setStartDate(currentDateFromNow);
         setEndDate(threeMonthsLater);
         setWifi(true);
         break;
       case DurationWatch === 'yearly' && RoomWatch === 'single':
         setPrice(16500);
         setWifiBillTaken(false);
-        setStartDate(currentDate);
+        setStartDate(currentDateFromNow);
         setEndDate(oneYearLater);
         setWifi(true);
         break;
       case DurationWatch === 'yearly' && RoomWatch === 'double':
         setPrice(22000);
         setWifiBillTaken(false);
-        setStartDate(currentDate);
+        setStartDate(currentDateFromNow);
         setEndDate(oneYearLater);
         setWifi(true);
         break;
       case DurationWatch === 'yearly' && RoomWatch === 'double':
         setWifiBillTaken(false);
         setPrice(22000);
-        setStartDate(currentDate);
+        setStartDate(currentDateFromNow);
         setEndDate(oneYearLater);
         setWifi(true);
         break;
@@ -211,18 +203,7 @@ export function SelectForm({ user_id }: selectFormProps) {
         setWifi(false);
         setPrice(0);
     }
-  }, [
-    DurationWatch,
-    RoomWatch,
-    threeMonthsLater,
-    currentDate,
-    oneDayLater,
-    oneMonthLater,
-    oneYearLater,
-    price,
-    range,
-    wifi
-  ]);
+  }, [DurationWatch, RoomWatch, price, range, wifi]);
 
   function onSubmit(value: z.infer<typeof FormSchema>) {
     if (value.duration === 'custom' && value.room === 'single') {

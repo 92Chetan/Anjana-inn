@@ -9,7 +9,6 @@ import NextSessionProvider from '@/components/provider/SessionProvider';
 import QuickContactModal from '@/components/contact/QuickContactModal';
 import ToasterProvider from '@/components/provider/ToasterProvider';
 import TermsModal from '@/components/utils/TermsModal';
-import QrModal from '@/components/utils/QrModal';
 
 export const metadata: Metadata = {
   title: 'Anjana inn',
@@ -37,7 +36,6 @@ export default function RootLayout({
               <main className="flex-grow">{children}</main> <QuickContactModal />
               <Footer />
               <TermsModal />
-              <QrModal />
             </QueryProvider>
           </NextSessionProvider>
         </ThemeProvider>

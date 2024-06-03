@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 
 import { db } from '@/lib/db';
-import { billSchema } from '@/validation/bill/BillSchema';
+import { billSchema } from '@/validation/BillSchema';
 import { formatZodError } from '@/lib/zodError';
 import { getCurrentUser } from '@/action/getCurrentUser';
 import { currentDate } from '@/lib/utils';

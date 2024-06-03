@@ -22,6 +22,7 @@ const ContactUs = () => {
       window.open(item, '_blank');
     }
   }, []);
+
   return (
     <div
       className=" md:h-screen flex md:mb-0 mb-12 justify-center items-center flex-col gap-12"

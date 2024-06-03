@@ -1,10 +1,10 @@
-import { db } from '@/lib/db';
 import { NextRequest, NextResponse } from 'next/server';
 import bcrypt from 'bcryptjs';
-import { mailSender } from '@/lib/mail';
-import { currentDate } from '@/lib/utils';
 import { randomInt } from 'crypto';
-import { RegisterSchema } from '@/validation/auth/authSchema';
+
+import { db } from '@/lib/db';
+import { currentDate, mailSender } from '@/lib/utils';
+import { RegisterSchema } from '@/validation/authSchema';
 import { formatZodError } from '@/lib/zodError';
 
 export async function POST(req: NextRequest) {

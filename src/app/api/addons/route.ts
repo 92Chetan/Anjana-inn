@@ -1,8 +1,8 @@
+import { NextRequest, NextResponse } from 'next/server';
+
 import { db } from '@/lib/db';
 import { formatZodError } from '@/lib/zodError';
-import { NextRequest, NextResponse } from 'next/server';
-import { mailSender } from '@/lib/mail';
-import { genQr } from '@/lib/utils';
+import { genQr, mailSender } from '@/lib/utils';
 import { Addon } from '@/validation/Addon';
 import { getCurrentUser } from '@/action/getCurrentUser';
 

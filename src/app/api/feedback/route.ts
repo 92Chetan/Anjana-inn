@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 
 import { formatZodError } from '@/lib/zodError';
-import { feedbackSchema } from '@/validation/feedback/feedbackShema';
+import { feedbackSchema } from '@/validation/feedbackShema';
 import { db } from '@/lib/db';
 import { getCurrentUser } from '@/action/getCurrentUser';
 import { currentDate } from '@/lib/utils';

@@ -2,12 +2,12 @@
 import React, { Suspense, useCallback, useState } from 'react';
 import { signOut } from 'next-auth/react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
 import Avatar from './Avatar';
 import MenuItem from './MenuItem';
 import Backdrop from './Backdrop';
 import { SafeUser } from '@/types/types';
-import { usePathname } from 'next/navigation';
 
 interface UserMenuProps {
   UserData: SafeUser | null | undefined;
@@ -43,7 +43,8 @@ const UserMenu: React.FC<UserMenuProps> = ({ UserData }) => {
                   <MenuItem
                     onClick={() => {
                       signOut();
-                    }}>
+                    }}
+                  >
                     Log out
                   </MenuItem>
                 </div>

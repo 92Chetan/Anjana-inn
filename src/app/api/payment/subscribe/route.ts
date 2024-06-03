@@ -3,7 +3,7 @@ import Razorpay from 'razorpay';
 
 import { db } from '@/lib/db';
 import { formatZodError } from '@/lib/zodError';
-import { paymentSchema } from '@/validation/payments/paymentSchema';
+import { paymentSchema } from '@/validation/paymentSchema';
 import { getCurrentUser } from '@/action/getCurrentUser';
 
 const instance = new Razorpay({

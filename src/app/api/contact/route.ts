@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 
 import { formatZodError } from '@/lib/zodError';
 import { db } from '@/lib/db';
-import { contactSchema } from '@/validation/contact/contactSchema';
+import { contactSchema } from '@/validation/contactSchema';
 import { currentDate } from '@/lib/utils';
 
 export async function POST(req: NextRequest) {

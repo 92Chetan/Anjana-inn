@@ -1,20 +1,21 @@
 'use client';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { Dialog, DialogContent, DialogHeader } from '../ui/dialog';
-import { DialogDescription, DialogTitle } from '@radix-ui/react-dialog';
-import { Button } from '../ui/button';
+import React, { useCallback, useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import { useMutation } from '@tanstack/react-query';
+import Image from 'next/image';
+
 import { fetchQr } from '@/lib/api/Subscription';
 import { useTermsModal } from '@/hooks/useTerms';
 import { useSelectModal } from '@/hooks/useSelectModal';
 import { useQrModal } from '@/hooks/useQrModal';
 import Loader from './Loader';
+import { Button } from '../ui/button';
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '../ui/dialog';
 
 type QRCodeType = any;
+
 const TermsModal = () => {
   const [accept, setAccept] = useState<boolean>(false);
-  const canvasRef = useRef<HTMLCanvasElement>(null); // Changed qrCode to canvasRef
 
   const { isOpen, onClose, data: termsdata } = useTermsModal();
   const { onClose: CloseSelect } = useSelectModal();
@@ -25,29 +26,6 @@ const TermsModal = () => {
     mutationFn: fetchQr,
     mutationKey: ['getQr']
   });
-
-  const loadCanvas = async (dataURL: string, canvasContextRef: CanvasRenderingContext2D) => {
-    const imageObj = new Image();
-    imageObj.onload = function () {
-      //@ts-ignore
-      canvasContextRef.drawImage(this, 0, 0);
-    };
-    imageObj.src = dataURL;
-  };
-
-  const paintQR = useCallback(async () => {
-    if (canvasRef.current && isSuccess) {
-      // Changed qrCode to canvasRef
-      const canvasContext = canvasRef.current.getContext('2d'); // Changed qrCode to canvasRef
-      if (canvasContext) {
-        await loadCanvas(qrCode as string, canvasContext);
-      }
-    }
-  }, [isSuccess, qrCode]);
-
-  useEffect(() => {
-    paintQR();
-  }, [paintQR]);
 
   const handlePay = useCallback(() => {
     if (accept && termsdata) {
@@ -90,7 +68,7 @@ const TermsModal = () => {
                   will be verified by the admin upon receiving the payment amount.
                 </DialogDescription>
               ) : (
-                <canvas ref={canvasRef} id="qrCanvas" width="300" height="300" /> // Changed qrCode to canvasRef
+                <Image src={data} alt="qrcode" id="qrCanvas" width="300" height="300" /> // Changed qrCode to canvasRef
               )}
             </DialogHeader>
             {!qrCode && (

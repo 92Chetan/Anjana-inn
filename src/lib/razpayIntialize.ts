@@ -1,14 +1,7 @@
 import toast from 'react-hot-toast';
 import logo from '../../public/images/rent_2.jpg';
+import { PaymentType } from '@/types/types';
 
-type PaymentType = {
-  plan_id?: string;
-  entity: 'order' | 'subscription';
-  price?: number;
-  start_at?: number;
-  end_at?: number;
-  addon?: boolean;
-};
 export const makePayment = async ({
   entity,
   plan_id,

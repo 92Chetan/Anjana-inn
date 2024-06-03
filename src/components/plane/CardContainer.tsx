@@ -15,8 +15,10 @@ interface CardContainerProps {
   Subscription: Bill[] | null | undefined;
 }
 const CardContainer: React.FC<CardContainerProps> = ({ userData, Subscription }) => {
-  const { setData } = useBill();
   const [planTimeline, setPlanTimeline] = useState<timeline>('monthly');
+
+  const { setData } = useBill();
+
   useEffect(() => {
     setData(Subscription);
   }, [Subscription, setData]);

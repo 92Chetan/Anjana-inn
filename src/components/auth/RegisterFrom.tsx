@@ -6,12 +6,11 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
-import { CreateUser } from '@/lib/api/auth';
 import toast from 'react-hot-toast';
 import Image from 'next/image';
-import { MutationCache } from '@tanstack/react-query';
 
 import '@uploadthing/react/styles.css';
+
 import {
   Form,
   FormControl,
@@ -21,17 +20,20 @@ import {
   FormMessage,
   FormDescription
 } from '../ui/form';
+import { CreateUser } from '@/lib/api/auth';
 import { Input } from '../ui/input';
 import { Button } from '../ui/button';
-import { RegisterSchema } from '@/validation/auth/authSchema';
+import { RegisterSchema } from '@/validation/authSchema';
 import Loader from '../utils/Loader';
 import { uploadFiles } from '@/lib/ImageUpload';
 
 export function RegisterFrom() {
-  const route = useRouter();
   const [avatarUrl, setAvatarUrl] = useState<string>();
   const [imageUpload, setImageUpload] = useState<boolean>();
+
   const imageRef = useRef<HTMLInputElement | null>(null);
+
+  const route = useRouter();
 
   const {
     data,
@@ -73,31 +75,19 @@ export function RegisterFrom() {
   };
 
   useEffect(() => {
-    const mutationCache = new MutationCache({
-      onError: (error) => {
-        console.log(error);
-      },
-      onSuccess: (data) => {
-        console.log(data);
-      }
-    });
     if (isError) {
       toast.error(RegisterError?.message);
-      // Handle error state
     }
     if (isSuccess && data) {
       route.push(`/verify?email=${data?.email}`);
-      route.refresh(); // Corrected function call
+      route.refresh();
       toast.success(data?.message);
-      // Handle success state
     }
     if (isSuccess || isError) {
-      // Reset form after success or error
       form.reset();
-      mutationCache.clear();
     }
   }, [RegisterError?.message, isError, isSuccess, data, route, form]);
-  console.log('Avatar URL:', avatarUrl);
+
   return (
     <Form {...form}>
       <form

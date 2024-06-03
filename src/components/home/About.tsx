@@ -16,6 +16,7 @@ const About = () => {
       anchorPlacement: 'top-bottom'
     });
   }, []);
+
   return (
     <div className=" h-screen overflow-hidden " id="about">
       <Container className="py-12 relative h-full flex flex-col justify-center items-center">
