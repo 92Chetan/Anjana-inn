@@ -70,11 +70,11 @@ export const VerifyFrom = () => {
     }
 
     if (isSuccess) {
-      toast.success(data.message);
+      toast.success(data?.message);
       route.push('/login');
       route.refresh();
     }
-  }, [data.message, isError, isSuccess, route, vError?.message]);
+  }, [data?.message, isError, isSuccess, route, vError?.message]);
 
   return (
     <Form {...form}>

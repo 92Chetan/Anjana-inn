@@ -74,17 +74,32 @@ export function RegisterFrom() {
     imageRef.current?.click();
   };
 
+  const handleImageUpload = useCallback(async (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files && event.target.files.length > 0) {
+      const files = Array.from(event.target.files);
+      setImageUpload(true);
+      try {
+        const res = await uploadFiles('imageUploader', { files: files });
+        if (res) {
+          setAvatarUrl(res[0].url);
+        }
+      } catch (error) {
+        console.error('Error uploading files:', error);
+      } finally {
+        setImageUpload(false);
+      }
+    }
+  }, []);
+
   useEffect(() => {
     if (isError) {
       toast.error(RegisterError?.message);
     }
     if (isSuccess && data) {
+      form.reset();
       route.push(`/verify?email=${data?.email}`);
       route.refresh();
       toast.success(data?.message);
-    }
-    if (isSuccess || isError) {
-      form.reset();
     }
   }, [RegisterError?.message, isError, isSuccess, data, route, form]);
 
@@ -115,22 +130,7 @@ export function RegisterFrom() {
           className="hidden"
           type="file"
           accept="image/*"
-          onChange={async (event) => {
-            if (event.target.files && event.target.files.length > 0) {
-              const files = Array.from(event.target.files);
-              setImageUpload(true); // Set imageUpload to true before starting upload
-              try {
-                const res = await uploadFiles('imageUploader', { files: files });
-                if (res) {
-                  setAvatarUrl(res[0].url);
-                }
-              } catch (error) {
-                console.error('Error uploading files:', error);
-              } finally {
-                setImageUpload(false);
-              }
-            }
-          }}
+          onChange={(event) => handleImageUpload(event)}
           name="avatar"
         />
 

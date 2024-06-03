@@ -50,9 +50,8 @@ const Feedbackmodal = () => {
   const onSubmit = useCallback(
     (values: z.infer<typeof feedbackSchema>) => {
       mutate(values);
-      reset();
     },
-    [reset, mutate]
+    [mutate]
   );
 
   useEffect(() => {
@@ -61,9 +60,10 @@ const Feedbackmodal = () => {
     }
 
     if (isSuccess) {
-      toast.success(data.message);
+      toast.success(data?.message);
+      reset();
     }
-  }, [data.message, error?.message, isError, isSuccess]);
+  }, [data?.message, error?.message, isError, isSuccess, reset]);
 
   return (
     <React.Fragment>
@@ -116,7 +116,9 @@ const Feedbackmodal = () => {
                 />
                 {errors && <p className="text-rose-700">{errors.message?.message}</p>}
               </div>
-              <Button type="submit">{isPending ? <Loader /> : 'Leave feedback'}</Button>
+              <Button type="submit" disabled={isPending}>
+                {isPending ? <Loader /> : 'Leave feedback'}
+              </Button>
             </form>
           </DialogContent>
         </Dialog>
