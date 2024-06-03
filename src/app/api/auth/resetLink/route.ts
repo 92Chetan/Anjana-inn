@@ -4,7 +4,7 @@ import bcrypt from 'bcryptjs';
 import { db } from '@/lib/db';
 import { formatZodError } from '@/lib/zodError';
 import { verifyOtpParams } from '@/validation/authSchema';
-import { mailSender } from '@/lib/utils';
+import { mailSender } from '@/lib/mail';
 
 export async function POST(req: NextRequest) {
   try {

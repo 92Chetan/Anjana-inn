@@ -2,7 +2,7 @@ import { randomInt } from 'crypto';
 import { NextRequest, NextResponse } from 'next/server';
 
 import { db } from '@/lib/db';
-import { mailSender } from '@/lib/utils';
+import { mailSender } from '@/lib/mail';
 import { formatZodError } from '@/lib/zodError';
 import { verifyOtp, verifyOtpParams } from '@/validation/authSchema';
 

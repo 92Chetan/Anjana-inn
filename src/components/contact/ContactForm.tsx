@@ -48,9 +48,9 @@ const ContactForm = () => {
     }
 
     if (isSuccess) {
-      toast.success(data.message);
+      toast.success(data?.message);
     }
-  }, [data.message, error?.message, isError, isSuccess]);
+  }, [data?.message, error?.message, isError, isSuccess]);
 
   return (
     <div className="max-w-lg max-h-[550px] dark:bg-zinc-800 bg-zinc-300 shadow-2xl rounded-lg flex justify-center transition-all duration-75 items-center">

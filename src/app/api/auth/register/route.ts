@@ -3,9 +3,10 @@ import bcrypt from 'bcryptjs';
 import { randomInt } from 'crypto';
 
 import { db } from '@/lib/db';
-import { currentDate, mailSender } from '@/lib/utils';
+import { currentDate } from '@/lib/utils';
 import { RegisterSchema } from '@/validation/authSchema';
 import { formatZodError } from '@/lib/zodError';
+import { mailSender } from '@/lib/mail';
 
 export async function POST(req: NextRequest) {
   try {

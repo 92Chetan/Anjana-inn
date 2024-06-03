@@ -2,10 +2,6 @@ import { type ClassValue, clsx } from 'clsx';
 import moment from 'moment-timezone';
 import { twMerge } from 'tailwind-merge';
 import QRCode from 'qrcode';
-import { Resend } from 'resend';
-
-import { EmailTemplate } from '@/components/utils/EmailTemplate';
-import { Mail } from '@/types/types';
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -30,42 +26,6 @@ export const truncateText = (str: string) => {
   }
 
   return str.substring(0, 110) + '...';
-};
-
-const resend = new Resend(process.env.RESEND_API_KEY);
-
-export const mailSender = async ({
-  email,
-  subject,
-  name,
-  authCode,
-  hashCode,
-  id,
-  amount,
-  sub_id,
-  user_id,
-  addon_id
-}: Mail): Promise<any> => {
-  const emailContent = EmailTemplate({
-    firstName: name,
-    authCode,
-    hashCode,
-    id,
-    amount,
-    sub_id,
-    user_id,
-    addon_id
-  });
-
-  const data = await resend.emails.send({
-    from: 'anjanainn@info.anjanainn.com',
-    to: [email],
-    subject,
-    react: emailContent,
-    text: ''
-  });
-
-  return data;
 };
 
 export const HeroImage = [
