@@ -1,6 +1,6 @@
 import { db } from '@/lib/db';
 import { formatZodError } from '@/lib/zodError';
-import { ResetPassword } from '@/validation/auth/authSchema';
+import { ResetPassword } from '@/validation/authSchema';
 import { NextRequest, NextResponse } from 'next/server';
 import bcrypt from 'bcryptjs';
 

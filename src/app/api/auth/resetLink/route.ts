@@ -1,9 +1,10 @@
-import { db } from '@/lib/db';
-import { formatZodError } from '@/lib/zodError';
-import { verifyOtpParams } from '@/validation/auth/authSchema';
 import { NextRequest, NextResponse } from 'next/server';
 import bcrypt from 'bcryptjs';
-import { mailSender } from '@/lib/mail';
+
+import { db } from '@/lib/db';
+import { formatZodError } from '@/lib/zodError';
+import { verifyOtpParams } from '@/validation/authSchema';
+import { mailSender } from '@/lib/utils';
 
 export async function POST(req: NextRequest) {
   try {

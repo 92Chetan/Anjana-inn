@@ -5,21 +5,22 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay } from 'swiper/modules';
 import Rating from '@mui/material/Rating';
 import Image from 'next/image';
+import { useQuery } from '@tanstack/react-query';
+import toast from 'react-hot-toast';
 
 import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 
 import Container from '../utils/Container';
-import { truncateText } from '@/lib/truncateText';
 import Heading from '../utils/Heading';
-import { useQuery } from '@tanstack/react-query';
 import { getFeed } from '@/lib/api/fetchFeedback';
-import toast from 'react-hot-toast';
 import { Feedback } from '@prisma/client';
+import { truncateText } from '@/lib/utils';
 
 const Review = () => {
   const [screenSize, setScreenSize] = useState<number>(2);
+
   const { data, error, isError } = useQuery({ queryKey: ['feedback'], queryFn: getFeed });
 
   useEffect(() => {

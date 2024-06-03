@@ -4,23 +4,24 @@ import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useMutation } from '@tanstack/react-query';
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
+import axios from 'axios';
 
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '../ui/form';
 import { Input } from '../ui/input';
 import { Button } from '../ui/button';
 import { VerifyOtp } from '@/lib/api/auth';
-import { verifyOtp } from '@/validation/auth/authSchema';
+import { verifyOtp } from '@/validation/authSchema';
 import Loader from '../utils/Loader';
-import axios from 'axios';
 
 export const VerifyFrom = () => {
+  const [isSending, setIsSending] = useState(false);
+  const [countdown, setCountdown] = useState(0);
+
   const route = useRouter();
   const searchParams = useSearchParams();
   const email = searchParams.get('email') as string;
-  const [isSending, setIsSending] = useState(false);
-  const [countdown, setCountdown] = useState(0);
 
   const disableSendButton = () => {
     axios.put(`/api/auth/verify?email=${email}`);
@@ -63,15 +64,17 @@ export const VerifyFrom = () => {
     [mutate, form, email]
   );
 
-  if (isError) {
-    toast.error(vError.message);
-  }
+  useEffect(() => {
+    if (isError) {
+      toast.error(vError?.message);
+    }
 
-  if (isSuccess) {
-    toast.success(data.message);
-    route.push('/login');
-    route.refresh();
-  }
+    if (isSuccess) {
+      toast.success(data.message);
+      route.push('/login');
+      route.refresh();
+    }
+  }, [data.message, isError, isSuccess, route, vError?.message]);
 
   return (
     <Form {...form}>

@@ -1,5 +1,5 @@
 'use client';
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
@@ -9,7 +9,7 @@ import toast from 'react-hot-toast';
 import { Label } from '../ui/label';
 import { Input } from '../ui/input';
 import { Button } from '../ui/button';
-import { contactSchema } from '@/validation/contact/contactSchema';
+import { contactSchema } from '@/validation/contactSchema';
 import { contactRequest } from '@/lib/api/contactUs';
 import Loader from '../utils/Loader';
 
@@ -42,13 +42,15 @@ const ContactForm = () => {
     [reset, mutate]
   );
 
-  if (isError) {
-    toast.error(error.message);
-  }
+  useEffect(() => {
+    if (isError) {
+      toast.error(error?.message);
+    }
 
-  if (isSuccess) {
-    toast.success(data.message);
-  }
+    if (isSuccess) {
+      toast.success(data.message);
+    }
+  }, [data.message, error?.message, isError, isSuccess]);
 
   return (
     <div className="max-w-lg max-h-[550px] dark:bg-zinc-800 bg-zinc-300 shadow-2xl rounded-lg flex justify-center transition-all duration-75 items-center">

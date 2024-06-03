@@ -76,3 +76,25 @@ export type Addon = {
   billTaken: boolean;
   active: boolean;
 };
+
+export type Mail = {
+  email: string;
+  subject: string;
+  name?: string;
+  hashCode?: string;
+  authCode?: string;
+  id?: string;
+  amount?: number;
+  sub_id?: string;
+  user_id?: string;
+  addon_id?: string;
+};
+
+export type PaymentType = {
+  plan_id?: string;
+  entity: 'order' | 'subscription';
+  price?: number;
+  start_at?: number;
+  end_at?: number;
+  addon?: boolean;
+};

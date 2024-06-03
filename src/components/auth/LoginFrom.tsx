@@ -1,6 +1,7 @@
 'use client';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
+import toast from 'react-hot-toast';
 import { z } from 'zod';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
@@ -18,21 +19,22 @@ import {
 } from '../ui/form';
 import { Input } from '../ui/input';
 import { Button } from '../ui/button';
-import { loginSchema } from '@/validation/auth/authSchema';
+import { loginSchema } from '@/validation/authSchema';
 import { SafeUser } from '@/types/types';
-import toast from 'react-hot-toast';
 import Loader from '../utils/Loader';
 
 interface LoginFromProps {
   currentUser: SafeUser | null;
 }
+
 const LoginFrom: React.FC<LoginFromProps> = ({ currentUser }) => {
   const [loading, setLoading] = useState<boolean>(false);
+
   const route = useRouter();
   const searchParams = useSearchParams();
 
-  const redirect = (searchParams.get('redirect') as string) || '/profile';
-  console.log(redirect);
+  const redirectPath = (searchParams.get('redirect') as string) || '/profile';
+
   const form = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
@@ -46,7 +48,7 @@ const LoginFrom: React.FC<LoginFromProps> = ({ currentUser }) => {
     signIn('credentials', { ...values, redirect: false }).then((callback) => {
       setLoading(false);
       if (callback?.ok) {
-        route.push(redirect);
+        route.push(redirectPath);
         route.refresh();
         toast.success('Login successfully');
       }
