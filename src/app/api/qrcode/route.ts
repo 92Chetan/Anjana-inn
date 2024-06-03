@@ -1,9 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-import { genQr, mailSender } from '@/lib/utils';
+import { genQr } from '@/lib/utils';
 import { db } from '@/lib/db';
 import { formatZodError } from '@/lib/zodError';
 import { upiSchema } from '@/validation/upiValidation';
+import { mailSender } from '@/lib/mail';
 
 export async function POST(req: NextRequest) {
   try {

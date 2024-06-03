@@ -2,9 +2,10 @@ import { NextRequest, NextResponse } from 'next/server';
 
 import { db } from '@/lib/db';
 import { formatZodError } from '@/lib/zodError';
-import { genQr, mailSender } from '@/lib/utils';
+import { genQr } from '@/lib/utils';
 import { Addon } from '@/validation/Addon';
 import { getCurrentUser } from '@/action/getCurrentUser';
+import { mailSender } from '@/lib/mail';
 
 export async function POST(req: NextRequest) {
   try {
